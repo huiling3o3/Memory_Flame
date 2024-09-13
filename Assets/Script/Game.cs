@@ -5,21 +5,24 @@ using UnityEngine;
 // a class to store all the static object that can be access anywhere in the scene
 public static class Game
 {
+
     //#region HUD
     //public static HUDController GetHUDController() => hudController;
     //public static void SetHUDController(HUDController hc) => hudController = hc;
     //#endregion
 
-    //#region gamecontroller
-    //public static GameController GetGameController() => gameController;
-    //public static void SetGameController(GameController gc) => gameController = gc;
-    //#endregion
+    #region gamecontroller
+    private static GameController gameController;
+    public static GameController GetGameController() => gameController;
+    public static void SetGameController(GameController gc) => gameController = gc;
+    #endregion
 
-    //#region player
-    //public static PlayerController GetPlayer() => mainPlayer;
-    //public static void SetPlayer(PlayerController Player) => mainPlayer = Player;   
+    #region player
+    private static PlayerController mainPlayer;
+    public static PlayerController GetPlayer() => mainPlayer;
+    public static void SetPlayer(PlayerController Player) => mainPlayer = Player;
 
-    //#endregion
+    #endregion
 
     //#region character
     ////Get a single character
@@ -49,7 +52,7 @@ public static class Game
     //    return buffList.Find(x => x.id == id);
     //}
     //#endregion
-    
+
     //#region enemy
     ///// Enemy Set and Get
     //public static Enemy GetEnemyByRefID(string id)

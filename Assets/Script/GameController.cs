@@ -7,100 +7,87 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 public class GameController : MonoBehaviour
 {
-    //[Header("To be Assigned")]
+    [Header("To be Assigned")]
     //references to assigned
-    //public GameObject playerObj;    
-    //public InputHandler inputHandler;    
-    //public DialogueUIController dialogueUIController;
+    public GameObject playerObj;    
+    public InputHandler inputHandler;
     //public NPCManager npcManager;
     //MenuSceneManager menuSceneManager;
-    //Database dm;
-    //PlayerController pc;
+    PlayerController pc;
 
-    ////initial character & weapon
-    //public string initCharacter;
-    //public string initWeapon;
-    //[Header("Game Controller")]
-    ////Game Controller Variables
-    //public int numOfEnemiesKilled = 0;
-    //public int totalNumEnemiesKilled = 0;
-    //private float gameTimer;
+    [Header("Game Controller")]
+    //Game Controller Variables
+    public int numOfEnemiesKilled = 0;
+    public int totalNumEnemiesKilled = 0;
+    private float gameTimer;
 
-    //private bool gameIsActive = false;
-    //public bool gameOver = false;
+    private bool gameIsActive = false;
+    public bool gameOver = false;
 
-    //private void Awake()
-    //{
-    //    //Set the reference to Game
-    //    Game.SetGameController(this);
+    private void Awake()
+    {
+        //Set the reference to Game
+        Game.SetGameController(this);
 
-    //    //set up the database
-    //    dm = GetComponent<Database>();
-    //    dm.SetDatabase();
-
-    //    //Set reference for the player
-    //    pc = playerObj.GetComponent<PlayerController>();
-    //    //Set reference to the menu
-    //    menuSceneManager = GetComponent<MenuSceneManager>();
-
-    //    //get the character initial character
-    //    Character character = Game.GetCharacterByRefID(initCharacter);     
-    //}
-
-    
-    //// Start is called before the first frame update
-    //void Start()
-    //{
-    //    //show start menu
-    //    OpenStartMenu();
-
-    //    //initialise the player
-    //    pc.Init();
-    //    Game.SetPlayer(pc);
-    //}
+        //Set reference for the player
+        pc = playerObj.GetComponent<PlayerController>();
+        ////Set reference to the menu
+        //menuSceneManager = GetComponent<MenuSceneManager>();
+    }
 
 
-    //// Update is called once per frame
-    //void Update()
-    //{
-    //    if (!gameIsActive) return;
-    //    //proceed game timers
-    //    gameTimer += Time.deltaTime;
+    // Start is called before the first frame update
+    void Start()
+    {
+        //show start menu
+        //OpenStartMenu();
 
-    //    //Cheat code to skip dialogue
-    //    if (Input.GetKeyDown(KeyCode.Keypad0))
-    //    {
-    //        SetCharacter(initCharacter);
-    //    }
-    //}  
+        //initialise the player
+        pc.Init();
+        Game.SetPlayer(pc);
+        ///!!important must set player to reeceive the input for it to move
+        SetPlayerInputReciever();
+    }
 
-    //public void StartGame()
-    //{
-    //    if (gameOver)
-    //    {
-    //        RestartGame();
-    //    }
-        
-    //    CloseStartMenu();
-    //    //reset wave
-    //    Game.GetWaveManager().WaveReset();
-    //    //reset player
-    //    Game.GetPlayer().Reset();
-    //    //resume Game
-    //    ResumeGame();
-    //    //close the wave stats ui
-    //    Game.GetHUDController().CloseWaveStatsPanel();
-    //    npcManager.StartDialogue();
-    //}
 
-    //public void RestartGame()
-    //{
-    //    // Get the current active scene
-    //    Scene currentScene = SceneManager.GetActiveScene();
+    // Update is called once per frame
+    void Update()
+    {
+        //if (!gameIsActive) return;
+        ////proceed game timers
+        //gameTimer += Time.deltaTime;
 
-    //    // Reload the current scene
-    //    SceneManager.LoadScene(currentScene.name);
-    //}
+        if (Input.GetKeyDown(KeyCode.Keypad0))
+        {
+            
+        }
+    }
+
+    public void StartGame()
+    {
+        if (gameOver)
+        {
+            RestartGame();
+        }
+
+        //CloseStartMenu();
+
+        //reset game variables
+        Game.GetPlayer().Reset();
+        //resume Game
+        //ResumeGame();
+        //close the wave stats ui
+        //Game.GetHUDController().CloseWaveStatsPanel();
+    }
+
+    public void RestartGame()
+    {
+        // Get the current active scene
+        Scene currentScene = SceneManager.GetActiveScene();
+
+        // Reload the current scene
+        SceneManager.LoadScene(currentScene.name);
+    }
 
     //IEnumerator StartWave()
     //{
@@ -132,45 +119,17 @@ public class GameController : MonoBehaviour
     //    ResumeGame();
     //}
 
-    //public void SetCharacter(string characterId)
-    //{
-    //    //update the player stats with the character selected info
-    //    Game.GetPlayer().ChangeCharacter(characterId);
-
-    //    //update the player UI sprite on the HP Bar
-    //    Game.GetHUDController().ChangeCharacterSprite(characterId);
-
-    //    //close menu
-    //    Game.GetHUDController().CloseCharacterSelectMenu();
-
-    //    //Start wave
-    //    StartCoroutine(StartWave());
-    //}
-
     //public void SetWeapon(string weaponId)
     //{
     //    string weaponName = Game.GetWeaponByRefID(weaponId).name;
     //    Game.GetPlayer().AddWeapon(weaponId, Game.GetWeaponManager().GetWeaponPrefab(weaponName));
     //}
 
-    //public bool CheckInitialCharacter(string id) 
-    //{
-    //    if (initCharacter == id)
-    //        return true;
-    //    else return false;
-    //}
-
-    //public void DialogueCompleted()
-    //{
-    //    //Open character select menu
-    //    Game.GetHUDController().OpenCharacterSelectMenu();        
-    //}
-    //public void GameOver()
-    //{
-    //    gameOver = true;
-    //    OpenStartMenu();
-    //    dm.WriteAnalyticsTracking(Game.GetWaveManager().GetCurrentWaveID(),totalNumEnemiesKilled,gameTimer);
-    //}
+    public void GameOver()
+    {
+        gameOver = true;
+        //OpenStartMenu();
+    }
 
     //public void EnemyKilled()
     //{
@@ -193,21 +152,16 @@ public class GameController : MonoBehaviour
     //    Game.GetHUDController().UpdateWaveStats(Game.GetWaveManager().GetCurrentWave(), Game.GetWaveManager().GetEnemyCountInWave() - numOfEnemiesKilled);
     //}
 
-    //#region input
-    //public void SetDialogueReciever()
-    //{
-    //    //set input receiver
-    //    inputHandler.SetInputReceiver(dialogueUIController);
-    //}
+    #region input
 
-    //public void SetPlayerInputReciever()
-    //{
-    //    //set input handler to movement script
-    //    inputHandler.SetInputReceiver(playerObj.GetComponent<PlayerMovement>()); ;
-    //}
-    //#endregion
+    public void SetPlayerInputReciever()
+    {
+        //set input handler to movement script
+        inputHandler.SetInputReceiver(playerObj.GetComponent<PlayerMovement>()); ;
+    }
+    #endregion
 
-    //#region Menus
+    #region Menus
 
     //public void ResumeGame()
     //{
@@ -270,5 +224,5 @@ public class GameController : MonoBehaviour
     //    menuSceneManager.CloseMenuScene("StartMenuScene");
     //}
 
-    //#endregion
+    #endregion
 }
