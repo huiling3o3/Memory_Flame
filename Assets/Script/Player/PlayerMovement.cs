@@ -11,6 +11,7 @@ public class PlayerMovement : MonoBehaviour, IInputReceiver
     //Movement
     public float moveSpeed;
     private bool isFacingRight = true;
+
     //Dashing
     private bool canDash = true;
     private bool isDashing;
@@ -18,6 +19,7 @@ public class PlayerMovement : MonoBehaviour, IInputReceiver
     private float dashingTime = 0.2f;
     private float dashingCooldown = 1f;
 
+    [SerializeField] private TrailRenderer tr;
     [HideInInspector]
     public Vector2 moveDir { get; set; }
     [HideInInspector]
@@ -46,13 +48,14 @@ public class PlayerMovement : MonoBehaviour, IInputReceiver
     {
         canDash = false;
         isDashing = true;
+
         if (lastMovedVector.x == 0 && lastMovedVector.y > 0) //top
         {
             rb.velocity = new Vector2(0f, transform.localScale.y * dashingPower);
         }
         else if (lastMovedVector.x == 0 && lastMovedVector.y < 0) //down
         {
-            rb.velocity = new Vector2(0f, transform.localScale.y * dashingPower);
+            rb.velocity = new Vector2(0f, transform.localScale.y * dashingPower * -1f);
         }
         else if (lastMovedVector.x < 0 && lastMovedVector.y == 0) //left
         {
@@ -63,10 +66,14 @@ public class PlayerMovement : MonoBehaviour, IInputReceiver
             rb.velocity = new Vector2(transform.localScale.x * dashingPower, 0f);
         }
 
-        //tr.emitting = true;
+        tr.emitting = true;
         yield return new WaitForSeconds(dashingTime);
-        //tr.emitting = false;
+        
+        // Stop dashing
+        rb.velocity = Vector2.zero;
         isDashing = false;
+        tr.emitting = false;
+
         yield return new WaitForSeconds(dashingCooldown);
         canDash = true;
     }
@@ -87,6 +94,7 @@ public class PlayerMovement : MonoBehaviour, IInputReceiver
     }
     private void Flip()
     {
+        //left and right
         if (isFacingRight && lastHorizontalVector < 0f || !isFacingRight && lastHorizontalVector > 0f)
         {
             Vector3 localScale = transform.localScale;
