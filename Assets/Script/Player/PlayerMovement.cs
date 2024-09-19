@@ -18,6 +18,8 @@ public class PlayerMovement : MonoBehaviour, IInputReceiver
     private float dashingTime = 0.2f;
     private float dashingCooldown = 1f;
 
+    [SerializeField] private TrailRenderer tr;
+
     [HideInInspector]
     public Vector2 moveDir { get; set; }
     [HideInInspector]
@@ -52,7 +54,7 @@ public class PlayerMovement : MonoBehaviour, IInputReceiver
         }
         else if (lastMovedVector.x == 0 && lastMovedVector.y < 0) //down
         {
-            rb.velocity = new Vector2(0f, transform.localScale.y * dashingPower);
+            rb.velocity = new Vector2(0f, transform.localScale.y * dashingPower * -1f);
         }
         else if (lastMovedVector.x < 0 && lastMovedVector.y == 0) //left
         {
@@ -63,10 +65,14 @@ public class PlayerMovement : MonoBehaviour, IInputReceiver
             rb.velocity = new Vector2(transform.localScale.x * dashingPower, 0f);
         }
 
-        //tr.emitting = true;
+        tr.emitting = true;
         yield return new WaitForSeconds(dashingTime);
-        //tr.emitting = false;
+
+        // Stop dashing
+        rb.velocity = Vector2.zero;
         isDashing = false;
+        tr.emitting = false;
+
         yield return new WaitForSeconds(dashingCooldown);
         canDash = true;
     }
