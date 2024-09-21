@@ -173,10 +173,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bulletSpeed: 15
+  damagePower: 10
   destroyTime: 3
   whatDestoryBullet:
     serializedVersion: 2
-    m_Bits: 896
+    m_Bits: 384
   impactEffect: {fileID: 7340213698015431943, guid: 531d13e93bc98bc4b83dda3a598ba31a, type: 3}
 --- !u!1 &3222517048784634501
 GameObject:
