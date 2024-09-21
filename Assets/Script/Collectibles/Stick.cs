@@ -7,11 +7,10 @@ public class Stick : Collectible
     protected override void Collect()
     {
         base.Collect(); // to handle object destruction
-        // CollectibleManager manager = FindObjectOfType<CollectibleManager>();
-        GameController controller = GetComponent<GameController>();
-        if (controller != null)
+        CollectibleManager manager = FindObjectOfType<CollectibleManager>();
+        if (manager != null)
         {
-            controller.AddStick(); // add to memory fragment count
+            manager.AddStick(); // add to stick count
         }
     }
 }

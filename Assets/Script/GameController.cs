@@ -19,8 +19,6 @@ public class GameController : MonoBehaviour
     //Game Controller Variables
     public int numOfEnemiesKilled = 0;
     public int totalNumEnemiesKilled = 0;
-    public int memoryFragmentsCollected = 0;
-    public int sticksCollected = 0;
     private float gameTimer;
 
     private bool gameIsActive = false;
@@ -51,17 +49,6 @@ public class GameController : MonoBehaviour
         SetPlayerInputReciever();
     }
 
-    public void AddStick()
-    {
-        sticksCollected++;
-        Debug.Log("Sticks: " + sticksCollected);
-    }
-
-    public void AddMemoryFragment()
-    {
-        memoryFragmentsCollected++;
-        Debug.Log("Memory Fragments: " + memoryFragmentsCollected);
-    }
 
     // Update is called once per frame
     void Update()
