@@ -231,7 +231,7 @@ MonoBehaviour:
   maxAngle: 45
   maxAmmo: 100
   currentAmmo: 0
-  ammoDepletionRate: 10
+  ammoDepletionRate: 1
 --- !u!96 &1970005672308753231
 TrailRenderer:
   serializedVersion: 3
