@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class CampFireController : MonoBehaviour
 {
-    PlayerShoot ps;
     // Start is called before the first frame update
     void Start()
     {
@@ -20,9 +19,11 @@ public class CampFireController : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.tag == "Player")
-        {            
-            ps = collision.GetComponent<PlayerShoot>();
+        {
+            PlayerShoot ps = collision.GetComponent<PlayerShoot>();
             ps.RegenerateAmmo();
+            PlayerController pc = collision.GetComponent<PlayerController>();
+            pc.EnterSafeZone();
         }
     }
 
@@ -30,8 +31,9 @@ public class CampFireController : MonoBehaviour
     {
         if (collision.tag == "Player")
         {
-            ps = collision.GetComponent<PlayerShoot>();
-            ps.ExitSafeZone();
+            PlayerController pc = collision.GetComponent<PlayerController>();
+            pc.ExitSafeZone();
         }
     }
+
 }
