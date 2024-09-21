@@ -1,4 +1,7 @@
-
+using System.Collections;
+using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -27,15 +30,14 @@ public class PlayerShoot : MonoBehaviour
     [SerializeField] private float maxAmmo = 100f; // Maximum fire ammo
     [SerializeField] private float currentAmmo;
     [SerializeField] private float ammoDepletionRate = 10f; // Ammo depletes per second when shooting, decrease it to so slower
-    //[SerializeField] private bool inSafeZone; //layers that does not affect the ammoDepletion
+    [SerializeField] private bool inSafeZone; //layers that does not affect the ammoDepletion
 
     //reference to the player movement to calculate the shooting direction
     PlayerMovement pm;
-    PlayerController pc;
+
     void Awake()
     {
         pm = GetComponent<PlayerMovement>();
-        pc = GetComponent<PlayerController>();
     }
 
     // Start is called before the first frame update
@@ -72,8 +74,8 @@ public class PlayerShoot : MonoBehaviour
 
     private void DoShoot()
     {
-        // Only shoot if the E button is pressed and there is enough ammo
-        if (Input.GetKeyDown(KeyCode.E) && currentAmmo > 0)
+        // Only shoot if the left mouse button is pressed and there is enough ammo
+        if (Mouse.current.leftButton.wasPressedThisFrame && currentAmmo > 0)
         {
             // Calculate the correct bullet rotation
             Quaternion bulletRotation = fireTorch.transform.rotation;
@@ -95,7 +97,7 @@ public class PlayerShoot : MonoBehaviour
 
     private void DepleteAmmo()
     {
-        if(!pc.IsPlayerInSafeZone())
+        if(!inSafeZone)
         {
             // Deplete ammo over time
             currentAmmo -= ammoDepletionRate * Time.deltaTime;
@@ -103,11 +105,12 @@ public class PlayerShoot : MonoBehaviour
         }           
     }
 
-
+    public void ExitSafeZone() { inSafeZone = false; }
     public void RegenerateAmmo()
     {
         //Call this method when player is back into campfire 
         currentAmmo = maxAmmo;
+        inSafeZone = true;
     }
 
     // function to check the current ammo for UI purposes

@@ -1,4 +1,8 @@
-
+using System.Collections;
+using System.Collections.Generic;
+using System.Xml.Schema;
+using Unity.Collections.LowLevel.Unsafe;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 public class GameController : MonoBehaviour
@@ -41,7 +45,7 @@ public class GameController : MonoBehaviour
         //OpenStartMenu();
 
         //initialise the player
-        pc.Init();                                
+        pc.Init();
         Game.SetPlayer(pc);
         ///!!important must set player to reeceive the input for it to move
         SetPlayerInputReciever();

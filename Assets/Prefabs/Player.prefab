@@ -13,10 +13,10 @@ GameObject:
   - component: {fileID: 7745203313413651910}
   - component: {fileID: 8686476367259340938}
   - component: {fileID: 2208241261437004068}
+  - component: {fileID: 497740554286439122}
   - component: {fileID: 7579874234280734927}
   - component: {fileID: 9160284895417323866}
   - component: {fileID: 2288871804230680998}
-  - component: {fileID: 1970005672308753231}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -175,64 +175,7 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &7579874234280734927
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3273102290561498877}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e7245226cd5f8be4cb3bfb2be8839210, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpeed: 5
-  tr: {fileID: 1970005672308753231}
-  lastHorizontalVector: 0
-  lastVerticalVector: 0
-  lastMovedVector: {x: 0, y: 0}
---- !u!114 &9160284895417323866
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3273102290561498877}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a984c321d0ff8024d89fdfd50bf02671, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentHp: 0
-  MaxHP: 100
-  inSafeZone: 0
-  playerDead: 0
-  currentColdLvl: 0
-  maxColdLvl: 100
-  coldRate: 1
-  coldDamagePower: 10
---- !u!114 &2288871804230680998
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3273102290561498877}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d63d330810a95414a99a0c8b97853cd7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fireTorch: {fileID: 4086844470341713480}
-  bulletSpawnPoint: {fileID: 7957157081274058025}
-  bullet: {fileID: 1870447563594111108, guid: def024e8e53e56b4f9d301a24d925747, type: 3}
-  minAngle: -45
-  maxAngle: 45
-  maxAmmo: 100
-  currentAmmo: 0
-  ammoDepletionRate: 1
---- !u!96 &1970005672308753231
+--- !u!96 &497740554286439122
 TrailRenderer:
   serializedVersion: 3
   m_ObjectHideFlags: 0
@@ -283,8 +226,8 @@ TrailRenderer:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
-        time: 0
-        value: 0.50364876
+        time: 0.0051078796
+        value: 0.53284645
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -345,6 +288,52 @@ TrailRenderer:
   m_Autodestruct: 0
   m_Emitting: 0
   m_ApplyActiveColorSpace: 1
+--- !u!114 &7579874234280734927
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3273102290561498877}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7245226cd5f8be4cb3bfb2be8839210, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 5
+  tr: {fileID: 497740554286439122}
+  lastHorizontalVector: 0
+  lastVerticalVector: 0
+  lastMovedVector: {x: 0, y: 0}
+--- !u!114 &9160284895417323866
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3273102290561498877}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a984c321d0ff8024d89fdfd50bf02671, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentHp: 0
+  MaxHP: 0
+--- !u!114 &2288871804230680998
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3273102290561498877}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d63d330810a95414a99a0c8b97853cd7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fireTorch: {fileID: 4086844470341713480}
+  bulletSpawnPoint: {fileID: 7957157081274058025}
+  bullet: {fileID: 1870447563594111108, guid: def024e8e53e56b4f9d301a24d925747, type: 3}
 --- !u!1 &4086844470341713480
 GameObject:
   m_ObjectHideFlags: 0
