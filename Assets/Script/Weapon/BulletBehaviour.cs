@@ -7,7 +7,6 @@ public class BulletBehaviour : MonoBehaviour
     //References
     private Rigidbody2D rb;
     [SerializeField] private float bulletSpeed= 15f;
-    [SerializeField] private float damagePower = 10f;
     [SerializeField] private float destroyTime= 3f;
     [SerializeField] private LayerMask whatDestoryBullet;
     [SerializeField] private GameObject impactEffect;
@@ -43,18 +42,9 @@ public class BulletBehaviour : MonoBehaviour
             //spawn particles
             GameObject Impact = Instantiate(impactEffect, transform.position, Quaternion.identity);
             Destroy(Impact, 0.5f);
-
             //play sound FX
-
             //screen shake
-
             //Damage Enemy
-            if (collision.CompareTag("Enemy"))
-            {
-                EnemyController enemy = collision.GetComponent<EnemyController>();
-                enemy.TakeDamage(damagePower);
-            }
-
             //Destory Bullet
             Destroy(gameObject);
         }
