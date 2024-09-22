@@ -94,7 +94,7 @@ public class PlayerController : MonoBehaviour
         {
             Debug.Log("Character dead");
             playerDead = true;
-            //Game.GetGameController().GameOver();
+            Game.GetGameController().GameOver();
         }
 
         //Update the UI
@@ -127,12 +127,10 @@ public class PlayerController : MonoBehaviour
         currentColdLvl = 0;
         inSafeZone = true;
     }
-
+    public bool IsPlayerInSafeZone() => inSafeZone;
     // function to check the current coldness for UI purposes
     public float GetCurrentColdLevel()
     {
         return currentColdLvl;
     }
-
-    public bool IsPlayerInSafeZone() => inSafeZone;
 }

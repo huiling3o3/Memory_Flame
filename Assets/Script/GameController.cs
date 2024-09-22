@@ -11,12 +11,12 @@ public class GameController : MonoBehaviour
     //MenuSceneManager menuSceneManager;
     PlayerController pc;
 
-    [Header("Game Controller")]
+    [Header("Game Stats")]
     //Game Controller Variables
     public int numOfEnemiesKilled = 0;
     public int totalNumEnemiesKilled = 0;
-    public int memoryFragmentsCollected = 0;
-    public int sticksCollected = 0;
+    [SerializeField] int memoryFragmentsCollected = 0;
+    [SerializeField] int sticksCollected = 0;
     private float gameTimer;
 
     private bool gameIsActive = false;
@@ -47,6 +47,17 @@ public class GameController : MonoBehaviour
         SetPlayerInputReciever();
     }
 
+    public int GetSticks()
+    {
+        int sticksToGive = 0;
+        if (sticksCollected != 0)
+        {
+            sticksToGive = sticksCollected;
+            //clear the sticks
+            sticksCollected = 0;
+        }
+        return sticksToGive;
+    }
     public void AddStick()
     {
         sticksCollected++;

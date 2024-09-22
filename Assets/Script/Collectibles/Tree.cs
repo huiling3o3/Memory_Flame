@@ -3,58 +3,66 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class Tree : MonoBehaviour // IPointerDownHandler, IPointerUpHandler, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
+public class Tree : MonoBehaviour
 {
-    public static Tree instance;
     public bool interactable;
     public GameObject stickPrefab;
     public Vector3 stickSpawnOffset;
     public int health;
 
+    // Timer variables for cutting the tree
+    public bool isCutting = false;
+    public float holdTime = 0f;
+    public float requiredHoldTime = 3f; // Time required to hold down mouse to cut the tree
     void Awake()
     {
-        if (instance != null && instance != this)
-        {
-            Destroy(this.gameObject);
-            return;
-        }
-
-        instance = this;
-        DontDestroyOnLoad(this.gameObject);
-
         interactable = false;
     }
 
-    //public void OnPointerDown(PointerEventData eventData)
-    //{
-    //    Debug.Log("Hello");
-    //}
-    //public void OnPointerUp(PointerEventData eventData)
-    //{
-    //    //Debug.Log("Hello");
-    //}
-    //public void OnPointerEnter(PointerEventData eventData)
-    //{
-    //    //Debug.Log("Hello");
-    //}
-    //public void OnPointerExit(PointerEventData eventData)
-    //{
-    //    //Debug.Log("Hello");
-    //}
-    //public void OnPointerClick(PointerEventData eventData)
-    //{
-    //    //Debug.Log("Hello");
-    //}
-
-    public void TakeDamage()
+    private void Update()
     {
-        health--;
-        if (health <= 0)
+        // If the player is holding the mouse button down and the tree is interactable
+        if (isCutting && interactable)
         {
-            Vector3 spawnPosition = transform.position + stickSpawnOffset;
-            Instantiate(stickPrefab, spawnPosition, transform.rotation);
-            Destroy(gameObject);
+            holdTime += Time.deltaTime; // Increment the hold time
+
+            // If the hold time reaches the required time, cut the tree
+            if (holdTime >= requiredHoldTime)
+            {
+                cutTree();
+                ResetCutting(); // Reset the cutting process after cutting the tree
+            }
         }
+
+        // If the player releases the mouse button, reset the hold timer
+        if (Input.GetMouseButtonUp(0))
+        {
+            ResetCutting();
+        }
+    }
+
+    private void ResetCutting()
+    {
+        // Reset the cutting process
+        isCutting = false;
+        holdTime = 0f;
+    }
+
+    public void cutTree()
+    {
+        //Spawn the stick obj and set its value
+        Vector3 spawnPosition = transform.position + stickSpawnOffset;
+        GameObject stickObj = Instantiate(stickPrefab, spawnPosition, transform.rotation);
+        Destroy(gameObject);
+
+        //health--;
+        //if (health <= 0)
+        //{
+        //    //Spawn the stick obj and set its value
+        //    Vector3 spawnPosition = transform.position + stickSpawnOffset;
+        //    GameObject stickObj = Instantiate(stickPrefab, spawnPosition, transform.rotation);
+        //    Destroy(gameObject);
+        //}
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -74,7 +82,7 @@ public class Tree : MonoBehaviour // IPointerDownHandler, IPointerUpHandler, IPo
     {
         if (!EventSystem.current.IsPointerOverGameObject() && interactable == true)
         {
-            TakeDamage();
+            isCutting = true; // Player has started holding down the mouse button
         }
     }
 }

@@ -12,11 +12,11 @@ public class CampFireController : MonoBehaviour
 
     // List of fire sprites for different health levels
     [SerializeField] private List<Sprite> fireSprites; // List of fire sprites
-    SpriteRenderer fireSpriteRenderer;
+    [SerializeField] SpriteRenderer fireSpriteRenderer;
 
     void Awake()
     {
-        fireSpriteRenderer = GetComponent<SpriteRenderer>();
+        //fireSpriteRenderer = GetComponent<SpriteRenderer>();
     }
     // Start is called before the first frame update
     void Start()
@@ -28,8 +28,9 @@ public class CampFireController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        BurnFire();        // Deplete fire health over time
-        UpdateFireAppearance();    // Update fire sprite based on current health
+        BurnFire(); // Deplete fire health over time
+        UpdateFireAppearance(); // Update fire sprite based on current health
+        AddBranchesToFire(); // F key to add the branches to the campfire.
     }
 
     private void BurnFire()
@@ -43,14 +44,13 @@ public class CampFireController : MonoBehaviour
         {
             Debug.Log("Fire Burned Out!!!");
             // Trigger game over event
-            //Game.GetGameController().GameOver();
+            Game.GetGameController().GameOver();
         }
-
     }
 
     private void UpdateFireAppearance()
     {
-        if (fireSprites.Count == 0) { return ; }
+        if (fireSprites.Count == 0) { return; }
 
         // Calculate the current fire health percentage
         float healthPercentage = currentHealth / maxHealth;
@@ -65,11 +65,44 @@ public class CampFireController : MonoBehaviour
         fireSpriteRenderer.sprite = fireSprites[spriteIndex];
     }
 
-    public void AddBranches(float branchAmount)
+    public void AddBranches(int branchAmount)
     {
-        // Increase the fire health when branches are added
-        currentHealth += branchAmount;
+        // Increase the fire health based on the amount of branch the player had collected
+        // Each branch is worth 2 points
+        float healthIncreaseAmount = branchAmount * 2;
+        currentHealth += healthIncreaseAmount;
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth); // Clamp health to max value
+    }
+
+
+    void AddBranchesToFire()
+    {
+        //Check if player is within the fire place to add branches
+        if (!Game.GetPlayer().IsPlayerInSafeZone()) { return; }
+
+        if (Input.GetKeyDown(KeyCode.F)) // Press 'F' to add branch 
+        {
+            //Check in the game controller whether the player have enough branch
+            int sticks = Game.GetGameController().GetSticks();
+            if (sticks > 0)
+            {
+                AddBranches(sticks);// if enough update the branches num in game controller & increase the branch health 
+                Debug.Log($"{sticks} given to the fire");
+            }
+            else
+            {
+                Debug.Log($"not enough branches");
+            }
+        }
+        else if (Input.GetKeyDown(KeyCode.Keypad1)) // Press '1' to Increase fire health by 20%
+        {
+            AddBranches(10); 
+           
+        }
+        else if (Input.GetKeyDown(KeyCode.Keypad2)) // Press '2' to Increase fire health by 35%
+        {
+            AddBranches(15); 
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
