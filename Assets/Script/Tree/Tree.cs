@@ -1,31 +1,34 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 public class Tree : MonoBehaviour
 {
-    public bool interactable;
     public GameObject stickPrefab;
-    public Vector3 stickSpawnOffset;
-    public int health;
+    //public Vector3 stickSpawnOffset;
+    //public int health;
+    TreeInteract ti;
 
     // Timer variables for cutting the tree
     public bool isCutting = false;
     public float holdTime = 0f;
     public float requiredHoldTime = 3f; // Time required to hold down mouse to cut the tree
-    void Awake()
-    {
-        interactable = false;
-    }
 
+    // UI Variables
+    public Image fillCircle;
+    private void Start()
+    {
+        ti = GetComponentInChildren<TreeInteract>();
+    }
     private void Update()
     {
         // If the player is holding the mouse button down and the tree is interactable
-        if (isCutting && interactable)
+        if (isCutting && ti.interactable)
         {
             holdTime += Time.deltaTime; // Increment the hold time
-
+            fillCircle.fillAmount = holdTime / requiredHoldTime;
             // If the hold time reaches the required time, cut the tree
             if (holdTime >= requiredHoldTime)
             {
@@ -51,36 +54,14 @@ public class Tree : MonoBehaviour
     public void cutTree()
     {
         //Spawn the stick obj and set its value
-        Vector3 spawnPosition = transform.position + stickSpawnOffset;
-        GameObject stickObj = Instantiate(stickPrefab, spawnPosition, transform.rotation);
+        //Vector3 spawnPosition = transform.position + stickSpawnOffset;
+        Instantiate(stickPrefab, transform.position, transform.rotation);
         Destroy(gameObject);
-
-        //health--;
-        //if (health <= 0)
-        //{
-        //    //Spawn the stick obj and set its value
-        //    Vector3 spawnPosition = transform.position + stickSpawnOffset;
-        //    GameObject stickObj = Instantiate(stickPrefab, spawnPosition, transform.rotation);
-        //    Destroy(gameObject);
-        //}
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.tag == "Player")
-        {
-            interactable = true;
-        }
-    }
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        interactable = false;
     }
 
     public void OnMouseDown()
     {
-        if (!EventSystem.current.IsPointerOverGameObject() && interactable == true)
+        if (!EventSystem.current.IsPointerOverGameObject() && ti.interactable == true)
         {
             isCutting = true; // Player has started holding down the mouse button
         }

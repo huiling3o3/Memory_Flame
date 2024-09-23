@@ -18,6 +18,7 @@ public class CampFireController : MonoBehaviour
     {
         //fireSpriteRenderer = GetComponent<SpriteRenderer>();
     }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -40,7 +41,21 @@ public class CampFireController : MonoBehaviour
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth); // Clamp health between 0 and max
         
         // If the fire health reaches 0, trigger game over
-        if (currentHealth <= 0)
+        if (!Game.GetGameController().gameOver && currentHealth <= 0)
+        {
+            Debug.Log("Fire Burned Out!!!");
+            // Trigger game over event
+            Game.GetGameController().GameOver();
+        }
+    }
+    private void BorrowFire(int amount)
+    {
+        // take away the fire health used to replenish the fire torch
+        currentHealth -= maxHealth * amount / 100f;
+        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth); // Clamp health between 0 and max
+
+        // If the fire health reaches 0, trigger game over
+        if (!Game.GetGameController().gameOver && currentHealth <= 0)
         {
             Debug.Log("Fire Burned Out!!!");
             // Trigger game over event
@@ -109,8 +124,12 @@ public class CampFireController : MonoBehaviour
     {
         if (collision.tag == "Player")
         {
+            //Regenerate the Ammo
             PlayerShoot ps = collision.GetComponent<PlayerShoot>();
             ps.RegenerateAmmo();
+            //Everytime the fire torch is regenerated, 2% of the fire is taken away
+            BorrowFire(2);
+            //Player enter into a safe zone, so the ammo does not start to drop
             PlayerController pc = collision.GetComponent<PlayerController>();
             pc.EnterSafeZone();
         }
@@ -120,6 +139,7 @@ public class CampFireController : MonoBehaviour
     {
         if (collision.tag == "Player")
         {
+            //When player exit the safe zone the fire torch will start to deplete over time
             PlayerController pc = collision.GetComponent<PlayerController>();
             pc.ExitSafeZone();
         }

@@ -27,7 +27,6 @@ public class PlayerShoot : MonoBehaviour
     [SerializeField] private float maxAmmo = 100f; // Maximum fire ammo
     [SerializeField] private float currentAmmo;
     [SerializeField] private float ammoDepletionRate = 10f; // Ammo depletes per second when shooting, decrease it to so slower
-    //[SerializeField] private bool inSafeZone; //layers that does not affect the ammoDepletion
 
     //reference to the player movement to calculate the shooting direction
     PlayerMovement pm;
