@@ -157,7 +157,7 @@ public class PlayerMovement : MonoBehaviour, IInputReceiver
     public void DoCancelAction()
     {
         //pause game
-        //Game.GetGameController().OpenPauseMenu();
+        Game.GetGameController().OpenPauseMenu();
     }
 
     #endregion Input handling

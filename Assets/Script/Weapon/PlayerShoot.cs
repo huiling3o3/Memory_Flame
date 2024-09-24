@@ -1,8 +1,10 @@
 
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerShoot : MonoBehaviour
+
+public class PlayerShoot : MonoBehaviour, IInteractReciever
 {
     //reference to the fire torch object to manipulate 
     [Header("Fire Torch Settings")]
@@ -11,7 +13,7 @@ public class PlayerShoot : MonoBehaviour
     //reference to the bullet objects to spawn the bullets
     [SerializeField] private Transform bulletSpawnPoint;
     [SerializeField] private GameObject bullet;
-
+   
     //Mouse pos variables 
     private Vector2 worldPos;
     private Vector2 dir;
@@ -25,12 +27,15 @@ public class PlayerShoot : MonoBehaviour
     // Fire Ammo System
     [Header("Fire Ammo System")]
     [SerializeField] private float maxAmmo = 100f; // Maximum fire ammo
-    [SerializeField] private float currentAmmo;
+    [SerializeField] private float currentAmmo; 
     [SerializeField] private float ammoDepletionRate = 10f; // Ammo depletes per second when shooting, decrease it to so slower
 
     //reference to the player movement to calculate the shooting direction
     PlayerMovement pm;
     PlayerController pc;
+
+    // Event that notifies subscribers when the current ammo changes
+    public static event Action<float> currentAmmoChanged;
     void Awake()
     {
         pm = GetComponent<PlayerMovement>();
@@ -50,7 +55,7 @@ public class PlayerShoot : MonoBehaviour
         HandleTorchRotation();
         DoShoot();
         DepleteAmmo();
-    }
+    } 
 
     private void HandleTorchRotation()
     {
@@ -72,7 +77,7 @@ public class PlayerShoot : MonoBehaviour
     private void DoShoot()
     {
         // Only shoot if the E button is pressed and there is enough ammo
-        if (Input.GetKeyDown(KeyCode.E) && currentAmmo > 0)
+        if (Input.GetMouseButtonDown(0) && currentAmmo > 0)
         {
             // Calculate the correct bullet rotation
             Quaternion bulletRotation = fireTorch.transform.rotation;
@@ -99,9 +104,11 @@ public class PlayerShoot : MonoBehaviour
             // Deplete ammo over time
             currentAmmo -= ammoDepletionRate * Time.deltaTime;
             currentAmmo = Mathf.Clamp(currentAmmo, 0, maxAmmo); // Ensure ammo doesn't go below 0
-        }           
-    }
+        }
 
+        // Trigger the event with the updated ammo percentage
+        currentAmmoChanged?.Invoke(currentAmmo);
+    }
 
     public void RegenerateAmmo()
     {
@@ -109,9 +116,8 @@ public class PlayerShoot : MonoBehaviour
         currentAmmo = maxAmmo;
     }
 
-    // function to check the current ammo for UI purposes
-    public float GetCurrentAmmo()
+    public void DoInteract()
     {
-        return currentAmmo;
+        Debug.Log("PUPU");
     }
 }

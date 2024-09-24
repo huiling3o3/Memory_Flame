@@ -27,14 +27,6 @@ public class InputHandler : MonoBehaviour
     {
         if (activeReceiver == null) return;
 
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
-        {
-            activeReceiver.DoLeftAction();  
-        }
-        if (Input.GetKeyDown(KeyCode.RightArrow))
-        {
-            activeReceiver.DoRightAction();
-        }
         if (Input.GetButtonDown("Submit"))
         {
             activeReceiver.DoSubmitAction();

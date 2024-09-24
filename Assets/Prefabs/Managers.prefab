@@ -11,8 +11,9 @@ GameObject:
   - component: {fileID: 3060716346901350794}
   - component: {fileID: 1680918761857088189}
   - component: {fileID: 2598841252070352968}
-  - component: {fileID: 8072521662373446913}
   - component: {fileID: 3196428242402630118}
+  - component: {fileID: 5352455511172810725}
+  - component: {fileID: 2575944562353601791}
   m_Layer: 0
   m_Name: Managers
   m_TagString: Untagged
@@ -48,7 +49,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerObj: {fileID: 0}
-  inputHandler: {fileID: 2598841252070352968}
   numOfEnemiesKilled: 0
   totalNumEnemiesKilled: 0
   memoryFragmentsCollected: 0
@@ -66,18 +66,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f66f46deb87e4f14c8c3a3390fba14c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &8072521662373446913
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 90119636792357131}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b5b42a19057059f4ba519cf38c105bc2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &3196428242402630118
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -90,5 +78,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13939495fe1c5c247bf3533794f5d2d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  treePrefab: {fileID: 5363942690932191343, guid: 1c52c4a5de023514dbe1ee3ddcd5c2e3, type: 3}
+  treePrefab: {fileID: 989924223119679683, guid: 1c52c4a5de023514dbe1ee3ddcd5c2e3, type: 3}
+  minTravelDistance: 2
   spawnedTree: []
+--- !u!114 &5352455511172810725
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 90119636792357131}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c07f56a3008030643951cc8e54755d54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fillImg: {fileID: 0}
+  ammoTxt: {fileID: 0}
+--- !u!114 &2575944562353601791
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 90119636792357131}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52f0f5947fcd3594e851e2a30b90de7e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

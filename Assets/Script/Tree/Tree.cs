@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class Tree : MonoBehaviour
+public class Tree : MonoBehaviour, IInteractReciever
 {
     public GameObject stickPrefab;
     //public Vector3 stickSpawnOffset;
@@ -38,7 +38,7 @@ public class Tree : MonoBehaviour
         }
 
         // If the player releases the mouse button, reset the hold timer
-        if (Input.GetMouseButtonUp(0))
+        if (Input.GetMouseButtonUp(0) && isCutting)
         {
             ResetCutting();
         }
@@ -65,5 +65,11 @@ public class Tree : MonoBehaviour
         {
             isCutting = true; // Player has started holding down the mouse button
         }
+    }
+
+    //interact handling
+    public void DoInteract()
+    {
+        Debug.Log("lol");
     }
 }

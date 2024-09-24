@@ -6,10 +6,11 @@ using UnityEngine;
 public static class Game
 {
 
-    //#region HUD
-    //public static HUDController GetHUDController() => hudController;
-    //public static void SetHUDController(HUDController hc) => hudController = hc;
-    //#endregion
+    #region HUD
+    private static HUDController hudController;
+    public static HUDController GetHUDController() => hudController;
+    public static void SetHUDController(HUDController hc) => hudController = hc;
+    #endregion
 
     #region gamecontroller
     private static GameController gameController;

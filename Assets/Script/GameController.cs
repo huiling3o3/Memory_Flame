@@ -6,9 +6,9 @@ public class GameController : MonoBehaviour
     [Header("To be Assigned")]
     //references to assigned
     public GameObject playerObj;    
-    public InputHandler inputHandler;
-    //public NPCManager npcManager;
-    //MenuSceneManager menuSceneManager;
+    InputHandler inputHandler;
+    InteractHandler interactHandler;
+    MenuSceneManager menuSceneManager;
     PlayerController pc;
 
     [Header("Game Stats")]
@@ -29,8 +29,10 @@ public class GameController : MonoBehaviour
 
         //Set reference for the player
         pc = playerObj.GetComponent<PlayerController>();
-        ////Set reference to the menu
-        //menuSceneManager = GetComponent<MenuSceneManager>();
+        //Set reference to the menu
+        menuSceneManager = GetComponent<MenuSceneManager>();
+        inputHandler = GetComponent<InputHandler>();
+        interactHandler = GetComponent<InteractHandler>();
     }
 
 
@@ -45,6 +47,7 @@ public class GameController : MonoBehaviour
         Game.SetPlayer(pc);
         ///!!important must set player to reeceive the input for it to move
         SetPlayerInputReciever();
+        interactHandler.SetInteractReceiver(playerObj.GetComponent<PlayerShoot>());
     }
 
     public int GetSticks()
@@ -95,7 +98,7 @@ public class GameController : MonoBehaviour
         //reset game variables
         Game.GetPlayer().Reset();
         //resume Game
-        //ResumeGame();
+        ResumeGame();
         //close the wave stats ui
         //Game.GetHUDController().CloseWaveStatsPanel();
     }
@@ -148,7 +151,7 @@ public class GameController : MonoBehaviour
     public void GameOver()
     {
         gameOver = true;
-        //OpenStartMenu();
+        OpenStartMenu();
     }
 
     //public void EnemyKilled()
@@ -179,70 +182,70 @@ public class GameController : MonoBehaviour
         //set input handler to movement script
         inputHandler.SetInputReceiver(playerObj.GetComponent<PlayerMovement>()); ;
     }
+
     #endregion
 
     #region Menus
 
-    //public void ResumeGame()
-    //{
-    //    //unpause game
-    //    Time.timeScale = 1f;
-    //    gameIsActive = true;
+    public void ResumeGame()
+    {
+        //unpause game
+        Time.timeScale = 1f;
+        gameIsActive = true;
 
-    //    //set input handler to movement script
-    //    inputHandler.SetInputReceiver(playerObj.GetComponent<PlayerMovement>());
+        //set input handler to movement script
+        inputHandler.SetInputReceiver(playerObj.GetComponent<PlayerMovement>());
 
-    //    //close pause menu
-    //    ClosePauseMenu();
-    //}
+        //close pause menu
+        ClosePauseMenu();
+    }
 
-    //public void PauseGame()
-    //{
-    //    Time.timeScale = 0;
-    //    gameIsActive = false;
-    //}
+    public void PauseGame()
+    {
+        Time.timeScale = 0;
+        gameIsActive = false;
+    }
 
-    //public void ClosePauseMenu()
-    //{
-    //    menuSceneManager.CloseMenuScene("PauseMenuScene");
-    //}
+    public void ClosePauseMenu()
+    {
+        menuSceneManager.CloseMenuScene("PauseMenuScene");
+    }
 
-    //public void OpenPauseMenu()
-    //{
-    //    PauseGame();
+    public void OpenPauseMenu()
+    {
+        PauseGame();
 
-    //    menuSceneManager.OpenMenuScene("PauseMenuScene", () =>
-    //    {
-    //        //initialize menu after scene finishes loading
-    //        PauseMenuScript menuScript = FindObjectOfType<PauseMenuScript>();
-    //        menuScript.InitializeMenu(this);
+        menuSceneManager.OpenMenuScene("PauseMenuScene", () =>
+        {
+            //initialize menu after scene finishes loading
+            PauseMenuScript menuScript = FindObjectOfType<PauseMenuScript>();
+            menuScript.InitializeMenu(this);
 
-    //        inputHandler.SetInputReceiver(menuScript);
-    //    });
-    //}
+            inputHandler.SetInputReceiver(menuScript);
+        });
+    }
 
-    //public void OpenStartMenu()
-    //{
-    //    PauseGame();
+    public void OpenStartMenu()
+    {
+        PauseGame();
 
-    //    ClosePauseMenu();
+        ClosePauseMenu();
 
-    //    menuSceneManager.OpenMenuScene("StartMenuScene", () =>
-    //    {
-    //        //initialize menu after scene finishes loading
-    //        StartMenuScript menuScript = FindObjectOfType<StartMenuScript>();
-    //        menuScript.InitializeMenu(this);
+        menuSceneManager.OpenMenuScene("StartMenuScene", () =>
+        {
+            //initialize menu after scene finishes loading
+            StartMenuScript menuScript = FindObjectOfType<StartMenuScript>();
+            menuScript.InitializeMenu(this);
 
-    //        //set input receiver
-    //        inputHandler.SetInputReceiver(menuScript);
-    //        menuScript.ShowStartMenu(Game.GetWaveManager().GetCurrentWave(),totalNumEnemiesKilled,gameTimer);
-    //    });
-    //}
+            //set input receiver
+            inputHandler.SetInputReceiver(menuScript);
+        });
+    }
 
-    //public void CloseStartMenu()
-    //{
-    //    menuSceneManager.CloseMenuScene("StartMenuScene");
-    //}
+    public void CloseStartMenu()
+    {
+        menuSceneManager.CloseMenuScene("StartMenuScene");
+    }
 
     #endregion
 }

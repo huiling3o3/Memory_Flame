@@ -5,7 +5,7 @@ using UnityEngine;
 public class TreeInteract : MonoBehaviour
 {
     public bool interactable;
-    public GameObject instructions;
+    [SerializeField] GameObject instructions;
     private void Start()
     {
         instructions.SetActive(false);
@@ -16,6 +16,7 @@ public class TreeInteract : MonoBehaviour
         {
             interactable = true;
             instructions.SetActive(true);
+            //Set the interactable object to tree
         }
     }
 
@@ -23,5 +24,6 @@ public class TreeInteract : MonoBehaviour
     {
         interactable = false;
         instructions.SetActive(false);
+        //Set the interactable object to playershoot
     }
 }
