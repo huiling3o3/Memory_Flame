@@ -77,7 +77,7 @@ public class PlayerShoot : MonoBehaviour, IInteractReciever
     private void DoShoot()
     {
         // Only shoot if the E button is pressed and there is enough ammo
-        if (Input.GetMouseButtonDown(0) && currentAmmo > 0)
+        if (Input.GetKeyDown(KeyCode.E) && currentAmmo > 0)
         {
             // Calculate the correct bullet rotation
             Quaternion bulletRotation = fireTorch.transform.rotation;
