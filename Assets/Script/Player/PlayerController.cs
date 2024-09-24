@@ -15,8 +15,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float maxColdLvl = 100f;// Maximum cold bar
     [SerializeField] float coldRate = 10f; // Coldness increases per second when out of warm zone, decrease it to make it slower
     [SerializeField] float coldDamagePower = 10f; // The amount of damage to decrease the health if hit the max lvl
-    
-    //[SerializeField] StatusBar hpBar;
+
+    [Header("UI Elements")]
+    [SerializeField] StatusBar hpBar;
+    [SerializeField] StatusBar hypoBar;
 
     //references
     PlayerMovement pm;
@@ -66,6 +68,7 @@ public class PlayerController : MonoBehaviour
         currentColdLvl = 0;
         inSafeZone = false;
         playerDead = false;
+        UpdateUI();
     }
 
     public float GetMovementSpeed() => pm.moveSpeed;
@@ -78,7 +81,7 @@ public class PlayerController : MonoBehaviour
         currentHp += currentHp * newHp;
         currentHp = Mathf.Clamp(currentHp, 0, MaxHP); // Ensure health doesn't go above 0
 
-        //hpBar.SetState(currentHp, MaxHP);
+        UpdateUI();
     }
 
     public void TakeDamage(float damage)
@@ -97,8 +100,7 @@ public class PlayerController : MonoBehaviour
             Game.GetGameController().GameOver();
         }
 
-        //Update the UI
-        //hpBar.SetState(currentHp, MaxHP);
+        UpdateUI();
     }
 
     //Hypothermia System
@@ -116,7 +118,15 @@ public class PlayerController : MonoBehaviour
                 // Deplete the health over time
                 TakeDamage(coldDamagePower * Time.deltaTime);
             }
+            UpdateUI();
         }
+    }
+
+    // Update both the health and cold bars
+    private void UpdateUI()
+    {
+        hpBar.SetState(currentHp, MaxHP);
+        hypoBar.SetState(currentColdLvl, maxColdLvl);
     }
 
     public void ExitSafeZone() { inSafeZone = false; }
@@ -126,6 +136,7 @@ public class PlayerController : MonoBehaviour
         if (playerDead) return;
         currentColdLvl = 0;
         inSafeZone = true;
+        UpdateUI();
     }
     public bool IsPlayerInSafeZone() => inSafeZone;
     // function to check the current coldness for UI purposes

@@ -14,6 +14,9 @@ public class CampFireController : MonoBehaviour
     [SerializeField] private List<Sprite> fireSprites; // List of fire sprites
     [SerializeField] SpriteRenderer fireSpriteRenderer;
 
+    [Header("UI Elements")]
+    [SerializeField] private StatusBar campFireHealthBar;
+
     void Awake()
     {
         //fireSpriteRenderer = GetComponent<SpriteRenderer>();
@@ -24,6 +27,7 @@ public class CampFireController : MonoBehaviour
     {
         currentHealth = maxHealth; // Initialize health
         UpdateFireAppearance();    // Set initial fire appearance
+        UpdateHealthBar(); // Set initial status bar state 
     }
 
     // Update is called once per frame
@@ -31,7 +35,8 @@ public class CampFireController : MonoBehaviour
     {
         BurnFire(); // Deplete fire health over time
         UpdateFireAppearance(); // Update fire sprite based on current health
-        AddBranchesToFire(); // F key to add the branches to the campfire.
+        AddBranchesToFire(); // F key to add the branches to the campfire
+        UpdateHealthBar(); // Update status bar based on current health
     }
 
     private void BurnFire()
@@ -78,6 +83,12 @@ public class CampFireController : MonoBehaviour
 
         // Update the sprite renderer with the selected sprite
         fireSpriteRenderer.sprite = fireSprites[spriteIndex];
+    }
+
+    private void UpdateHealthBar()
+    {
+        // Update the status bar with current campfire health
+        campFireHealthBar.SetState(currentHealth, maxHealth);
     }
 
     public void AddBranches(int branchAmount)
