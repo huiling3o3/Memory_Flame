@@ -53,7 +53,6 @@ public class PlayerShoot : MonoBehaviour, IInteractReciever
     void Update()
     {
         HandleTorchRotation();
-        DoShoot();
         DepleteAmmo();
     } 
 
@@ -74,28 +73,7 @@ public class PlayerShoot : MonoBehaviour, IInteractReciever
         fireTorch.transform.rotation = Quaternion.Euler(0f, 0f, angle);
     }
 
-    private void DoShoot()
-    {
-        // Only shoot if the E button is pressed and there is enough ammo
-        if (Input.GetKeyDown(KeyCode.E) && currentAmmo > 0)
-        {
-            // Calculate the correct bullet rotation
-            Quaternion bulletRotation = fireTorch.transform.rotation;
 
-            // If the player is flipped, adjust the bullet's rotation by 180 degrees
-            if (pm.isPlayerFacingRight())
-            {
-                bulletRotation = Quaternion.Euler(0f, 0f, angle);
-            }
-            else
-            {
-                bulletRotation = Quaternion.Euler(0f, 0f, angle + 180f);
-            }
-
-            //spawn bullet
-            GameObject SpawnBullet = Instantiate(bullet, bulletSpawnPoint.position, bulletRotation);          
-        }
-    }
 
     private void DepleteAmmo()
     {
@@ -116,8 +94,39 @@ public class PlayerShoot : MonoBehaviour, IInteractReciever
         currentAmmo = maxAmmo;
     }
 
-    public void DoInteract()
+    #region interact handling
+    public void DoShoot()
     {
-        Debug.Log("PUPU");
+        //Debug.Log("PUPU");
+
+        //there is enough ammo
+        if (currentAmmo > 0)
+        {
+            // Calculate the correct bullet rotation
+            Quaternion bulletRotation = fireTorch.transform.rotation;
+
+            // If the player is flipped, adjust the bullet's rotation by 180 degrees
+            if (pm.isPlayerFacingRight())
+            {
+                bulletRotation = Quaternion.Euler(0f, 0f, angle);
+            }
+            else
+            {
+                bulletRotation = Quaternion.Euler(0f, 0f, angle + 180f);
+            }
+
+            //spawn bullet
+            GameObject SpawnBullet = Instantiate(bullet, bulletSpawnPoint.position, bulletRotation);
+        }
     }
+
+    public void StartInteract()
+    {
+        //do nothing
+    }
+    public void StopInteract()
+    { 
+        //do nothing
+    }
+    #endregion
 }

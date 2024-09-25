@@ -8,7 +8,6 @@ public class Tree : MonoBehaviour, IInteractReciever
 {
     public GameObject stickPrefab;
     //public Vector3 stickSpawnOffset;
-    //public int health;
     TreeInteract ti;
 
     // Timer variables for cutting the tree
@@ -25,9 +24,10 @@ public class Tree : MonoBehaviour, IInteractReciever
     private void Update()
     {
         // If the player is holding the mouse button down and the tree is interactable
-        if (isCutting && ti.interactable)
+        if (isCutting)
         {
             holdTime += Time.deltaTime; // Increment the hold time
+            //update the loading circle
             fillCircle.fillAmount = holdTime / requiredHoldTime;
             // If the hold time reaches the required time, cut the tree
             if (holdTime >= requiredHoldTime)
@@ -36,14 +36,14 @@ public class Tree : MonoBehaviour, IInteractReciever
                 ResetCutting(); // Reset the cutting process after cutting the tree
             }
         }
-
-        // If the player releases the mouse button, reset the hold timer
-        if (Input.GetMouseButtonUp(0) && isCutting)
+        else
         {
-            ResetCutting();
+            //Set the fill to 0
+            fillCircle.fillAmount = 0f;
         }
     }
 
+    // If the player releases the mouse button, reset the hold timer
     private void ResetCutting()
     {
         // Reset the cutting process
@@ -59,17 +59,24 @@ public class Tree : MonoBehaviour, IInteractReciever
         Destroy(gameObject);
     }
 
-    public void OnMouseDown()
+    //interact handling
+    public void StartInteract()
     {
+        Debug.Log("start interact");
         if (!EventSystem.current.IsPointerOverGameObject() && ti.interactable == true)
         {
-            isCutting = true; // Player has started holding down the mouse button
+            isCutting = true; // Player has started holding down the mouse button           
         }
     }
-
-    //interact handling
-    public void DoInteract()
+    public void StopInteract()
     {
-        Debug.Log("lol");
+        //Stop interacting if the player did not hold the left mouse input within the give time
+        Debug.Log("Stop interact");
+        ResetCutting();
+    }
+
+    public void DoShoot()
+    { 
+        //do nothing
     }
 }

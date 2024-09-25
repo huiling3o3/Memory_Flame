@@ -306,6 +306,23 @@ Transform:
   - {fileID: 1270454670}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &343541744 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 90119636792357131, guid: c490d7a2cf66a0347848b46e4ecd0044, type: 3}
+  m_PrefabInstance: {fileID: 702736513}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &343541751
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 343541744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f467021f9bba594bada50bded10cd4f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &617976835
 GameObject:
   m_ObjectHideFlags: 0
@@ -506,7 +523,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 90119636792357131, guid: c490d7a2cf66a0347848b46e4ecd0044, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 343541751}
   m_SourcePrefab: {fileID: 100100000, guid: c490d7a2cf66a0347848b46e4ecd0044, type: 3}
 --- !u!1 &861612427
 GameObject:
@@ -1303,6 +1323,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6854099249464680986, guid: 1c52c4a5de023514dbe1ee3ddcd5c2e3, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: f452aa8f5fb6deb4a875d8ab9347ba71, type: 2}
+    - target: {fileID: 6854099249464680986, guid: 1c52c4a5de023514dbe1ee3ddcd5c2e3, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: -329785855848539337, guid: f452aa8f5fb6deb4a875d8ab9347ba71, type: 2}
+    - target: {fileID: 6854099249464680986, guid: 1c52c4a5de023514dbe1ee3ddcd5c2e3, type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1487,6 +1519,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1424122007540673805, guid: d33494c915e694542ac64c2004ba62c3, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: f452aa8f5fb6deb4a875d8ab9347ba71, type: 2}
+    - target: {fileID: 1424122007540673805, guid: d33494c915e694542ac64c2004ba62c3, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: -329785855848539337, guid: f452aa8f5fb6deb4a875d8ab9347ba71, type: 2}
+    - target: {fileID: 1424122007540673805, guid: d33494c915e694542ac64c2004ba62c3, type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4840860789022854092, guid: d33494c915e694542ac64c2004ba62c3, type: 3}
       propertyPath: m_Pivot.x
       value: 0

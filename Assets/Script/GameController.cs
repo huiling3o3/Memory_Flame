@@ -47,7 +47,7 @@ public class GameController : MonoBehaviour
         Game.SetPlayer(pc);
         ///!!important must set player to reeceive the input for it to move
         SetPlayerInputReciever();
-        interactHandler.SetInteractReceiver(playerObj.GetComponent<PlayerShoot>());
+        SetPlayerShootInteractReciever();
     }
 
     public int GetSticks()
@@ -183,6 +183,17 @@ public class GameController : MonoBehaviour
         inputHandler.SetInputReceiver(playerObj.GetComponent<PlayerMovement>()); ;
     }
 
+    public void SetTreeInteractReciever(Tree tr)
+    { 
+        //set the input handler to the tree interacting with the player
+        interactHandler.SetInteractReceiver(tr);
+    }
+
+    public void SetPlayerShootInteractReciever()
+    {
+        //set the input handler to the player weapon 
+        interactHandler.SetInteractReceiver(playerObj.GetComponent<PlayerShoot>());
+    }
     #endregion
 
     #region Menus

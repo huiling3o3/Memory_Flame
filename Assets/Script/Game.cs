@@ -22,9 +22,13 @@ public static class Game
     private static PlayerController mainPlayer;
     public static PlayerController GetPlayer() => mainPlayer;
     public static void SetPlayer(PlayerController Player) => mainPlayer = Player;
-
     #endregion
 
+    #region interactionHandler
+    private static InteractHandler interactHandler;
+    public static InteractHandler GetInteractHandler() => interactHandler;
+    public static void SetInteractHandler(InteractHandler ih) => interactHandler = ih;
+    #endregion
     //#region character
     ////Get a single character
     //public static Character GetCharacterByRefID(string id)

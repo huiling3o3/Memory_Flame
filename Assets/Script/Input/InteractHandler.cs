@@ -18,23 +18,23 @@ public class InteractHandler : MonoBehaviour
         if (activeReceiver == null) return;
 
         // Handle left-click (shooting or interacting)
-        if (Input.GetMouseButtonDown(1))
+        if (Input.GetMouseButtonDown(0))
         {
-            if (isInteracting) return; // Don't shoot if interacting
-            activeReceiver.DoInteract(); // Start interaction (press and hold)
+            activeReceiver.DoShoot(); // For shooting
+            activeReceiver.StartInteract(); // Start interaction (press and hold)
             isInteracting = true;
         }
 
         // If the left-click is held for interaction
-        if (Input.GetMouseButton(1) && isInteracting)
+        if (Input.GetMouseButton(0) && isInteracting)
         {
             // Continue interaction (if necessary)
         }
 
         // When left-click is released, stop interaction
-        if (Input.GetMouseButtonUp(1) && isInteracting)
+        if (Input.GetMouseButtonUp(0) && isInteracting)
         {
-            //activeReceiver.StopInteract();
+            activeReceiver.StopInteract();
             isInteracting = false;
         }
     }
