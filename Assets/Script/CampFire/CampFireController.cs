@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,9 +15,8 @@ public class CampFireController : MonoBehaviour
     [SerializeField] private List<Sprite> fireSprites; // List of fire sprites
     [SerializeField] SpriteRenderer fireSpriteRenderer;
 
-    [Header("UI Elements")]
-    [SerializeField] private StatusBar campFireHealthBar;
-
+    // Event that notifies subscribers when the current ammo changes
+    public static event Action<float> fireHealthChanged;
     void Awake()
     {
         //fireSpriteRenderer = GetComponent<SpriteRenderer>();
@@ -27,7 +27,6 @@ public class CampFireController : MonoBehaviour
     {
         currentHealth = maxHealth; // Initialize health
         UpdateFireAppearance();    // Set initial fire appearance
-        UpdateHealthBar(); // Set initial status bar state 
     }
 
     // Update is called once per frame
@@ -36,7 +35,6 @@ public class CampFireController : MonoBehaviour
         BurnFire(); // Deplete fire health over time
         UpdateFireAppearance(); // Update fire sprite based on current health
         AddBranchesToFire(); // F key to add the branches to the campfire
-        UpdateHealthBar(); // Update status bar based on current health
     }
 
     private void BurnFire()
@@ -44,7 +42,10 @@ public class CampFireController : MonoBehaviour
         // Deplete fire health over time
         currentHealth -= healthDepletionRate * Time.deltaTime;
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth); // Clamp health between 0 and max
-        
+
+        // Trigger the event with the updated ammo percentage
+        fireHealthChanged?.Invoke(currentHealth);
+
         // If the fire health reaches 0, trigger game over
         if (!Game.GetGameController().gameOver && currentHealth <= 0)
         {
@@ -85,12 +86,6 @@ public class CampFireController : MonoBehaviour
         fireSpriteRenderer.sprite = fireSprites[spriteIndex];
     }
 
-    private void UpdateHealthBar()
-    {
-        // Update the status bar with current campfire health
-        campFireHealthBar.SetState(currentHealth, maxHealth);
-    }
-
     public void AddBranches(int branchAmount)
     {
         // Increase the fire health based on the amount of branch the player had collected
@@ -106,7 +101,7 @@ public class CampFireController : MonoBehaviour
         //Check if player is within the fire place to add branches
         if (!Game.GetPlayer().IsPlayerInSafeZone()) { return; }
 
-        if (Input.GetKeyDown(KeyCode.F)) // Press 'F' to add branch 
+        if (Input.GetKeyDown(KeyCode.E)) // Press 'E' to add branch 
         {
             //Check in the game controller whether the player have enough branch
             int sticks = Game.GetGameController().GetSticks();
@@ -122,7 +117,7 @@ public class CampFireController : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.Keypad1)) // Press '1' to Increase fire health by 20%
         {
-            AddBranches(10); 
+            //AddBranches(10); 
            
         }
         else if (Input.GetKeyDown(KeyCode.Keypad2)) // Press '2' to Increase fire health by 35%
