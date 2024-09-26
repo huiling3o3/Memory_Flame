@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 7579874234280734927}
   - component: {fileID: 9160284895417323866}
   - component: {fileID: 2288871804230680998}
-  - component: {fileID: 7669567909880653566}
+  - component: {fileID: 1736613621065883041}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -188,7 +188,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 5
-  tr: {fileID: 7669567909880653566}
+  tr: {fileID: 1736613621065883041}
   lastHorizontalVector: 0
   lastVerticalVector: 0
   lastMovedVector: {x: 0, y: 0}
@@ -212,6 +212,8 @@ MonoBehaviour:
   maxColdLvl: 100
   coldRate: 1
   coldDamagePower: 10
+  hpBar: {fileID: 0}
+  hypoBar: {fileID: 0}
 --- !u!114 &2288871804230680998
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -232,7 +234,7 @@ MonoBehaviour:
   maxAmmo: 100
   currentAmmo: 0
   ammoDepletionRate: 1
---- !u!96 &7669567909880653566
+--- !u!96 &1736613621065883041
 TrailRenderer:
   serializedVersion: 3
   m_ObjectHideFlags: 0

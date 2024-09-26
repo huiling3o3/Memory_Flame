@@ -40,14 +40,12 @@ public class GameController : MonoBehaviour
     void Start()
     {
         //show start menu
-        //OpenStartMenu();
+        OpenStartMenu();
 
         //initialise the player
         pc.Init();                                
         Game.SetPlayer(pc);
-        ///!!important must set player to reeceive the input for it to move
-        SetPlayerInputReciever();
-        SetPlayerShootInteractReciever();
+        
     }
 
     public int GetSticks()
@@ -76,14 +74,9 @@ public class GameController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //if (!gameIsActive) return;
-        ////proceed game timers
-        //gameTimer += Time.deltaTime;
-
-        if (Input.GetKeyDown(KeyCode.Keypad0))
-        {
-            
-        }
+        if (!gameIsActive) return;
+        //proceed game timers
+        gameTimer += Time.deltaTime;
     }
 
     public void StartGame()
@@ -93,12 +86,18 @@ public class GameController : MonoBehaviour
             RestartGame();
         }
 
-        //CloseStartMenu();
+        CloseStartMenu();
+
+        ///!!important must set player to reeceive the input for it to move
+        SetPlayerInputReciever();
+        SetPlayerShootInteractReciever();
 
         //reset game variables
         Game.GetPlayer().Reset();
+
         //resume Game
         ResumeGame();
+
         //close the wave stats ui
         //Game.GetHUDController().CloseWaveStatsPanel();
     }
@@ -250,6 +249,7 @@ public class GameController : MonoBehaviour
 
             //set input receiver
             inputHandler.SetInputReceiver(menuScript);
+            menuScript.ShowStartMenu(0, totalNumEnemiesKilled, gameTimer);
         });
     }
 

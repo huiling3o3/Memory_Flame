@@ -29,7 +29,7 @@ public class StartMenuScript : MonoBehaviour, IInputReceiver
     {
         //format game over text display
         Text gameOverText = this.GetComponentInChildren<Text>();
-        gameOverText.text = "Survival Game\n";
+        gameOverText.text = "Memory's Flame Game\n";
 
         if (gameController.gameOver)
         {
