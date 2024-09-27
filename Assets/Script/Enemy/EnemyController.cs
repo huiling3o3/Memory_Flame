@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.AI;
+using UnityEngine.Pool;
+using UnityEngine.UI;
 
 public class EnemyController : MonoBehaviour
 {
@@ -9,26 +10,52 @@ public class EnemyController : MonoBehaviour
     private GameObject target;
 
     //References
-    Animator am;
-    SpriteRenderer sr;
-    PlayerMovement pm;
+    [SerializeField] Animator am;
+    private SpriteRenderer sr;
 
     //Variables for enemy stats
     [Header("Enemies Stats")]
-    [SerializeField]    private float speed;
-    [SerializeField]    private float hp;
-    [SerializeField]    private int atk;
-    [SerializeField]    private int atkCooldown;
-    [SerializeField]    private GameObject branchPrefab; // Assign the chest prefab in the inspector
+    [SerializeField] private float speed;
+    [SerializeField] private float maxHp;
+    [SerializeField] private int atk;
+    [SerializeField] private int atkCooldown;
 
-    //Holds navmesh agent reference 
-    private NavMeshAgent agent;
+    [Header("Reward Settings")]
+    [SerializeField] private GameObject branchPrefab; // Assign the chest prefab in the inspector
+    [SerializeField] private int branchNum; //Number of branches to spawn
+
+    //Variables for movement
+    private float distanceBtwPlayer;
+    Vector2 direction;
 
     //Variables for attacks  
     private bool canAttack = true;
-
     private bool targetInRange = false;
 
+    // Variables for color change effect
+    [Header("Hit Settings")]    
+    [SerializeField] private Color hitColor = Color.red; // Color when hit
+    [SerializeField] private float colorChangeDuration = 0.1f; // Duration for the color change
+    private Color originalColor; // Store the original color of the enemy
+
+    [Header("Health Settings")]
+    [SerializeField] private Image healthbar;
+    [SerializeField] private float currentHp;
+
+    private void Start()
+    {
+        //sprite render
+        sr = GetComponent<SpriteRenderer>();
+
+        //get enemy animator
+        //am = GetComponent<Animator>();
+
+        originalColor = sr.color; // Save the original color of the enemy sprite
+
+        //set currentHp to max hp
+        currentHp = maxHp;
+        UpdatHealthBar();
+    }
     public void Init()
     {
         //Initializes the reference
@@ -37,39 +64,20 @@ public class EnemyController : MonoBehaviour
         //sprite render
         sr = GetComponent<SpriteRenderer>();
 
-        //player movement
-        pm = target.GetComponent<PlayerMovement>();
-
-        //nav mesh agent
-        agent = GetComponent<NavMeshAgent>();
+        originalColor = sr.color; // Save the original color of the enemy sprite
     }
 
-    void Update()
+    private void Update()
     {
-        if(canAttack)
+        if (canAttack)
         {
-            //Calls the GetTarget function repeatedly to move the navmesh in the target's direction 
-            GetTarget(target.gameObject);
-            SpriteDirectionChecker();
-
-            //Checks if target is within range 
+            // Move towards the player if allowed to attack
+            GetTarget(target);
+            // Checks if target is within range for attacking
             if (targetInRange)
             {
-                //If target is within range, attack the target
-                Attack(target.gameObject);
+                Attack(target);
             }
-        }
-    }
-
-    void SpriteDirectionChecker()
-    {
-        if (agent.velocity.x < 0)
-        {
-            sr.flipX = true;
-        }
-        else
-        {
-            sr.flipX = false;
         }
     }
 
@@ -78,16 +86,39 @@ public class EnemyController : MonoBehaviour
     {
         Debug.Log("Set stats entered");
 
-        this.hp = hp;
+        this.maxHp = hp;
+        currentHp = maxHp;
         this.atk = atk;
-        agent.speed = speed;
         this.atkCooldown = atkCooldown;
     }
 
     //Controls the enemy movement 
     public void GetTarget(GameObject target)
     {
-        agent.SetDestination(new Vector3(target.gameObject.transform.position.x, target.gameObject.transform.position.y, 0f)); 
+        if (target == null)
+        {
+            return;
+        }
+
+        //get the distance between the player and enemy
+        distanceBtwPlayer = Vector2.Distance(transform.position, target.transform.position);
+
+        //get the direction of the player
+        Vector2 direction = target.transform.position - transform.position;
+        direction.Normalize();
+
+        // Flip the sprite based on the direction of movement
+        if (direction.x < 0)
+        {
+            sr.flipX = true; // Moving left, flip the sprite
+        }
+        else if (direction.x > 0)
+        {
+            sr.flipX = false; // Moving right, do not flip
+        }
+
+        //set enemy to follow the player using its position
+        transform.position = Vector2.MoveTowards(transform.position, target.transform.position, speed * Time.deltaTime);
     }
 
     //Trigger used to define enemy attack radius 
@@ -106,6 +137,7 @@ public class EnemyController : MonoBehaviour
     {
 
         PlayerController playerHealth = objToDamage.GetComponent<PlayerController>();
+        PlayerMovement playerMovement = objToDamage.GetComponent<PlayerMovement>();
         if (playerHealth != null)
         {
             playerHealth.TakeDamage(atk);
@@ -122,26 +154,61 @@ public class EnemyController : MonoBehaviour
     {
         // Debug.Log("Timer started");
         canAttack = false;
-        agent.isStopped = true;
+        //am.SetBool("isWalking", false);
         yield return new WaitForSeconds(atkCooldown);
         canAttack = true;
-        agent.isStopped = false;
     }
 
     public void TakeDamage(float damage)
     {        
-        hp -= damage;
+        currentHp -= damage;
+
+        // Start the color change effect
+        StartCoroutine(OnHit());
+
         Debug.Log($"Enemy took {damage} damage");
-        if (hp <= 0)
+
+        if (currentHp <= 0)
         {
             Destroy(gameObject);
             //Game.GetGameController().EnemyKilled();
             DropBranches();
         }
+
+        UpdatHealthBar();
+    }
+    void UpdatHealthBar()
+    {
+        healthbar.fillAmount = currentHp / maxHp;
+    }
+
+    // change the color when hit
+    IEnumerator OnHit()
+    {
+        // Change the sprite color to the hit color
+        sr.color = hitColor;
+        // Stop the enemy movement for a while
+        canAttack = false;
+        // Wait for the duration of the color change
+        yield return new WaitForSeconds(colorChangeDuration);
+        // resume the enemy movement
+        canAttack = true;
+        // Revert the sprite color back to the original color
+        sr.color = originalColor;
     }
 
     void DropBranches()
     {
-        Instantiate(branchPrefab, transform.position, Quaternion.identity);
+        // Set a distance between each branch spawn
+        float offsetDistance = 0.5f;
+
+        for (int i = 0; i < branchNum; i++)
+        {
+            // Calculate the new position by adding an offset for each branch
+            Vector3 newPosition = transform.position + new Vector3(i * offsetDistance, 0, 0);
+
+            // Instantiate the branch at the calculated position
+            Instantiate(branchPrefab, newPosition, Quaternion.identity);
+        }
     }
 }

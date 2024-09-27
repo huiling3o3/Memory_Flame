@@ -106,6 +106,7 @@ public class PlayerMovement : MonoBehaviour, IInputReceiver
     {
         if (isDashing)
         {
+            // Don't allow normal movement during dash or knockback
             return;
         }
 

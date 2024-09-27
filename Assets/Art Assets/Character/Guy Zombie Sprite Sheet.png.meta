@@ -1,0 +1,1117 @@
+fileFormatVersion: 2
+guid: 1d14fef10cd490040bde19cfbb3147c4
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 12
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Guy Zombie Sprite Sheet_0
+      rect:
+        serializedVersion: 2
+        x: 171
+        y: 2644
+        width: 270
+        height: 459
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d0068a899a1e9174f921c421abb61ad9
+      internalID: -1595909463
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Guy Zombie Sprite Sheet_1
+      rect:
+        serializedVersion: 2
+        x: 756
+        y: 2644
+        width: 277
+        height: 457
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 111db9e4e51b12849afdb0d4444758a7
+      internalID: 42683122
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Guy Zombie Sprite Sheet_2
+      rect:
+        serializedVersion: 2
+        x: 1417
+        y: 2644
+        width: 267
+        height: 452
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 313c35abda91aea43b2be7a4dc29dd06
+      internalID: 1546390624
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Guy Zombie Sprite Sheet_3
+      rect:
+        serializedVersion: 2
+        x: 2058
+        y: 2644
+        width: 346
+        height: 432
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9ae656ecd14ba3b4b98d0ee2f6be53e9
+      internalID: 2103197624
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Guy Zombie Sprite Sheet_4
+      rect:
+        serializedVersion: 2
+        x: 2687
+        y: 2641
+        width: 334
+        height: 442
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9a206d3bb193b4a409c21c0273da6970
+      internalID: 1555633625
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Guy Zombie Sprite Sheet_5
+      rect:
+        serializedVersion: 2
+        x: 3316
+        y: 2641
+        width: 319
+        height: 450
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 27cd71cdb659cd74fa109dbb2f499ecb
+      internalID: 713716456
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Guy Zombie Sprite Sheet_6
+      rect:
+        serializedVersion: 2
+        x: 3945
+        y: 2641
+        width: 304
+        height: 457
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 02c7f38da068c9240b98df3c2dd0129f
+      internalID: -1809575112
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Guy Zombie Sprite Sheet_7
+      rect:
+        serializedVersion: 2
+        x: 4574
+        y: 2641
+        width: 287
+        height: 460
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8b369670b22a6d64aab8ab68974bdae1
+      internalID: 705143584
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Guy Zombie Sprite Sheet_8
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 2164
+        width: 382
+        height: 425
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9e909b9a75a504540bffe2e089f40548
+      internalID: 1648058426
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Guy Zombie Sprite Sheet_9
+      rect:
+        serializedVersion: 2
+        x: 724
+        y: 2159
+        width: 496
+        height: 278
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1df5f9115fe47ef4b81eed190cdf537a
+      internalID: 119696679
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Guy Zombie Sprite Sheet_10
+      rect:
+        serializedVersion: 2
+        x: 1353
+        y: 2157
+        width: 497
+        height: 275
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 44ceea569f698f24297a5ba8803b980e
+      internalID: -761542025
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Guy Zombie Sprite Sheet_11
+      rect:
+        serializedVersion: 2
+        x: 1982
+        y: 2157
+        width: 497
+        height: 275
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e99df04cbbd857f44b2556c0cf277006
+      internalID: 570848437
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Guy Zombie Sprite Sheet_12
+      rect:
+        serializedVersion: 2
+        x: 2534
+        y: 2140
+        width: 411
+        height: 459
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c2d7e9f346ee46646a91805e028a77b6
+      internalID: -1854845338
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Guy Zombie Sprite Sheet_13
+      rect:
+        serializedVersion: 2
+        x: 3208
+        y: 2162
+        width: 383
+        height: 432
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 519c6e322c4275e43907502bffd4d9f1
+      internalID: 2015751467
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Guy Zombie Sprite Sheet_14
+      rect:
+        serializedVersion: 2
+        x: 3837
+        y: 2172
+        width: 346
+        height: 388
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b49a7c52451654a4ca4f7d329ed0f988
+      internalID: 98270910
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Guy Zombie Sprite Sheet_15
+      rect:
+        serializedVersion: 2
+        x: 4493
+        y: 2159
+        width: 295
+        height: 381
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3f6f7f742429b8c498f7dc0f5d9bca33
+      internalID: -213309843
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Guy Zombie Sprite Sheet_16
+      rect:
+        serializedVersion: 2
+        x: 4574
+        y: 1592
+        width: 458
+        height: 609
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d0c498b67486bb04191110ef98d3deec
+      internalID: 1014455378
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Guy Zombie Sprite Sheet_17
+      rect:
+        serializedVersion: 2
+        x: 87
+        y: 1636
+        width: 312
+        height: 373
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 397b5e3ff5d53bc4d818246a0ef108a5
+      internalID: -1131117023
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Guy Zombie Sprite Sheet_18
+      rect:
+        serializedVersion: 2
+        x: 719
+        y: 1636
+        width: 324
+        height: 371
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a1c9edcaede2f084f9cfa984c307d8e9
+      internalID: -293312997
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Guy Zombie Sprite Sheet_19
+      rect:
+        serializedVersion: 2
+        x: 1348
+        y: 1628
+        width: 424
+        height: 362
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4fa6cd951990fed4fba33d0432924b17
+      internalID: -1459363883
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Guy Zombie Sprite Sheet_20
+      rect:
+        serializedVersion: 2
+        x: 1982
+        y: 1631
+        width: 491
+        height: 287
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 484e599c0b0e0e9489df4921c32cfdc7
+      internalID: -829748352
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Guy Zombie Sprite Sheet_21
+      rect:
+        serializedVersion: 2
+        x: 2687
+        y: 1592
+        width: 285
+        height: 462
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a16c22d188ab6a841a1a9c3fdb3ba5f1
+      internalID: 1945676586
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Guy Zombie Sprite Sheet_22
+      rect:
+        serializedVersion: 2
+        x: 3316
+        y: 1592
+        width: 299
+        height: 456
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ed497db7af8029a40aa9d8dcac75d230
+      internalID: -1183429898
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Guy Zombie Sprite Sheet_23
+      rect:
+        serializedVersion: 2
+        x: 3945
+        y: 1592
+        width: 297
+        height: 457
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f313b2afebd60dc49ae5378d2abe9c0b
+      internalID: -2053710814
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Guy Zombie Sprite Sheet_24
+      rect:
+        serializedVersion: 2
+        x: 171
+        y: 1066
+        width: 294
+        height: 459
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7f11cc6aafce1b54cb89280083caf6f1
+      internalID: 755988149
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Guy Zombie Sprite Sheet_25
+      rect:
+        serializedVersion: 2
+        x: 800
+        y: 1066
+        width: 290
+        height: 460
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4e97d0f88d71a1b4886701bf34882682
+      internalID: -618766841
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Guy Zombie Sprite Sheet_26
+      rect:
+        serializedVersion: 2
+        x: 1429
+        y: 1066
+        width: 287
+        height: 461
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 78044f3690232b24685615a7595ae55e
+      internalID: 2050782249
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Guy Zombie Sprite Sheet_27
+      rect:
+        serializedVersion: 2
+        x: 2058
+        y: 1066
+        width: 287
+        height: 461
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4a395af91d9935b4f97eb7db7e4e1edd
+      internalID: -699972191
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Guy Zombie Sprite Sheet_28
+      rect:
+        serializedVersion: 2
+        x: 2687
+        y: 1066
+        width: 287
+        height: 459
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b70532a664342b246a34640e18a4c0ff
+      internalID: -1292281434
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Guy Zombie Sprite Sheet_29
+      rect:
+        serializedVersion: 2
+        x: 3316
+        y: 1066
+        width: 290
+        height: 457
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 459a68a9a0d5c134c9581bb78ee27e77
+      internalID: -501909110
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Guy Zombie Sprite Sheet_30
+      rect:
+        serializedVersion: 2
+        x: 3945
+        y: 1066
+        width: 292
+        height: 457
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8ed2d0040f700dc4297af47f927a2bbd
+      internalID: 793339883
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Guy Zombie Sprite Sheet_31
+      rect:
+        serializedVersion: 2
+        x: 4574
+        y: 1066
+        width: 294
+        height: 457
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b76a8598546b6794b9753fecc5024e17
+      internalID: -451774007
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Guy Zombie Sprite Sheet_32
+      rect:
+        serializedVersion: 2
+        x: 171
+        y: 540
+        width: 295
+        height: 457
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a947e9f772adee848bda0c6a60e11a4f
+      internalID: -503875277
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Guy Zombie Sprite Sheet_33
+      rect:
+        serializedVersion: 2
+        x: 800
+        y: 540
+        width: 297
+        height: 457
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a83e9421dcf622545b57c7c0f2d412ac
+      internalID: -1318318831
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Guy Zombie Sprite Sheet_34
+      rect:
+        serializedVersion: 2
+        x: 1429
+        y: 540
+        width: 297
+        height: 457
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2497b793107fc3b43a6bdd70bb0e96f3
+      internalID: -401660361
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Guy Zombie Sprite Sheet_35
+      rect:
+        serializedVersion: 2
+        x: 2058
+        y: 540
+        width: 285
+        height: 462
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 81cc8bd5c2296dd4e81a09f96b54b9a0
+      internalID: -351640396
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Guy Zombie Sprite Sheet_36
+      rect:
+        serializedVersion: 2
+        x: 2684
+        y: 537
+        width: 283
+        height: 469
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ec8902f14dcc8f145aa2c6045767a777
+      internalID: -1144819482
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Guy Zombie Sprite Sheet_37
+      rect:
+        serializedVersion: 2
+        x: 3281
+        y: 527
+        width: 319
+        height: 479
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fb6feba133a9a254da6f3888842812d2
+      internalID: -2131411967
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Guy Zombie Sprite Sheet_38
+      rect:
+        serializedVersion: 2
+        x: 3888
+        y: 532
+        width: 337
+        height: 477
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5a94b4f13e92edf438bdb2bef95e8e88
+      internalID: 1051299290
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Guy Zombie Sprite Sheet_39
+      rect:
+        serializedVersion: 2
+        x: 4517
+        y: 537
+        width: 337
+        height: 472
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: eeb5c95fdb8652b4983b0a958dac1baa
+      internalID: 531702198
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Guy Zombie Sprite Sheet_40
+      rect:
+        serializedVersion: 2
+        x: 131
+        y: 11
+        width: 324
+        height: 467
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 22039c3f25ae5694daa3081447f979b8
+      internalID: 7063765
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Guy Zombie Sprite Sheet_41
+      rect:
+        serializedVersion: 2
+        x: 773
+        y: 14
+        width: 312
+        height: 462
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 82b2c3eb6ad34a54294cddf03cdca7e5
+      internalID: 744006583
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Guy Zombie Sprite Sheet_42
+      rect:
+        serializedVersion: 2
+        x: 1434
+        y: 4
+        width: 275
+        height: 476
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ac3bafbcc5746dc43a4c010128709a28
+      internalID: 1031452131
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Guy Zombie Sprite Sheet_43
+      rect:
+        serializedVersion: 2
+        x: 2055
+        y: 4
+        width: 280
+        height: 481
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f8dea3fc7a760e74abbe115b0060cb1b
+      internalID: -345738538
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Guy Zombie Sprite Sheet_44
+      rect:
+        serializedVersion: 2
+        x: 2675
+        y: 11
+        width: 289
+        height: 474
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9b85939581f89c84aab16ddf1565002e
+      internalID: -940081018
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      Guy Zombie Sprite Sheet_0: -1595909463
+      Guy Zombie Sprite Sheet_1: 42683122
+      Guy Zombie Sprite Sheet_10: -761542025
+      Guy Zombie Sprite Sheet_11: 570848437
+      Guy Zombie Sprite Sheet_12: -1854845338
+      Guy Zombie Sprite Sheet_13: 2015751467
+      Guy Zombie Sprite Sheet_14: 98270910
+      Guy Zombie Sprite Sheet_15: -213309843
+      Guy Zombie Sprite Sheet_16: 1014455378
+      Guy Zombie Sprite Sheet_17: -1131117023
+      Guy Zombie Sprite Sheet_18: -293312997
+      Guy Zombie Sprite Sheet_19: -1459363883
+      Guy Zombie Sprite Sheet_2: 1546390624
+      Guy Zombie Sprite Sheet_20: -829748352
+      Guy Zombie Sprite Sheet_21: 1945676586
+      Guy Zombie Sprite Sheet_22: -1183429898
+      Guy Zombie Sprite Sheet_23: -2053710814
+      Guy Zombie Sprite Sheet_24: 755988149
+      Guy Zombie Sprite Sheet_25: -618766841
+      Guy Zombie Sprite Sheet_26: 2050782249
+      Guy Zombie Sprite Sheet_27: -699972191
+      Guy Zombie Sprite Sheet_28: -1292281434
+      Guy Zombie Sprite Sheet_29: -501909110
+      Guy Zombie Sprite Sheet_3: 2103197624
+      Guy Zombie Sprite Sheet_30: 793339883
+      Guy Zombie Sprite Sheet_31: -451774007
+      Guy Zombie Sprite Sheet_32: -503875277
+      Guy Zombie Sprite Sheet_33: -1318318831
+      Guy Zombie Sprite Sheet_34: -401660361
+      Guy Zombie Sprite Sheet_35: -351640396
+      Guy Zombie Sprite Sheet_36: -1144819482
+      Guy Zombie Sprite Sheet_37: -2131411967
+      Guy Zombie Sprite Sheet_38: 1051299290
+      Guy Zombie Sprite Sheet_39: 531702198
+      Guy Zombie Sprite Sheet_4: 1555633625
+      Guy Zombie Sprite Sheet_40: 7063765
+      Guy Zombie Sprite Sheet_41: 744006583
+      Guy Zombie Sprite Sheet_42: 1031452131
+      Guy Zombie Sprite Sheet_43: -345738538
+      Guy Zombie Sprite Sheet_44: -940081018
+      Guy Zombie Sprite Sheet_5: 713716456
+      Guy Zombie Sprite Sheet_6: -1809575112
+      Guy Zombie Sprite Sheet_7: 705143584
+      Guy Zombie Sprite Sheet_8: 1648058426
+      Guy Zombie Sprite Sheet_9: 119696679
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

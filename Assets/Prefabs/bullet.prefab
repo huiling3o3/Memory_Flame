@@ -173,7 +173,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bulletSpeed: 15
-  damagePower: 10
+  damagePower: 2
   destroyTime: 3
   whatDestoryBullet:
     serializedVersion: 2
