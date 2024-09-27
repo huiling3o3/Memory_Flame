@@ -1,0 +1,7 @@
+waveID,waveNumber,enemyID,enemyCount,barrelID,barrelCount
+wave1e101,1,e101,5,br101,2
+wave2e102,2,e101,3,br101,2
+wave2e105,2,e102,5,br102,2
+wave3e101,3,e101,5,br101,2
+wave3e102,3,e102,5,br102,2
+wave3e103,3,e105,1,br103,1

@@ -4,10 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class Tree : MonoBehaviour, IInteractReciever
+public class Tree : DropBranchHandler, IInteractReciever
 {
-    public GameObject stickPrefab;
-    //public Vector3 stickSpawnOffset;
     TreeInteract ti;
 
     // Timer variables for cutting the tree
@@ -53,9 +51,8 @@ public class Tree : MonoBehaviour, IInteractReciever
 
     public void cutTree()
     {
-        //Spawn the stick obj and set its value
-        //Vector3 spawnPosition = transform.position + stickSpawnOffset;
-        Instantiate(stickPrefab, transform.position, transform.rotation);
+        //Spawn the branches
+        DropBranches();
         Destroy(gameObject);
     }
 

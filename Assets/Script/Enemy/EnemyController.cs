@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.Pool;
 using UnityEngine.UI;
 
-public class EnemyController : MonoBehaviour
+public class EnemyController : DropBranchHandler
 {
     //reference
     [SerializeField]
@@ -17,10 +17,6 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private float maxHp;
     [SerializeField] public int atk;
     [SerializeField] private int atkCooldown;
-
-    [Header("Reward Settings")]
-    [SerializeField] private GameObject branchPrefab; // Assign the chest prefab in the inspector
-    [SerializeField] private int branchNum; //Number of branches to spawn
 
     //Variables for movement
     private float distanceBtwPlayer;
@@ -169,7 +165,7 @@ public class EnemyController : MonoBehaviour
         if (currentHp <= 0)
         {
             Destroy(gameObject);
-            //Game.GetGameController().EnemyKilled();
+            Game.GetGameController().EnemyKilled();
             DropBranches();
         }
 
@@ -196,20 +192,5 @@ public class EnemyController : MonoBehaviour
         canAttack = true;
         // Revert the sprite color back to the original color
         sr.color = originalColor;
-    }
-
-    void DropBranches()
-    {
-        // Set a distance between each branch spawn
-        float offsetDistance = 0.5f;
-
-        for (int i = 0; i < branchNum; i++)
-        {
-            // Calculate the new position by adding an offset for each branch
-            Vector3 newPosition = transform.position + new Vector3(i * offsetDistance, 0, 0);
-
-            // Instantiate the branch at the calculated position
-            Instantiate(branchPrefab, newPosition, Quaternion.identity);
-        }
     }
 }

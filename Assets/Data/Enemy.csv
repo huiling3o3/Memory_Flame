@@ -1,0 +1,6 @@
+enemyID,enemyName,enemyHP,enemyATK,enemySpeed,enemyCooldown
+e101,Guy Zombies,5,4,3,3
+e102,Girl Zombies,5,2,5,3
+e103,Jack-O-Lanterns,10,7,4,3
+e104,Robots,20,10,2,3
+e105,Big Bad Wolf,40,15,4,2

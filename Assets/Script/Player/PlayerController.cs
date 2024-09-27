@@ -16,10 +16,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float coldRate = 10f; // Coldness increases per second when out of warm zone, decrease it to make it slower
     [SerializeField] float coldDamagePower = 10f; // The amount of damage to decrease the health if hit the max lvl
 
-    //[Header("UI Elements")]
-    //[SerializeField] StatusBar hpBar;
-    //[SerializeField] StatusBar hypoBar;
-
     //references
     PlayerMovement pm;
     Animator am;

@@ -5,7 +5,6 @@ using UnityEngine;
 // a class to store all the static object that can be access anywhere in the scene
 public static class Game
 {
-
     #region HUD
     private static HUDController hudController;
     public static HUDController GetHUDController() => hudController;
@@ -24,23 +23,51 @@ public static class Game
     public static void SetPlayer(PlayerController Player) => mainPlayer = Player;
     #endregion
 
-    #region interactionHandler
-    private static InteractHandler interactHandler;
-    public static InteractHandler GetInteractHandler() => interactHandler;
-    public static void SetInteractHandler(InteractHandler ih) => interactHandler = ih;
+    #region enemy
+    public static List<Enemy> enemyList;
+    // Enemy Set and Get
+    public static Enemy GetEnemyByRefID(string id)
+    {
+        return enemyList.Find(x => x.enemyId == id);
+    }
+    public static List<Enemy> GetEnemyList()
+    {
+        return enemyList;
+    }
+    public static void SetEnemyList(List<Enemy> eList)
+    {
+        enemyList = eList;
+        Debug.Log("Setting enemy list");
+    }
     #endregion
-    //#region character
-    ////Get a single character
-    //public static Character GetCharacterByRefID(string id)
-    //{
-    //    return characterList.Find(x => x.id == id);
-    //}
 
-    //public static List<Character> GetCharacterList() => characterList;
+    #region enemyWave
+    public static List<WaveData> waveDataList;
+    public static WaveData GetWaveByRefID(string waveID)
+    {
+        return waveDataList.Find(x => x.waveId == waveID);
+    }
+    public static List<WaveData> GetWaveDataList()
+    {
+        return waveDataList;
+    }
+    public static void SetWaveDataList(List<WaveData> wDList)
+    {
+        waveDataList = wDList;
+    }
+    #endregion
 
-    //public static void SetCharacterList(List<Character> cList) => characterList = cList;
+    #region wave
+    private static WaveManager waveManager;
+    public static WaveManager GetWaveManager() => waveManager;
+    public static void SetWaveManager(WaveManager wave) => waveManager = wave;
+    #endregion
 
-    //#endregion
+    #region enemySpawner
+    private static EnemySpawner enemySpawner;
+    public static EnemySpawner GetEnemySpawner() => enemySpawner;
+    public static void SetEnemySpawner(EnemySpawner es) => enemySpawner = es;
+    #endregion
 
     //#region buff
     ///// <summary>
@@ -58,23 +85,6 @@ public static class Game
     //}
     //#endregion
 
-    //#region enemy
-    ///// Enemy Set and Get
-    //public static Enemy GetEnemyByRefID(string id)
-    //{
-    //    return enemyList.Find(x => x.id == id);
-    //}
-    //public static List<Enemy> GetEnemyList()
-    //{
-    //    return enemyList;
-    //}
-    //public static void SetEnemyList(List<Enemy> eList)
-    //{
-    //    enemyList = eList;
-    //    Debug.Log("Setting enemy list");
-    //}
-    //#endregion
-
     //#region weapon
     //public static Weapon GetWeaponByRefID(string id)
     //{
@@ -83,21 +93,6 @@ public static class Game
     //public static List<Weapon> GetWeaponList() => weaponList;
     //public static void SetWeaponList(List<Weapon> wList) => weaponList = wList;
 
-    //#endregion
-
-    //#region enemyWave
-    //public static WaveData GetWaveByRefID(string waveID)
-    //{
-    //    return waveDataList.Find(x => x.waveID == waveID);
-    //}
-    //public static List<WaveData> GetWaveDataList()
-    //{
-    //    return waveDataList;
-    //}
-    //public static void SetWaveDataList(List<WaveData> wDList)
-    //{
-    //    waveDataList = wDList;
-    //}
     //#endregion
 
     //#region barrel

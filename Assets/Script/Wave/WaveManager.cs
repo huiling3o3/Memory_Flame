@@ -15,12 +15,11 @@ public class WaveManager : MonoBehaviour
     private Queue<WaveData> waveDataListQueue = new Queue<WaveData>(); //Adds waves into a queue to spawn 
 
     private float enemySpawnDelay = 5f;
-    private WaitForSeconds barrelSpawnDelay = new WaitForSeconds(10f);
+    //private WaitForSeconds barrelSpawnDelay = new WaitForSeconds(10f);
 
     private void Awake()
     {
-        //Game.SetWaveManager(this);
-       
+        Game.SetWaveManager(this);      
     }
 
     public void Start()
@@ -39,7 +38,7 @@ public class WaveManager : MonoBehaviour
 
     private void InitializeWaves()
     {
-        //waveDataList = Game.GetWaveDataList(); // Get wave data from Game
+        waveDataList = Game.GetWaveDataList(); // Get wave data from Game
         if(waveDataList != null)
         {
             Debug.Log("Added waves to list"); 
@@ -91,7 +90,7 @@ public class WaveManager : MonoBehaviour
         Debug.Log("Spawning enemies");
 
         WaveData waveToSpawn = waveDataListQueue.Dequeue(); //Gets the wave to spawn 
-        currentWaveID = waveToSpawn.waveID;
+        currentWaveID = waveToSpawn.waveId;
         Debug.Log($"WaveNo: {currentWave} Number of enemies: {waveToSpawn.enemyCount}");
 
         if (currentWave > 1)
@@ -102,12 +101,12 @@ public class WaveManager : MonoBehaviour
         }
 
         //Spawn barrel using the same wave data
-        StartCoroutine(SpawnBarrel(waveToSpawn));
+        //StartCoroutine(SpawnBarrel(waveToSpawn));
 
         //Spawns enemies based on wave data
         for (int i = 0; i < waveToSpawn.enemyCount; i++)
         {
-            //Game.GetEnemySpawner().SpawnEnemy(waveToSpawn.enemyID, GetRandomSpawnLocation());
+            Game.GetEnemySpawner().SpawnEnemy(waveToSpawn.enemyId, GetRandomSpawnLocation());
             yield return new WaitForSeconds(enemySpawnDelay);
         }       
 
@@ -117,28 +116,10 @@ public class WaveManager : MonoBehaviour
         }
     }
 
-    private IEnumerator SpawnBarrel(WaveData waveToSpawn)
-    {
-        Debug.Log("Spawning barrel");
-
-        //Spawns enemies based on wave data
-        for (int i = 0; i < waveToSpawn.barrelCount; i++)
-        {
-            //barrelSpawner.SpawnBarrel(waveToSpawn.barrelID);
-            yield return barrelSpawnDelay;
-        }
-
-        if (waveDataListQueue.Count != 0) //Check if queue has waves to spawn
-        {
-            StartCoroutine(SpawnBarrel(waveToSpawn)); //Repeat the function 
-        }
-    }
-
     public void WaveReset()
     {
         currentWave = 0;
         enemySpawner.ClearSpawnedEnemies();
-        //barrelSpawner.ClearSpawnedBarrel();
         StopAllCoroutines();
     }
 

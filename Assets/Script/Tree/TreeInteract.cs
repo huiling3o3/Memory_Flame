@@ -21,7 +21,6 @@ public class TreeInteract : MonoBehaviour
             //Set the interactable object to tree
             tr = GetComponentInParent<Tree>();
             Game.GetGameController().SetTreeInteractReciever(tr);
-            
         }
     }
 

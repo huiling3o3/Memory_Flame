@@ -6,20 +6,14 @@ using UnityEngine;
 public class EnemySpawner : MonoBehaviour
 {
     [SerializeField]
-    GameObject zombieGuyPrefab;
-
-    [SerializeField]
-    GameObject zombieGirlPrefab;
-
-    [SerializeField]
-    GameObject bossPrefab;
+    GameObject enemyPrefab;
 
     [SerializeField]
     private List<GameObject> spawnedEnemies = new List<GameObject>(); //List to contain all enemies 
 
     private void Awake()
     {
-        //Game.SetEnemySpawner(this);
+        Game.SetEnemySpawner(this);
     }
 
     public void ClearSpawnedEnemies()
@@ -42,29 +36,14 @@ public class EnemySpawner : MonoBehaviour
     { 
         GameObject spawn = null;
 
-        //Enemy enemy = Game.GetEnemyByRefID(enemyID);
-
-        //instantiate the prefab according to the name
-        //switch (enemy.name)
-        //{
-        //    case "Guy Zombies":
-        //        spawn = Instantiate(zombieGuyPrefab);
-        //        break;
-        //    case "Girl Zombies":
-        //        spawn = Instantiate(zombieGirlPrefab);
-        //        break;
-        //    case "Big Bad Wolf":
-        //        spawn = Instantiate(bossPrefab);
-        //        break;
-
-        //}
-
+        Enemy enemy = Game.GetEnemyByRefID(enemyID);
+        spawn = Instantiate(enemyPrefab);
         //Set the spawn position
         spawn.transform.position = spawnLocation.position;
         spawn.transform.parent = spawnLocation;
         //initialise the enemy stats and start its function
         spawn.GetComponent<EnemyController>().Init();
-        //spawn.GetComponent<EnemyController>().SetStats(enemy.hp, enemy.atk, enemy.moveSpeed, enemy.atkCooldown);
+        spawn.GetComponent<EnemyController>().SetStats(enemy.enemyHp, enemy.enemyAtk, enemy.enemyMoveSpeed, enemy.enemyAtkCooldown);
         spawnedEnemies.Add(spawn); //Adds to the list of enemies 
     }
 }

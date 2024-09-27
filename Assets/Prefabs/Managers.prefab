@@ -54,6 +54,9 @@ MonoBehaviour:
   memoryFragmentsCollected: 0
   sticksCollected: 0
   gameOver: 0
+  fileNameList:
+  - Enemy
+  - Wave
 --- !u!114 &2598841252070352968
 MonoBehaviour:
   m_ObjectHideFlags: 0
