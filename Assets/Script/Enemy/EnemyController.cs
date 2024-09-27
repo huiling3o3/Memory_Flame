@@ -5,19 +5,17 @@ using UnityEngine.UI;
 
 public class EnemyController : MonoBehaviour
 {
-    //Gets a reference to the player 
+    //reference
     [SerializeField]
-    private GameObject target;
-
-    //References
-    [SerializeField] Animator am;
+    private GameObject target; //player
+    private Animator am;
     private SpriteRenderer sr;
 
     //Variables for enemy stats
     [Header("Enemies Stats")]
     [SerializeField] private float speed;
     [SerializeField] private float maxHp;
-    [SerializeField] private int atk;
+    [SerializeField] public int atk;
     [SerializeField] private int atkCooldown;
 
     [Header("Reward Settings")]
@@ -26,7 +24,6 @@ public class EnemyController : MonoBehaviour
 
     //Variables for movement
     private float distanceBtwPlayer;
-    Vector2 direction;
 
     //Variables for attacks  
     private bool canAttack = true;
@@ -48,7 +45,7 @@ public class EnemyController : MonoBehaviour
         sr = GetComponent<SpriteRenderer>();
 
         //get enemy animator
-        //am = GetComponent<Animator>();
+        am = GetComponent<Animator>();
 
         originalColor = sr.color; // Save the original color of the enemy sprite
 
@@ -73,11 +70,18 @@ public class EnemyController : MonoBehaviour
         {
             // Move towards the player if allowed to attack
             GetTarget(target);
+            //set animation to walk
+            am.SetBool("isWalking", true);
             // Checks if target is within range for attacking
             if (targetInRange)
             {
-                Attack(target);
+                StartCoroutine(Attack());
             }
+        }
+        else
+        {
+            //set animation to idle
+            am.SetBool("isWalking", false);
         }
     }
 
@@ -125,7 +129,10 @@ public class EnemyController : MonoBehaviour
     void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
-            targetInRange = true; 
+        {
+            targetInRange = true;
+        }         
+
     }
     void OnTriggerExit2D(Collider2D collision)
     {
@@ -133,28 +140,19 @@ public class EnemyController : MonoBehaviour
             targetInRange = false;
     }
 
-    void Attack(GameObject objToDamage)
+    void stopMoving()
     {
-
-        PlayerController playerHealth = objToDamage.GetComponent<PlayerController>();
-        PlayerMovement playerMovement = objToDamage.GetComponent<PlayerMovement>();
-        if (playerHealth != null)
-        {
-            playerHealth.TakeDamage(atk);
-        }
-
-        //Add in attack animations 
-
-        Debug.Log("Attacking target");
-        StartCoroutine(AttackTimer());
+        transform.position = transform.position;
     }
-
-    //Timer to add in pauses between attacks
-    IEnumerator AttackTimer()
+    
+    IEnumerator Attack()
     {
-        // Debug.Log("Timer started");
+        //Debug.Log("timer start");
         canAttack = false;
-        //am.SetBool("isWalking", false);
+        stopMoving();
+        //attack animation
+        am.SetTrigger("attack");
+        //Timer to add in pauses between attacks
         yield return new WaitForSeconds(atkCooldown);
         canAttack = true;
     }
@@ -175,8 +173,11 @@ public class EnemyController : MonoBehaviour
             DropBranches();
         }
 
+        //update the UI
         UpdatHealthBar();
     }
+
+    //update enemy health bar
     void UpdatHealthBar()
     {
         healthbar.fillAmount = currentHp / maxHp;
