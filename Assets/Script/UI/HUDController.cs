@@ -22,6 +22,18 @@ public class HUDController : MonoBehaviour
     public Gradient gradient;
     [SerializeField] Image fill;
 
+    [Header("Player Healthbar")]
+    public Slider HealthBar;
+    [Header("[Gradient to adjust color val]")]
+    public Gradient gradientHealth;
+    [SerializeField] Image fillHealth;
+
+    [Header("Player Hypothermia Bar")]
+    public Slider ColdBar;
+    [Header("[Gradient to adjust color val]")]
+    [SerializeField] private Gradient gradientCold;
+    [SerializeField] private Image fillCold;
+
     public void Awake()
     {
         Game.SetHUDController(this);
@@ -31,6 +43,8 @@ public class HUDController : MonoBehaviour
     void Start()
     {
         fill.color = gradient.Evaluate(1f);
+        fillHealth.color = gradientHealth.Evaluate(1f);
+        fillCold.color = gradientCold.Evaluate(0f); // Start with no cold
     }
 
     // Update is called once per frame
@@ -66,4 +80,16 @@ public class HUDController : MonoBehaviour
         TimerBar.value = val / 100;
         fill.color = gradient.Evaluate(TimerBar.normalizedValue);
     }
+    public void UpdateHealthBar(float currentHealth, float maxHealth)
+    {
+        HealthBar.value = currentHealth / maxHealth;
+        fillHealth.color = gradientHealth.Evaluate(HealthBar.normalizedValue);
+    }
+
+    public void UpdateColdBar(float currentCold, float maxCold)
+    {
+        ColdBar.value = currentCold / maxCold;
+        fillCold.color = gradientCold.Evaluate(ColdBar.normalizedValue);
+    }
+
 }
