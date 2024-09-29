@@ -6,6 +6,7 @@ using UnityEngine.Audio;
 public class SoundManager : MonoBehaviour
 {
     [SerializeField] private SoundsSO SO;
+
     private AudioSource audioSource;
 
     private void Awake()
@@ -26,11 +27,24 @@ public class SoundManager : MonoBehaviour
             source.clip = randomClip;
             source.volume = volume * soundList.volume;
             source.Play();
+            if (sound == SoundType.MAIN_MENU)
+            {
+                source.loop = true;
+            }
         }
         else
         {
             Game.GetSoundManager().audioSource.outputAudioMixerGroup = soundList.mixer;
-            Game.GetSoundManager().audioSource.PlayOneShot(randomClip, volume * soundList.volume);
+            if (sound == SoundType.MAIN_MENU)
+            {
+                Game.GetSoundManager().audioSource.Play();
+                Game.GetSoundManager().audioSource.loop = true;
+            }
+            else
+            {
+                Game.GetSoundManager().audioSource.PlayOneShot(randomClip, volume * soundList.volume);
+            }
+            
         }
     }
 }
@@ -50,5 +64,6 @@ public enum SoundType
     FOOTSTEP,
     SHOOT,
     CUTTREE,
-    CLAW_ATTACK
+    CLAW_ATTACK,
+    MAIN_MENU
 }

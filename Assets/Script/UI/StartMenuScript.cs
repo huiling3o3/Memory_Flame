@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class StartMenuScript : MonoBehaviour, IInputReceiver
 {
     private GameController gameController;
-
+    [SerializeField] private AudioSource audioSource;
     private int success;
     private int numOfEnemiesKilled;
     private float timer;
@@ -19,6 +19,8 @@ public class StartMenuScript : MonoBehaviour, IInputReceiver
     //set start menu display
     public void ShowStartMenu(int wave, int numOfEnemiesKilled, float timer)
     {
+        //TODO: play main menu bgm
+        SoundManager.PlaySound(SoundType.MAIN_MENU,audioSource,0.6f);
         this.success = wave;
         this.numOfEnemiesKilled = numOfEnemiesKilled;
         this.timer = timer;

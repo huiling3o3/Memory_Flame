@@ -352,6 +352,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Managers
       objectReference: {fileID: 0}
+    - target: {fileID: 1523151512498828155, guid: c490d7a2cf66a0347848b46e4ecd0044, type: 3}
+      propertyPath: SO
+      value: 
+      objectReference: {fileID: 11400000, guid: 6b84acfdc950b1e43affa13593afb99d, type: 2}
     - target: {fileID: 1680918761857088189, guid: c490d7a2cf66a0347848b46e4ecd0044, type: 3}
       propertyPath: playerObj
       value: 
@@ -396,6 +400,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4870723463350367042, guid: c490d7a2cf66a0347848b46e4ecd0044, type: 3}
+      propertyPath: spawnLocations.Array.data[0]
+      value: 
+      objectReference: {fileID: 970999309}
+    - target: {fileID: 4870723463350367042, guid: c490d7a2cf66a0347848b46e4ecd0044, type: 3}
+      propertyPath: spawnLocations.Array.data[1]
+      value: 
+      objectReference: {fileID: 7577186}
+    - target: {fileID: 4870723463350367042, guid: c490d7a2cf66a0347848b46e4ecd0044, type: 3}
+      propertyPath: spawnLocations.Array.data[2]
+      value: 
+      objectReference: {fileID: 572981883}
+    - target: {fileID: 4870723463350367042, guid: c490d7a2cf66a0347848b46e4ecd0044, type: 3}
+      propertyPath: spawnLocations.Array.data[3]
+      value: 
+      objectReference: {fileID: 2041975178}
     - target: {fileID: 5352455511172810725, guid: c490d7a2cf66a0347848b46e4ecd0044, type: 3}
       propertyPath: fill
       value: 
@@ -431,13 +451,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 90119636792357131, guid: c490d7a2cf66a0347848b46e4ecd0044, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1032873059}
-    - targetCorrespondingSourceObject: {fileID: 90119636792357131, guid: c490d7a2cf66a0347848b46e4ecd0044, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1032873058}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c490d7a2cf66a0347848b46e4ecd0044, type: 3}
 --- !u!114 &713305910 stripped
 MonoBehaviour:
@@ -682,43 +696,6 @@ MonoBehaviour:
   m_DeselectOnBackgroundClick: 1
   m_PointerBehavior: 0
   m_CursorLockBehavior: 0
---- !u!1 &1032873050 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 90119636792357131, guid: c490d7a2cf66a0347848b46e4ecd0044, type: 3}
-  m_PrefabInstance: {fileID: 702736513}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1032873058
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1032873050}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 841c1616565fae84f9755f40b027299f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  enemyPrefab: {fileID: 7810130834882119780, guid: d7ab36348cbe82548bf0aa4bb2719ab1, type: 3}
-  spawnedEnemies: []
---- !u!114 &1032873059
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1032873050}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d84652ec528d5f94585723f8513df340, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  enemySpawner: {fileID: 1032873058}
-  spawnLocations:
-  - {fileID: 970999309}
-  - {fileID: 7577186}
-  - {fileID: 572981883}
-  - {fileID: 2041975178}
 --- !u!114 &1062555804 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1424122007540673805, guid: d33494c915e694542ac64c2004ba62c3, type: 3}
