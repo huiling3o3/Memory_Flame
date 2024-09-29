@@ -43,7 +43,7 @@ public class PlayerController : MonoBehaviour
         if (!playerDead)
         {
             // increase coldness over time
-            IncreaseColdness();
+            IncreaseColdness(coldDamagePower);
 
             // Update the player's health and cold UI
             Game.GetHUDController().UpdateHealthBar(currentHp, MaxHP);
@@ -99,10 +99,10 @@ public class PlayerController : MonoBehaviour
     }
 
     //Hypothermia System
-    private void IncreaseColdness()
+    public void IncreaseColdness(float damage)
     {
         //check if player is not near the fire place then increase the coldness
-        if (!inSafeZone)
+        if (!inSafeZone && damage != 0)
         {
             // increase coldness over time
             currentColdLvl += coldRate * Time.deltaTime;
@@ -111,7 +111,7 @@ public class PlayerController : MonoBehaviour
             if (currentColdLvl >= maxColdLvl)
             {
                 // Deplete the health over time
-                TakeDamage(coldDamagePower * Time.deltaTime);
+                TakeDamage(damage * Time.deltaTime);
             }
         }
     }

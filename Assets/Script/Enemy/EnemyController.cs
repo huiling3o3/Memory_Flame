@@ -146,6 +146,8 @@ public class EnemyController : DropBranchHandler
         //Debug.Log("timer start");
         canAttack = false;
         stopMoving();
+        // TODO: Play the enemy hit sound
+        SoundManager.PlaySound(SoundType.CLAW_ATTACK);
         //attack animation
         am.SetTrigger("attack");
         //Timer to add in pauses between attacks
@@ -184,6 +186,8 @@ public class EnemyController : DropBranchHandler
     {
         // Change the sprite color to the hit color
         sr.color = hitColor;
+        // TODO: Play the enemy hurt sound
+
         // Stop the enemy movement for a while
         canAttack = false;
         // Wait for the duration of the color change

@@ -7,9 +7,9 @@ public class BulletBehaviour : MonoBehaviour
     //References
     private Rigidbody2D rb;
     [SerializeField] private float bulletSpeed= 15f;
-    [SerializeField] private float damagePower = 10f;
+    [SerializeField] protected float damagePower = 10f;
     [SerializeField] private float destroyTime= 3f;
-    [SerializeField] private LayerMask whatDestoryBullet;
+    [SerializeField] protected LayerMask whatDestoryBullet;
     [SerializeField] private GameObject impactEffect;
 
     // Start is called before the first frame update
@@ -34,7 +34,7 @@ public class BulletBehaviour : MonoBehaviour
         Destroy(gameObject, destroyTime);
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    protected virtual void OnTriggerEnter2D(Collider2D collision)
     {
         //Check whether the gameobject(collision) is within the whatDestoryBullet layer mask
         //Make sure the object within hitting the bullet has colliders !important

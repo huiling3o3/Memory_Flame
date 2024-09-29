@@ -23,6 +23,12 @@ public static class Game
     public static void SetPlayer(PlayerController Player) => mainPlayer = Player;
     #endregion
 
+    #region soundManager
+    private static SoundManager soundManager;
+    public static SoundManager GetSoundManager() => soundManager;
+    public static void SetSoundManager(SoundManager sm) => soundManager = sm;
+    #endregion
+
     #region enemy
     public static List<Enemy> enemyList;
     // Enemy Set and Get

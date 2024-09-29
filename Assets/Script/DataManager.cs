@@ -32,7 +32,7 @@ public static class DataManager
     public static List<T> SetData<T>(string fileName) where T : IDataClass, new()
     {
         //read only files in given folder
-        string filePath = Path.Combine(Application.dataPath, "Data/" + fileName + ".csv");
+        string filePath = Path.Combine(Application.streamingAssetsPath, "Data/" + fileName + ".csv");
 
         string[] dataArray = File.ReadAllLines(filePath);
 
