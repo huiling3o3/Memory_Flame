@@ -1,4 +1,5 @@
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,7 +19,7 @@ public class GameController : MonoBehaviour
     public int numOfEnemiesKilled = 0;
     public int totalNumEnemiesKilled = 0;
     [SerializeField] int memoryFragmentsCollected = 0;
-    [SerializeField] int sticksCollected = 0;
+    [SerializeField] int branchCollected = 0;
     private float gameTimer;
 
     private bool gameIsActive = false;
@@ -26,6 +27,9 @@ public class GameController : MonoBehaviour
 
     [Header("Database")]
     [SerializeField] private List<string> fileNameList;
+
+    // Event that notifies subscribers when the current ammo changes
+    public static event Action<int> branchCollectedChanged;
     private void Awake()
     {
         //Set the reference to Game
@@ -70,18 +74,20 @@ public class GameController : MonoBehaviour
     public int GetSticks()
     {
         int sticksToGive = 0;
-        if (sticksCollected != 0)
+        if (branchCollected != 0)
         {
-            sticksToGive = sticksCollected;
+            sticksToGive = branchCollected;
             //clear the sticks
-            sticksCollected = 0;
+            branchCollected = 0;
         }
         return sticksToGive;
     }
     public void AddStick()
     {
-        sticksCollected++;
-        Debug.Log("Sticks: " + sticksCollected);
+        branchCollected++;
+        // Trigger the event with the updated ammo percentage
+        branchCollectedChanged?.Invoke(branchCollected);
+        Debug.Log("Branch Amt: " + branchCollected);
     }
 
     public void AddMemoryFragment()

@@ -10,7 +10,7 @@ public class DropBranchHandler : MonoBehaviour
     protected virtual void DropBranches()
     {
         // Set a distance between each branch spawn
-        float offsetDistance = 0.5f;
+        float offsetDistance = 1f;
 
         for (int i = 0; i < branchNum; i++)
         {

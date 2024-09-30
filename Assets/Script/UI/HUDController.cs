@@ -11,6 +11,10 @@ public class HUDController : MonoBehaviour
     //[SerializeField] GameObject wavePanel;
     //[SerializeField] private TextMeshProUGUI waveStatsTxt, enemiesTxt;
 
+    [Header("Collectables")]
+    //reference to the UI variables
+    [SerializeField] private TextMeshProUGUI branchTxt;
+
     [Header("Player's Torch Ammo")]
     //reference to the UI variables
     [SerializeField] private Image fillImg;
@@ -59,6 +63,8 @@ public class HUDController : MonoBehaviour
         PlayerShoot.currentAmmoChanged += UpdateUIAmmo;
         // Subscribe to the fireHealthChanged event from CampFireController
         CampFireController.fireHealthChanged += UpdateFireBar;
+        // Subscribe to the branchCollectChanged event from Game controller
+        GameController.branchCollectedChanged += UpdateBranchCount;
     }
 
     void OnDisable()
@@ -66,7 +72,14 @@ public class HUDController : MonoBehaviour
         // Unsubscribe from the event when this object is disabled or destroyed
         PlayerShoot.currentAmmoChanged -= UpdateUIAmmo;
         // Unsubscribe to the fireHealthChanged event from CampFireController
-        CampFireController.fireHealthChanged += UpdateFireBar;
+        CampFireController.fireHealthChanged -= UpdateFireBar;
+        // Subscribe to the branchCollectChanged event from Game controller
+        GameController.branchCollectedChanged -= UpdateBranchCount;
+    }
+
+    public void UpdateBranchCount(int amt)
+    {
+        branchTxt.text = "x " + amt.ToString();
     }
 
     public void UpdateUIAmmo(float currentAmmo)
