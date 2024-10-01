@@ -22,7 +22,7 @@ public class GameController : MonoBehaviour
     [SerializeField] int branchCollected = 0;
     private float gameTimer;
 
-    private bool gameIsActive = false;
+    public bool gameIsActive = false;
     public bool gameOver = false;
 
     [Header("Database")]
@@ -68,7 +68,6 @@ public class GameController : MonoBehaviour
         //initialise the player
         pc.Init();                                
         Game.SetPlayer(pc);
-        
     }
 
     public int GetSticks()
@@ -106,6 +105,8 @@ public class GameController : MonoBehaviour
 
     public void StartGame()
     {
+        gameIsActive = true;
+
         if (gameOver)
         {
             RestartGame();
@@ -124,7 +125,7 @@ public class GameController : MonoBehaviour
         ResumeGame();
 
         //Start wave
-        StartCoroutine(StartWave());
+        //StartCoroutine(StartWave());
 
         //close the wave stats ui
         //Game.GetHUDController().CloseWaveStatsPanel();
@@ -168,6 +169,7 @@ public class GameController : MonoBehaviour
     public void GameOver()
     {
         gameOver = true;
+        gameIsActive = false;
         OpenStartMenu();
     }
 

@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float MaxHP = 100f;
     [SerializeField] private bool inSafeZone; //bool to check not affect the ammoDepletion
     [SerializeField] private bool playerDead; //bool to check player dead to stop the coldlvl from increasing
-
+    [SerializeField] private bool isFacingRight = true;
     [Header("Hypothermia System")]
     [SerializeField] float currentColdLvl;
     [SerializeField] float maxColdLvl = 100f;// Maximum cold bar
@@ -19,11 +19,13 @@ public class PlayerController : MonoBehaviour
     //references
     PlayerMovement pm;
     Animator am;
+    SpriteRenderer sr;
 
     void Awake()
     {
         am = GetComponent<Animator>();
         pm = GetComponent<PlayerMovement>();
+        sr = GetComponent<SpriteRenderer>();
     }
 
     //called by the game controller when the game starts
@@ -49,17 +51,34 @@ public class PlayerController : MonoBehaviour
             Game.GetHUDController().UpdateHealthBar(currentHp, MaxHP);
             Game.GetHUDController().UpdateColdBar(currentColdLvl, maxColdLvl);
 
-            //Check player movement and change sprite
+            //Check player movement
             if (pm.moveDir.x != 0 || pm.moveDir.y != 0)
             {
-                am.SetBool("Move", true);
+                am.SetBool("Move", true);               
+                //SpriteDirectionChecker();
             }
             else
-            {
+            {               
                 am.SetBool("Move", false);
             }
         }     
     }
+
+    void SpriteDirectionChecker()
+    {
+        if (pm.lastHorizontalVector < 0) //facing right
+        {
+            sr.flipX = true;
+            isFacingRight = false;
+        }
+        else
+        {
+            sr.flipX = false;
+            isFacingRight = true;
+        }
+    }
+
+    public bool isPlayerFacingRight() { return isFacingRight; }
 
     //Rest function
     public void Reset()
@@ -115,13 +134,6 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
-
-    // Update both the health and cold bars
-    //private void UpdateUI()
-    //{
-    //    hpBar.SetState(currentHp, MaxHP);
-    //    hypoBar.SetState(currentColdLvl, maxColdLvl);
-    //}
 
     public void ExitSafeZone() { inSafeZone = false; }
     public void EnterSafeZone()

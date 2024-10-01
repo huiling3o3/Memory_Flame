@@ -5,10 +5,10 @@ public class PlayerMovement : MonoBehaviour, IInputReceiver
 {
     //References
     private Rigidbody2D rb;
-
+    SpriteRenderer sr;
     //Movement
     public float moveSpeed;
-    private bool isFacingRight = true;
+    [SerializeField] private bool isFacingRight = true;
     //Dashing
     private bool canDash = true;
     private bool isDashing;
@@ -30,8 +30,9 @@ public class PlayerMovement : MonoBehaviour, IInputReceiver
     {
         //set up the rigidbody
         rb = GetComponent<Rigidbody2D>();
+        sr = GetComponent<SpriteRenderer>();
         //Store the last moved vector, so when the projectile weapon move it will not remain 0 
-        lastMovedVector = new Vector2(1, 0f);
+        lastMovedVector = new Vector2(1, 0f); 
         moveDir = Vector2.zero;
     }
 
@@ -75,6 +76,18 @@ public class PlayerMovement : MonoBehaviour, IInputReceiver
         canDash = true;
     }
 
+    private void FlipRight(bool faceRight)
+    {
+        isFacingRight = faceRight;
+
+        //change the player's X value to flip
+        Vector3 localScale = transform.localScale;
+        localScale.x = faceRight? Mathf.Abs(localScale.x): -Mathf.Abs(localScale.x);
+        transform.localScale = localScale;
+    }
+
+    public bool isPlayerFacingRight() { return isFacingRight; }
+
     #region Input handling
     public void DoDash()
     {
@@ -89,18 +102,6 @@ public class PlayerMovement : MonoBehaviour, IInputReceiver
         }
         
     }
-    private void Flip()
-    {
-        if (isFacingRight && lastHorizontalVector < 0f || !isFacingRight && lastHorizontalVector > 0f)
-        {
-            Vector3 localScale = transform.localScale;
-            isFacingRight = !isFacingRight;
-            localScale.x *= -1f;
-            transform.localScale = localScale;
-        }
-    }
-
-    public bool isPlayerFacingRight() { return isFacingRight; }
 
     public void DoMoveDir(Vector2 aDir)
     {
@@ -127,6 +128,15 @@ public class PlayerMovement : MonoBehaviour, IInputReceiver
             lastMovedVector = new Vector2(lastHorizontalVector, lastVerticalVector);    //While moving
         }
 
+        if (moveDir.x > 0)
+        {
+            FlipRight(true); //face right
+        }
+        else if (moveDir.x < 0)
+        {
+            FlipRight(false); //face left
+        }
+
         //get the movement direction
         moveDir = aDir;
        
@@ -137,8 +147,6 @@ public class PlayerMovement : MonoBehaviour, IInputReceiver
 
         // Move the player object using MovePosition function of Rigidbody2D
         rb.MovePosition(rb.position + moveDir * moveSpeed * Time.fixedDeltaTime);
-
-        Flip();
     }
     public void DoLeftAction()
     {
