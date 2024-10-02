@@ -213,6 +213,9 @@ MonoBehaviour:
   maxColdLvl: 100
   coldRate: 1
   coldDamagePower: 10
+  hitColor: {r: 0.9245283, g: 0, b: 0, a: 1}
+  hitFreezeColor: {r: 0, g: 0.682787, b: 0.8113208, a: 1}
+  colorChangeDuration: 0.5
 --- !u!114 &2288871804230680998
 MonoBehaviour:
   m_ObjectHideFlags: 0

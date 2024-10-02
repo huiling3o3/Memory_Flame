@@ -133,7 +133,7 @@ public class GameController : MonoBehaviour
         //proceed game timers
         gameTimer += Time.deltaTime;
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Backspace))
         {
             Game.GetWaveManager().NextWave();
         }
