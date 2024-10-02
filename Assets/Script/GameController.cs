@@ -68,6 +68,7 @@ public class GameController : MonoBehaviour
         //initialise the player
         pc.Init();                                
         Game.SetPlayer(pc);
+
     }
 
     public int GetSticks()
@@ -84,7 +85,7 @@ public class GameController : MonoBehaviour
     public void AddStick()
     {
         branchCollected++;
-        // Trigger the event with the updated ammo percentage
+        // Trigger the event with the updated branch collected
         branchCollectedChanged?.Invoke(branchCollected);
         Debug.Log("Branch Amt: " + branchCollected);
     }
@@ -134,8 +135,10 @@ public class GameController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            //Game.GetWaveManager().NextWave();
+            Game.GetWaveManager().NextWave();
         }
+
+        branchCollectedChanged?.Invoke(branchCollected);
     }
 
     public void StartGame()
