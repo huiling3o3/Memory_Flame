@@ -38,11 +38,17 @@ public class PlayerShoot : MonoBehaviour, IInteractReciever
         // Initialize ammo
         currentAmmo = maxAmmo;
     }
+    //Rest function
+    public void Reset()
+    {
+        // Initialize ammo
+        currentAmmo = maxAmmo;
+    }
 
     // Update is called once per frame
     void Update()
     {
-        if (Game.GetGameController().gameIsActive)
+        if (Game.GetGameController().gameIsActive && !Game.GetGameController().gameOver)
         {
             HandleAim();
             DepleteAmmo();
@@ -99,7 +105,7 @@ public class PlayerShoot : MonoBehaviour, IInteractReciever
         //Debug.Log("PUPU");
 
         //there is enough ammo
-        if (currentAmmo > 0)
+        if (currentAmmo > 0 && !Game.GetGameController().gameOver)
         {
             // Calculate the correct bullet rotation
             Quaternion bulletRotation = fireTorch.transform.rotation;
@@ -108,7 +114,7 @@ public class PlayerShoot : MonoBehaviour, IInteractReciever
             
             Vector2 shootDirection;
 
-            if (pc.isPlayerFacingRight())
+            if (pm.isPlayerFacingRight())
             {
                 shootDirection = SpawnBullet.transform.right;
             }

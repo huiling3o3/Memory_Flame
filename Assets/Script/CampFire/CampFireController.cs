@@ -32,7 +32,7 @@ public class CampFireController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //BurnFire(); // Deplete fire health over time
+        BurnFire(); // Deplete fire health over time
         UpdateFireAppearance(); // Update fire sprite based on current health
         AddBranchesToFire(); // F key to add the branches to the campfire
     }

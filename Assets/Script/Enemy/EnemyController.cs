@@ -1,6 +1,5 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.Pool;
 using UnityEngine.UI;
 
 public class EnemyController : DropBranchHandler
@@ -10,7 +9,7 @@ public class EnemyController : DropBranchHandler
     private GameObject target; //player
     private Animator am;
     private SpriteRenderer sr;
-
+    private Rigidbody2D rb;
     //Variables for enemy stats
     [Header("Enemies Stats")]
     [SerializeField] private float speed;
@@ -43,6 +42,9 @@ public class EnemyController : DropBranchHandler
         //get enemy animator
         am = GetComponent<Animator>();
 
+        // Get Rigidbody2D reference
+        rb = GetComponent<Rigidbody2D>();
+
         originalColor = sr.color; // Save the original color of the enemy sprite
 
         //set currentHp to max hp
@@ -60,7 +62,7 @@ public class EnemyController : DropBranchHandler
         originalColor = sr.color; // Save the original color of the enemy sprite
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         if (canAttack)
         {
@@ -116,9 +118,9 @@ public class EnemyController : DropBranchHandler
         {
             sr.flipX = false; // Moving right, do not flip
         }
-
-        //set enemy to follow the player using its position
-        transform.position = Vector2.MoveTowards(transform.position, target.transform.position, speed * Time.deltaTime);
+        Debug.Log("Distance between player: " + distanceBtwPlayer.ToString());
+        // Move the enemy using Rigidbody2D.MovePosition
+        rb.MovePosition(rb.position + direction * speed * Time.fixedDeltaTime);
     }
 
     //Trigger used to define enemy attack radius 
@@ -138,9 +140,13 @@ public class EnemyController : DropBranchHandler
 
     void stopMoving()
     {
-        transform.position = transform.position;
+        rb.velocity = Vector2.zero; // Stops the Rigidbody2D's movement
     }
-    
+
+    void Moving()
+    { 
+        rb.velocity *= speed;
+    }
     IEnumerator Attack()
     {
         //Debug.Log("timer start");
@@ -150,6 +156,7 @@ public class EnemyController : DropBranchHandler
         SoundManager.PlaySound(SoundType.CLAW_ATTACK);
         //attack animation
         am.SetTrigger("attack");
+        Moving();
         //Timer to add in pauses between attacks
         yield return new WaitForSeconds(atkCooldown);
         canAttack = true;

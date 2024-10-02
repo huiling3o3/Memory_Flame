@@ -18,6 +18,7 @@ public class GameController : MonoBehaviour
     //Game Controller Variables
     public int numOfEnemiesKilled = 0;
     public int totalNumEnemiesKilled = 0;
+    private static Dictionary<MemoryFragType, bool> memoryFragmentsList = new Dictionary<MemoryFragType, bool>(); //track sequences for achievements
     [SerializeField] int memoryFragmentsCollected = 0;
     [SerializeField] int branchCollected = 0;
     private float gameTimer;
@@ -30,6 +31,7 @@ public class GameController : MonoBehaviour
 
     // Event that notifies subscribers when the current ammo changes
     public static event Action<int> branchCollectedChanged;
+    public static event Action<MemoryFragType> memFragmentsCollected;
     private void Awake()
     {
         //Set the reference to Game
@@ -49,14 +51,12 @@ public class GameController : MonoBehaviour
 
     private void InitializeGame()
     {
-        //start achievement tracking
-        //AchievementManager.InitializeTracking();
-
-        //initialize buttons
-        //UpdateButtons();
-
-        //achievement list menu initially disabled
-        //achievementListMenu.CloseMenu();
+        //reset
+        memoryFragmentsList.Clear();
+        //initialise the memory fragment list first
+        memoryFragmentsList.Add(MemoryFragType.SHIELD, false);
+        memoryFragmentsList.Add(MemoryFragType.SHOE, false);
+        memoryFragmentsList.Add(MemoryFragType.BAG, false);
     }
 
     // Start is called before the first frame update
@@ -89,18 +89,53 @@ public class GameController : MonoBehaviour
         Debug.Log("Branch Amt: " + branchCollected);
     }
 
-    public void AddMemoryFragment()
+    public void AddMemoryFragment(MemoryFragType mf)
     {
+        //check if all the list have been collected
+        if (CheckFragmentCollectedAll())
+        { return; }
+
+        if (memoryFragmentsList.ContainsKey(mf))
+        {
+            //set the memory fragment to be found
+            memoryFragmentsList[mf] = true;
+            memFragmentsCollected.Invoke(mf);
+        }
+
         memoryFragmentsCollected++;
         Debug.Log("Memory Fragments: " + memoryFragmentsCollected);
     }
 
+    public bool CheckFragmentCollectedAll()
+    {
+        bool collectedAll = false;
+
+        foreach (KeyValuePair<MemoryFragType, bool> kvp in memoryFragmentsList)
+        {
+            Console.WriteLine("Key: {0}, Value: {1}", kvp.Key, kvp.Value);
+            if (kvp.Value == false)
+            {
+                collectedAll = false;
+            }
+            else
+            {
+                collectedAll = true;
+            }
+        }
+
+        return collectedAll;
+    }
     // Update is called once per frame
     void Update()
     {
         if (!gameIsActive) return;
         //proceed game timers
         gameTimer += Time.deltaTime;
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            StartCoroutine(StartWave());
+        }
     }
 
     public void StartGame()
@@ -133,11 +168,13 @@ public class GameController : MonoBehaviour
 
     public void RestartGame()
     {
+        
         // Get the current active scene
         Scene currentScene = SceneManager.GetActiveScene();
 
         // Reload the current scene
         SceneManager.LoadScene(currentScene.name);
+        Debug.Log("Game Restart");
     }
 
     IEnumerator StartWave()
@@ -177,14 +214,14 @@ public class GameController : MonoBehaviour
     {
         numOfEnemiesKilled++;
         totalNumEnemiesKilled++;
-        //Check if all the current wave of enemies are killed if killed 
-        //if (numOfEnemiesKilled == Game.GetWaveManager().GetEnemyCountInWave())
-        //{
-        //    //call the wave manager to start the next wave of enemies
-        //    Game.GetWaveManager().NextWave();
-        //    //reset the number of enemies killed
-        //    numOfEnemiesKilled = 0;
-        //}
+        //Check if all the current wave of enemies are killed if killed
+        if (numOfEnemiesKilled == Game.GetWaveManager().GetEnemyCountInWave())
+            {
+                //call the wave manager to start the next wave of enemies
+                Game.GetWaveManager().NextWave();
+                //reset the number of enemies killed
+                numOfEnemiesKilled = 0;
+            }
 
         //update the HUD manager to update the UI on the wave stats to get the number of enemies left 
         UpdateHUD(numOfEnemiesKilled);

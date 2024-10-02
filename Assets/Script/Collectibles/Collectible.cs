@@ -18,3 +18,10 @@ public class Collectible : MonoBehaviour
         }
     }
 }
+
+public enum MemoryFragType
+{ 
+    SHIELD,
+    BAG,
+    SHOE  
+}

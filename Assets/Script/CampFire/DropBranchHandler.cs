@@ -10,12 +10,12 @@ public class DropBranchHandler : MonoBehaviour
     protected virtual void DropBranches()
     {
         // Set a distance between each branch spawn
-        float offsetDistance = 1f;
+        float offsetDistance = 0.5f;
 
         for (int i = 0; i < branchNum; i++)
         {
             // Calculate the new position by adding an offset for each branch
-            Vector3 newPosition = transform.position + new Vector3(i * offsetDistance, 0, 0);
+            Vector3 newPosition = transform.position + new Vector3(0, i * offsetDistance, 0);
 
             // Instantiate the branch at the calculated position
             Instantiate(branchPrefab, newPosition, Quaternion.identity);
