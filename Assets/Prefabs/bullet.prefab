@@ -124,7 +124,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.64, y: 0.64}
+    oldSize: {x: 1, y: 1}
     newSize: {x: 0.16, y: 0.16}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -177,7 +177,7 @@ MonoBehaviour:
   destroyTime: 3
   whatDestoryBullet:
     serializedVersion: 2
-    m_Bits: 384
+    m_Bits: 448
   impactEffect: {fileID: 7340213698015431943, guid: 531d13e93bc98bc4b83dda3a598ba31a, type: 3}
 --- !u!1 &3222517048784634501
 GameObject:

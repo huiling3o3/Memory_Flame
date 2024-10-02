@@ -5,15 +5,15 @@ using UnityEngine;
 public class BulletBehaviour : MonoBehaviour
 {
     //References
-    private Rigidbody2D rb;
-    [SerializeField] private float bulletSpeed= 15f;
+    protected Rigidbody2D rb;
+    [SerializeField] protected float bulletSpeed= 15f;
     [SerializeField] protected float damagePower = 10f;
-    [SerializeField] private float destroyTime= 3f;
+    [SerializeField] protected float destroyTime= 3f;
     [SerializeField] protected LayerMask whatDestoryBullet;
-    [SerializeField] private GameObject impactEffect;
+    [SerializeField] protected GameObject impactEffect;
 
     // Start is called before the first frame update
-    void Start()
+    protected virtual void Start()
     {
         //set up the rigidbody
         rb = GetComponent<Rigidbody2D>();

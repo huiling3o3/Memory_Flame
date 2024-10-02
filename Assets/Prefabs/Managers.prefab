@@ -56,7 +56,8 @@ MonoBehaviour:
   numOfEnemiesKilled: 0
   totalNumEnemiesKilled: 0
   memoryFragmentsCollected: 0
-  sticksCollected: 0
+  branchCollected: 0
+  gameIsActive: 0
   gameOver: 0
   fileNameList:
   - Enemy
@@ -85,6 +86,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c07f56a3008030643951cc8e54755d54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  branchTxt: {fileID: 0}
+  Shield: {fileID: 0}
   fillImg: {fileID: 0}
   ammoTxt: {fileID: 0}
   TimerBar: {fileID: 0}
@@ -250,7 +253,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -347,4 +350,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1dd7cf4fb16bf304eb054744b88f225b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SO: {fileID: 0}
+  SO: {fileID: 11400000, guid: 6b84acfdc950b1e43affa13593afb99d, type: 2}

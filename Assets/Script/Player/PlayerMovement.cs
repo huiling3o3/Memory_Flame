@@ -5,7 +5,7 @@ public class PlayerMovement : MonoBehaviour, IInputReceiver
 {
     //References
     private Rigidbody2D rb;
-    SpriteRenderer sr;
+    PlayerController controller;
     //Movement
     public float moveSpeed;
     [SerializeField] private bool isFacingRight = true;
@@ -30,7 +30,7 @@ public class PlayerMovement : MonoBehaviour, IInputReceiver
     {
         //set up the rigidbody
         rb = GetComponent<Rigidbody2D>();
-        sr = GetComponent<SpriteRenderer>();
+    
         //Store the last moved vector, so when the projectile weapon move it will not remain 0 
         lastMovedVector = new Vector2(1, 0f); 
         moveDir = Vector2.zero;

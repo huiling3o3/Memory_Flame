@@ -19,7 +19,7 @@ public class PlayerShoot : MonoBehaviour, IInteractReciever
     [SerializeField] private float maxAmmo = 100f; // Maximum fire ammo
     [SerializeField] private float currentAmmo; 
     [SerializeField] private float ammoDepletionRate = 10f; // Ammo depletes per second when shooting, decrease it to so slower
-
+ 
     //reference to the player movement to calculate the shooting direction
     PlayerMovement pm;
     PlayerController pc;
@@ -52,6 +52,7 @@ public class PlayerShoot : MonoBehaviour, IInteractReciever
         {
             HandleAim();
             DepleteAmmo();
+            RegenerateAmmo();
         }
         
     } 
@@ -84,6 +85,11 @@ public class PlayerShoot : MonoBehaviour, IInteractReciever
     {
         if(!pc.IsPlayerInSafeZone())
         {
+            if (currentAmmo <= 0)
+            {
+                pc.IncreaseColdnessRate(5f); //increase coldness by 0.5 sec faster
+            }
+
             // Deplete ammo over time
             currentAmmo -= ammoDepletionRate * Time.deltaTime;
             currentAmmo = Mathf.Clamp(currentAmmo, 0, maxAmmo); // Ensure ammo doesn't go below 0
@@ -95,8 +101,15 @@ public class PlayerShoot : MonoBehaviour, IInteractReciever
 
     public void RegenerateAmmo()
     {
-        //Call this method when player is back into campfire 
-        currentAmmo = maxAmmo;
+        //Call this method when player is back into campfire
+        if (pc.IsPlayerInSafeZone())
+        {
+            //increase ammo over time
+            currentAmmo += ammoDepletionRate * Time.deltaTime;
+            currentAmmo = Mathf.Clamp(currentAmmo, 0, maxAmmo); // Ensure ammo doesn't go below 0
+
+        }          
+        //currentAmmo = maxAmmo;
     }
 
     #region interact handling

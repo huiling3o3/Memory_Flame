@@ -134,7 +134,7 @@ public class GameController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            StartCoroutine(StartWave());
+            //Game.GetWaveManager().NextWave();
         }
     }
 
@@ -194,7 +194,7 @@ public class GameController : MonoBehaviour
         totalNumEnemiesKilled = 0;
 
         //call the wave manager to start the wave of enemies
-        Game.GetWaveManager().NextWave();
+        //Game.GetWaveManager().NextWave();
 
         //update the HUD manager to update the UI
         UpdateHUD(numOfEnemiesKilled);
@@ -218,7 +218,7 @@ public class GameController : MonoBehaviour
         if (numOfEnemiesKilled == Game.GetWaveManager().GetEnemyCountInWave())
             {
                 //call the wave manager to start the next wave of enemies
-                Game.GetWaveManager().NextWave();
+                //Game.GetWaveManager().NextWave();
                 //reset the number of enemies killed
                 numOfEnemiesKilled = 0;
             }

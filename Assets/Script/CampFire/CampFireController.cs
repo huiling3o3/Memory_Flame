@@ -117,8 +117,7 @@ public class CampFireController : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.Keypad1)) // Press '1' to Increase fire health by 20%
         {
-            //AddBranches(10); 
-           
+            //AddBranches(10);           
         }
         else if (Input.GetKeyDown(KeyCode.Keypad2)) // Press '2' to Increase fire health by 35%
         {
@@ -129,10 +128,7 @@ public class CampFireController : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.tag == "Player")
-        {
-            //Regenerate the Ammo
-            PlayerShoot ps = collision.GetComponent<PlayerShoot>();
-            ps.RegenerateAmmo();
+        {                    
             //Everytime the fire torch is regenerated, 2% of the fire is taken away
             BorrowFire(2);
             //Player enter into a safe zone, so the ammo does not start to drop
