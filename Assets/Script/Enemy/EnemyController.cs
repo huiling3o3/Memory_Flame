@@ -19,7 +19,7 @@ public class EnemyController : DropBranchHandler
 
     //Variables for movement
     private float distanceBtwPlayer;
-
+    private bool isFacingRight = true;
     //Variables for attacks  
     private bool canAttack = true;
     private bool targetInRange = false;
@@ -112,15 +112,27 @@ public class EnemyController : DropBranchHandler
         // Flip the sprite based on the direction of movement
         if (direction.x < 0)
         {
-            sr.flipX = true; // Moving left, flip the sprite
+            //sr.flipX = true; // Moving left, flip the sprite
+            FlipRight(false);
         }
         else if (direction.x > 0)
         {
-            sr.flipX = false; // Moving right, do not flip
+            FlipRight(true);
+            //sr.flipX = false; // Moving right, do not flip
         }
         //Debug.Log("Distance between player: " + distanceBtwPlayer.ToString());
         // Move the enemy using Rigidbody2D.MovePosition
         rb.MovePosition(rb.position + direction * speed * Time.fixedDeltaTime);
+    }
+
+    private void FlipRight(bool faceRight)
+    {
+        isFacingRight = faceRight;
+
+        //change the player's X value to flip
+        Vector3 localScale = transform.localScale;
+        localScale.x = faceRight ? Mathf.Abs(localScale.x) : -Mathf.Abs(localScale.x);
+        transform.localScale = localScale;
     }
 
     //Trigger used to define enemy attack radius 
@@ -147,6 +159,7 @@ public class EnemyController : DropBranchHandler
     { 
         rb.velocity *= speed;
     }
+
     IEnumerator Attack()
     {
         //Debug.Log("timer start");
@@ -155,11 +168,17 @@ public class EnemyController : DropBranchHandler
         // TODO: Play the enemy hit sound
         SoundManager.PlaySound(SoundType.CLAW_ATTACK);
         //attack animation
-        am.SetTrigger("attack");
-        Moving();
+        am.SetBool("IsAttacking", true);
+
         //Timer to add in pauses between attacks
         yield return new WaitForSeconds(atkCooldown);
+
+        //attack animation
+        am.SetBool("IsAttacking", false);
+        //allow the enemy to walk again
+        Moving();
         canAttack = true;
+        
     }
 
     public void TakeDamage(float damage)

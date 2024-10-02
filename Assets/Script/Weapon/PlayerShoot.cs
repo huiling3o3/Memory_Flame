@@ -26,6 +26,7 @@ public class PlayerShoot : MonoBehaviour, IInteractReciever
 
     // Event that notifies subscribers when the current ammo changes
     public static event Action<float> currentAmmoChanged;
+    bool haveAmmo;
     void Awake()
     {
         pm = GetComponent<PlayerMovement>();
@@ -36,13 +37,14 @@ public class PlayerShoot : MonoBehaviour, IInteractReciever
     void Start()
     {
         // Initialize ammo
-        currentAmmo = maxAmmo;
+        Reset();
     }
     //Rest function
     public void Reset()
     {
         // Initialize ammo
         currentAmmo = maxAmmo;
+        haveAmmo = true;
     }
 
     // Update is called once per frame
@@ -83,16 +85,17 @@ public class PlayerShoot : MonoBehaviour, IInteractReciever
 
     private void DepleteAmmo()
     {
-        if(!pc.IsPlayerInSafeZone())
+        if (!pc.IsPlayerInSafeZone() && haveAmmo)
         {
-            if (currentAmmo <= 0)
-            {
-                pc.IncreaseColdnessRate(5f); //increase coldness by 0.5 sec faster
-            }
-
             // Deplete ammo over time
             currentAmmo -= ammoDepletionRate * Time.deltaTime;
             currentAmmo = Mathf.Clamp(currentAmmo, 0, maxAmmo); // Ensure ammo doesn't go below 0
+
+            if (currentAmmo <= 0)
+            {
+                pc.IncreaseColdnessRate(); //increase coldness faster
+                haveAmmo = false;
+            }
         }
 
         // Trigger the event with the updated ammo percentage
@@ -107,7 +110,6 @@ public class PlayerShoot : MonoBehaviour, IInteractReciever
             //increase ammo over time
             currentAmmo += ammoDepletionRate * Time.deltaTime;
             currentAmmo = Mathf.Clamp(currentAmmo, 0, maxAmmo); // Ensure ammo doesn't go below 0
-
         }          
         //currentAmmo = maxAmmo;
     }

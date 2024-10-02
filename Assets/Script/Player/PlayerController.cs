@@ -96,7 +96,14 @@ public class PlayerController : MonoBehaviour
     }
 
     public void TakeDamage(float damage)
-    {
+    {       
+        if(currentHp <= 0.1)
+        {
+            Debug.Log("Character dead");
+            playerDead = true;
+            Game.GetGameController().GameOver();
+        }
+
         if (currentHp > 0.1)
         {
             // Start the color change effect
@@ -104,13 +111,6 @@ public class PlayerController : MonoBehaviour
             currentHp -= damage;
             currentHp = Mathf.Clamp(currentHp, 0, MaxHP); // Ensure health doesn't go below 0
             Debug.Log($"player took {damage} damage");
-        }
-        
-        if(currentHp <= 0.1)
-        {
-            Debug.Log("Character dead");
-            playerDead = true;
-            Game.GetGameController().GameOver();
         }
     }
 
@@ -132,9 +132,9 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void IncreaseColdnessRate(float newRate)
+    public void IncreaseColdnessRate()
     {
-        coldRate += newRate;
+        coldRate += 0.2f;
     }
 
     public void TakeFreezeDamage(float damage)
