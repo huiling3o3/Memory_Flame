@@ -118,7 +118,7 @@ public class EnemyController : DropBranchHandler
         {
             sr.flipX = false; // Moving right, do not flip
         }
-        Debug.Log("Distance between player: " + distanceBtwPlayer.ToString());
+        //Debug.Log("Distance between player: " + distanceBtwPlayer.ToString());
         // Move the enemy using Rigidbody2D.MovePosition
         rb.MovePosition(rb.position + direction * speed * Time.fixedDeltaTime);
     }
