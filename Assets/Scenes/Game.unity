@@ -832,6 +832,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 6941511951440160310, guid: b108c60bfd7c32c4da74b5a6aaab46f6, type: 3}
+      propertyPath: m_BodyType
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7899985628247263552, guid: b108c60bfd7c32c4da74b5a6aaab46f6, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -871,22 +875,6 @@ PrefabInstance:
     - target: {fileID: 7899985628247263552, guid: b108c60bfd7c32c4da74b5a6aaab46f6, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8686476367259340938, guid: b108c60bfd7c32c4da74b5a6aaab46f6, type: 3}
-      propertyPath: m_Size.x
-      value: 0.17316781
-      objectReference: {fileID: 0}
-    - target: {fileID: 8686476367259340938, guid: b108c60bfd7c32c4da74b5a6aaab46f6, type: 3}
-      propertyPath: m_Size.y
-      value: 0.36601517
-      objectReference: {fileID: 0}
-    - target: {fileID: 8686476367259340938, guid: b108c60bfd7c32c4da74b5a6aaab46f6, type: 3}
-      propertyPath: m_Offset.x
-      value: -0.16300741
-      objectReference: {fileID: 0}
-    - target: {fileID: 8686476367259340938, guid: b108c60bfd7c32c4da74b5a6aaab46f6, type: 3}
-      propertyPath: m_Offset.y
-      value: -0.12810867
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1051,18 +1039,30 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1654323071262439777, guid: d7ab36348cbe82548bf0aa4bb2719ab1, type: 3}
-      propertyPath: m_BodyType
-      value: 0
+    - target: {fileID: 264162778350763495, guid: d7ab36348cbe82548bf0aa4bb2719ab1, type: 3}
+      propertyPath: m_Radius
+      value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 1654323071262439777, guid: d7ab36348cbe82548bf0aa4bb2719ab1, type: 3}
-      propertyPath: m_Constraints
-      value: 4
+    - target: {fileID: 264162778350763495, guid: d7ab36348cbe82548bf0aa4bb2719ab1, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2979899812769488511, guid: d7ab36348cbe82548bf0aa4bb2719ab1, type: 3}
       propertyPath: target
       value: 
       objectReference: {fileID: 1141969130}
+    - target: {fileID: 2979899812769488511, guid: d7ab36348cbe82548bf0aa4bb2719ab1, type: 3}
+      propertyPath: stoppingDistance
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7271954432098604483, guid: d7ab36348cbe82548bf0aa4bb2719ab1, type: 3}
+      propertyPath: m_Size.x
+      value: 1.7441041
+      objectReference: {fileID: 0}
+    - target: {fileID: 7271954432098604483, guid: d7ab36348cbe82548bf0aa4bb2719ab1, type: 3}
+      propertyPath: m_Offset.x
+      value: -0.018860698
+      objectReference: {fileID: 0}
     - target: {fileID: 7810130834882119780, guid: d7ab36348cbe82548bf0aa4bb2719ab1, type: 3}
       propertyPath: m_Name
       value: SwarmingEnemy

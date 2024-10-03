@@ -16,12 +16,14 @@ public class EnemyController : DropBranchHandler
     [SerializeField] private float maxHp;
     [SerializeField] public int atk;
     [SerializeField] private int atkCooldown;
+    [SerializeField] private float stoppingDistance; 
 
     //Variables for movement
     private float distanceBtwPlayer;
     private bool isFacingRight = true;
     //Variables for attacks  
     private bool canAttack = true;
+    private bool canMove = true;
     private bool targetInRange = false;
 
     // Variables for color change effect
@@ -66,10 +68,14 @@ public class EnemyController : DropBranchHandler
     {
         if (canAttack)
         {
-            // Move towards the player if allowed to attack
-            GetTarget(target);
-            //set animation to walk
-            am.SetBool("isWalking", true);
+            if (canMove)
+            {
+                // Move towards the player if allowed to attack
+                GetTarget(target);
+                //set animation to walk
+                am.SetBool("isWalking", true);
+            }
+                       
             // Checks if target is within range for attacking
             if (targetInRange)
             {
@@ -105,6 +111,16 @@ public class EnemyController : DropBranchHandler
         //get the distance between the player and enemy
         distanceBtwPlayer = Vector2.Distance(transform.position, target.transform.position);
 
+        // Stop moving if the player is within stopping distance
+        if (distanceBtwPlayer <= stoppingDistance)
+        {
+            Debug.Log("enemy stopped");
+            // Stop moving the enemy
+            am.SetBool("isWalking", false);
+            stopMoving();
+            return;
+        }
+
         //get the direction of the player
         Vector2 direction = target.transform.position - transform.position;
         direction.Normalize();
@@ -123,6 +139,7 @@ public class EnemyController : DropBranchHandler
         //Debug.Log("Distance between player: " + distanceBtwPlayer.ToString());
         // Move the enemy using Rigidbody2D.MovePosition
         rb.MovePosition(rb.position + direction * speed * Time.fixedDeltaTime);
+
     }
 
     private void FlipRight(bool faceRight)
@@ -153,11 +170,15 @@ public class EnemyController : DropBranchHandler
     void stopMoving()
     {
         rb.velocity = Vector2.zero; // Stops the Rigidbody2D's movement
+        canMove = false;
+        target = null;
     }
 
     void Moving()
     { 
         rb.velocity *= speed;
+        canMove = true;
+        target = Game.GetPlayer().gameObject;
     }
 
     IEnumerator Attack()

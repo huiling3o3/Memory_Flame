@@ -30,7 +30,8 @@ public class Tree : DropBranchHandler, IInteractReciever
             // If the hold time reaches the required time, cut the tree
             if (holdTime >= requiredHoldTime)
             {
-                cutTree();
+                //cutTree();
+                StartCoroutine(cutTree());
                 ResetCutting(); // Reset the cutting process after cutting the tree
             }
         }
@@ -49,11 +50,12 @@ public class Tree : DropBranchHandler, IInteractReciever
         holdTime = 0f;
     }
 
-    public void cutTree()
+    private IEnumerator cutTree()
     {
         //Spawn the branches
         DropBranches();
-        Destroy(gameObject);
+        yield return new WaitForSeconds(0.5f);
+        Destroy(gameObject);     
     }
 
     //interact handling
