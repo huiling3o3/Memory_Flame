@@ -65,5 +65,6 @@ public enum SoundType
     SHOOT,
     CUTTREE,
     CLAW_ATTACK,
-    MAIN_MENU
+    MAIN_MENU,
+    LEVEL1
 }

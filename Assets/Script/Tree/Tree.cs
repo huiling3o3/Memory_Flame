@@ -15,8 +15,11 @@ public class Tree : DropBranchHandler, IInteractReciever
 
     // UI Variables
     public Image fillCircle;
+    [SerializeField] private AudioSource audioSource;
+
     private void Start()
     {
+        audioSource = GetComponent<AudioSource>();  
         ti = GetComponentInChildren<TreeInteract>();
     }
     private void Update()
@@ -27,11 +30,12 @@ public class Tree : DropBranchHandler, IInteractReciever
             holdTime += Time.deltaTime; // Increment the hold time
             //update the loading circle
             fillCircle.fillAmount = holdTime / requiredHoldTime;
+            
             // If the hold time reaches the required time, cut the tree
             if (holdTime >= requiredHoldTime)
             {
-                //cutTree();
-                StartCoroutine(cutTree());
+                cutTree();
+                //StartCoroutine();
                 ResetCutting(); // Reset the cutting process after cutting the tree
             }
         }
@@ -48,13 +52,13 @@ public class Tree : DropBranchHandler, IInteractReciever
         // Reset the cutting process
         isCutting = false;
         holdTime = 0f;
+        audioSource.Pause();
     }
 
-    private IEnumerator cutTree()
+    private void cutTree()
     {
         //Spawn the branches
         DropBranches();
-        yield return new WaitForSeconds(0.5f);
         Destroy(gameObject);     
     }
 
@@ -64,6 +68,8 @@ public class Tree : DropBranchHandler, IInteractReciever
         Debug.Log("start interact");
         if (!EventSystem.current.IsPointerOverGameObject() && ti.interactable == true)
         {
+            // TODO: Play cut sound
+            SoundManager.PlaySound(SoundType.CUTTREE, audioSource, 1f);
             isCutting = true; // Player has started holding down the mouse button           
         }
     }

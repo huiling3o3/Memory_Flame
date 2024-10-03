@@ -153,7 +153,6 @@ public class PlayerController : MonoBehaviour
             currentColdLvl -= coldRate * Time.deltaTime;
             currentColdLvl = Mathf.Clamp(currentColdLvl, 0, maxColdLvl); // Ensure ammo doesn't go below 0
         }
-
     }
 
     public void ExitSafeZone() { inSafeZone = false; }

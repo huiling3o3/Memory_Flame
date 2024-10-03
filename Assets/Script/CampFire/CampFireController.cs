@@ -14,7 +14,7 @@ public class CampFireController : MonoBehaviour
     // List of fire sprites for different health levels
     [SerializeField] private List<Sprite> fireSprites; // List of fire sprites
     [SerializeField] SpriteRenderer fireSpriteRenderer;
-
+    [SerializeField] GameObject instructions;
     // Event that notifies subscribers when the current ammo changes
     public static event Action<float> fireHealthChanged;
     void Awake()
@@ -27,6 +27,7 @@ public class CampFireController : MonoBehaviour
     {
         currentHealth = maxHealth; // Initialize health
         UpdateFireAppearance();    // Set initial fire appearance
+        instructions.SetActive(false);
     }
 
     // Update is called once per frame
@@ -129,11 +130,11 @@ public class CampFireController : MonoBehaviour
     {
         if (collision.tag == "Player")
         {                    
-            //Everytime the fire torch is regenerated, 2% of the fire is taken away
-            BorrowFire(2);
             //Player enter into a safe zone, so the ammo does not start to drop
             PlayerController pc = collision.GetComponent<PlayerController>();
             pc.EnterSafeZone();
+            
+            instructions.SetActive(true);
         }
     }
 
@@ -143,7 +144,10 @@ public class CampFireController : MonoBehaviour
         {
             //When player exit the safe zone the fire torch will start to deplete over time
             PlayerController pc = collision.GetComponent<PlayerController>();
+            //Everytime the fire torch is regenerated, 2% of the fire is taken away
+            BorrowFire(2);
             pc.ExitSafeZone();
+            instructions.SetActive(false);
         }
     }
 

@@ -54,9 +54,9 @@ public class GameController : MonoBehaviour
         //reset
         memoryFragmentsList.Clear();
         //initialise the memory fragment list first
-        memoryFragmentsList.Add(MemoryFragType.SHIELD, false);
-        memoryFragmentsList.Add(MemoryFragType.SHOE, false);
-        memoryFragmentsList.Add(MemoryFragType.BAG, false);
+        memoryFragmentsList.Add(MemoryFragType.HEADBAND, false);
+        memoryFragmentsList.Add(MemoryFragType.BROKENSWORD, false);
+        memoryFragmentsList.Add(MemoryFragType.NECKLACE, false);
     }
 
     // Start is called before the first frame update
@@ -162,6 +162,7 @@ public class GameController : MonoBehaviour
         //resume Game
         ResumeGame();
 
+        SoundManager.PlaySound(SoundType.LEVEL1,null,0.6f);
         //Start wave
         //StartCoroutine(StartWave());
 

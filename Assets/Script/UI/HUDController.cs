@@ -85,7 +85,7 @@ public class HUDController : MonoBehaviour
         // Ensure the alpha value is between 0 (fully transparent) and 1 (fully opaque)
         float alphaValue = 1f;
 
-        if (fragType == MemoryFragType.SHIELD)
+        if (fragType == MemoryFragType.HEADBAND)
         {
             // Get the current color of the image
             Color currentColor = Shield.color;

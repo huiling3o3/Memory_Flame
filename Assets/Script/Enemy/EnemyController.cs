@@ -10,20 +10,21 @@ public class EnemyController : DropBranchHandler
     private Animator am;
     private SpriteRenderer sr;
     private Rigidbody2D rb;
+
     //Variables for enemy stats
     [Header("Enemies Stats")]
     [SerializeField] private float speed;
     [SerializeField] private float maxHp;
     [SerializeField] public int atk;
     [SerializeField] private int atkCooldown;
-    [SerializeField] private float stoppingDistance; 
+    [SerializeField] private float attackDistanceThreshold = 0.8f;
+    [SerializeField] private float chaseDistanceThreshold = 3f;
 
     //Variables for movement
-    private float distanceBtwPlayer;
+    [SerializeField] private float distanceBtwPlayer;
     private bool isFacingRight = true;
     //Variables for attacks  
     private bool canAttack = true;
-    private bool canMove = true;
     private bool targetInRange = false;
 
     // Variables for color change effect
@@ -66,26 +67,26 @@ public class EnemyController : DropBranchHandler
 
     private void FixedUpdate()
     {
-        if (canAttack)
+        if (target == null)
         {
-            if (canMove)
+            return;
+        }
+
+        //get the distance between the player and enemy
+        distanceBtwPlayer = Vector2.Distance(target.transform.position, transform.position);
+
+        if (canAttack)
+        {           
+            // Checks if target is within range for attacking
+            if (distanceBtwPlayer < attackDistanceThreshold)
+            {
+                Attack(target.gameObject);
+            }
+            else
             {
                 // Move towards the player if allowed to attack
-                GetTarget(target);
-                //set animation to walk
-                am.SetBool("isWalking", true);
+                ChaseTarget(target);
             }
-                       
-            // Checks if target is within range for attacking
-            if (targetInRange)
-            {
-                StartCoroutine(Attack());
-            }
-        }
-        else
-        {
-            //set animation to idle
-            am.SetBool("isWalking", false);
         }
     }
 
@@ -100,27 +101,9 @@ public class EnemyController : DropBranchHandler
         this.atkCooldown = atkCooldown;
     }
 
-    //Controls the enemy movement 
-    public void GetTarget(GameObject target)
+    public void ChaseTarget(GameObject target)
     {
-        if (target == null)
-        {
-            return;
-        }
-
-        //get the distance between the player and enemy
-        distanceBtwPlayer = Vector2.Distance(transform.position, target.transform.position);
-
-        // Stop moving if the player is within stopping distance
-        if (distanceBtwPlayer <= stoppingDistance)
-        {
-            Debug.Log("enemy stopped");
-            // Stop moving the enemy
-            am.SetBool("isWalking", false);
-            stopMoving();
-            return;
-        }
-
+        //chase the player
         //get the direction of the player
         Vector2 direction = target.transform.position - transform.position;
         direction.Normalize();
@@ -128,18 +111,18 @@ public class EnemyController : DropBranchHandler
         // Flip the sprite based on the direction of movement
         if (direction.x < 0)
         {
-            //sr.flipX = true; // Moving left, flip the sprite
             FlipRight(false);
         }
         else if (direction.x > 0)
         {
             FlipRight(true);
-            //sr.flipX = false; // Moving right, do not flip
         }
-        //Debug.Log("Distance between player: " + distanceBtwPlayer.ToString());
+
         // Move the enemy using Rigidbody2D.MovePosition
         rb.MovePosition(rb.position + direction * speed * Time.fixedDeltaTime);
 
+        //set animation to walk
+        am.SetBool("isWalking", true);
     }
 
     private void FlipRight(bool faceRight)
@@ -150,6 +133,23 @@ public class EnemyController : DropBranchHandler
         Vector3 localScale = transform.localScale;
         localScale.x = faceRight ? Mathf.Abs(localScale.x) : -Mathf.Abs(localScale.x);
         transform.localScale = localScale;
+    }
+
+    void Attack(GameObject objToDamage)
+    {
+        //attack animation
+        am.SetTrigger("Attacking");
+        stopMoving();
+        PlayerController playerHealth = objToDamage.GetComponent<PlayerController>();
+        if (playerHealth != null)
+        {
+            playerHealth.TakeDamage(atk);
+        }
+
+        // TODO: Play the enemy hit sound
+        SoundManager.PlaySound(SoundType.CLAW_ATTACK);
+        Debug.Log("Attacking target");
+        StartCoroutine(AttackTimer());
     }
 
     //Trigger used to define enemy attack radius 
@@ -170,36 +170,20 @@ public class EnemyController : DropBranchHandler
     void stopMoving()
     {
         rb.velocity = Vector2.zero; // Stops the Rigidbody2D's movement
-        canMove = false;
-        target = null;
+        //set animation to walk
+        am.SetBool("isWalking", false);
     }
 
-    void Moving()
-    { 
-        rb.velocity *= speed;
-        canMove = true;
-        target = Game.GetPlayer().gameObject;
-    }
-
-    IEnumerator Attack()
+    //Timer to add in pauses between attacks
+    IEnumerator AttackTimer()
     {
-        //Debug.Log("timer start");
+        Debug.Log("timer start");
         canAttack = false;
-        stopMoving();
-        // TODO: Play the enemy hit sound
-        SoundManager.PlaySound(SoundType.CLAW_ATTACK);
-        //attack animation
-        am.SetBool("IsAttacking", true);
-
+        //stopMoving();
         //Timer to add in pauses between attacks
         yield return new WaitForSeconds(atkCooldown);
 
-        //attack animation
-        am.SetBool("IsAttacking", false);
-        //allow the enemy to walk again
-        Moving();
-        canAttack = true;
-        
+        canAttack = true;       
     }
 
     public void TakeDamage(float damage)
@@ -233,14 +217,10 @@ public class EnemyController : DropBranchHandler
     {
         // Change the sprite color to the hit color
         sr.color = hitColor;
-        // TODO: Play the enemy hurt sound
 
-        // Stop the enemy movement for a while
-        canAttack = false;
         // Wait for the duration of the color change
         yield return new WaitForSeconds(colorChangeDuration);
-        // resume the enemy movement
-        canAttack = true;
+
         // Revert the sprite color back to the original color
         sr.color = originalColor;
     }

@@ -105,4 +105,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: befbbdad2626560458037c582d01933a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  offset: {x: 0, y: 0, z: -10}
   target: {fileID: 0}
+  zoomLevel: -47
+  LLB: {fileID: 0}
+  URB: {fileID: 0}
