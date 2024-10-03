@@ -34,8 +34,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 1
+  m_LocalScale: {x: 2.5, y: 2.5, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 584137941877532680}
   m_Father: {fileID: 0}
@@ -108,7 +108,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 20
-  m_Sprite: {fileID: -565813088, guid: 75c4218c2ffa9d24a8986683f468ba46, type: 3}
+  m_Sprite: {fileID: 2055854392, guid: b491e34a86d9f094e9e1d7d748195532, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -151,8 +151,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_Size: {x: 0.72, y: 1.43}
+  m_Offset: {x: -0.16111784, y: -0.11299181}
+  m_Size: {x: 0.38102505, y: 0.6683531}
   m_Direction: 0
 --- !u!95 &2208241261437004068
 Animator:
@@ -164,7 +164,7 @@ Animator:
   m_GameObject: {fileID: 3273102290561498877}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: d4bbb086da471ac4e8331efb20a90941, type: 2}
+  m_Controller: {fileID: 9100000, guid: 0afc5caed1e73fb4699841d5483a5e1f, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -372,7 +372,7 @@ Transform:
   m_GameObject: {fileID: 4086844470341713480}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.089, y: -0.104, z: 0}
+  m_LocalPosition: {x: -0.19, y: -0.235, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -437,9 +437,9 @@ Transform:
   m_GameObject: {fileID: 9142263819592939500}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.316, y: 0.005, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 1
+  m_LocalPosition: {x: 0.15, y: 0.005, z: 0}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 584137941877532680}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
