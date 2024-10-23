@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6952353762470886788}
   - component: {fileID: 1081634863667976489}
   - component: {fileID: 7054577745304967820}
+  - component: {fileID: 1475861499745290037}
   m_Layer: 0
   m_Name: Tree
   m_TagString: Tree
@@ -78,7 +79,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: 9fb2ee9b3f30aa94897e007cee089dc6, type: 3}
+  m_Sprite: {fileID: 21300000, guid: fd8200d870fbe144a9bf81555e5cf7a4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -163,7 +164,7 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 1
+  MinDistance: 1.5788889
   MaxDistance: 500
   Pan2D: 0
   rolloffMode: 0
@@ -239,6 +240,22 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!208 &1475861499745290037
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 989924223119679683}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.805, y: 1.36, z: 0.1}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0.15, y: -0.08, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &1447397590022581299
 GameObject:
   m_ObjectHideFlags: 0
@@ -351,8 +368,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -0.02, y: -0.0528}
-  m_SizeDelta: {x: 165.0196, y: 292.1141}
+  m_AnchoredPosition: {x: 0.11, y: -0.1074}
+  m_SizeDelta: {x: 165.0196, y: 410.6331}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &7202797839058508361
 Canvas:
@@ -580,7 +597,7 @@ Transform:
   m_GameObject: {fileID: 4367019406364810825}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.04, y: -0.28, z: 0}
+  m_LocalPosition: {x: 0.224, y: -0.28, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []

@@ -1,15 +1,18 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.UI;
 
 public class EnemyController : DropBranchHandler
 {
     //reference
-    [SerializeField]
+    //[SerializeField]
     private GameObject target; //player
     private Animator am;
     private SpriteRenderer sr;
-    private Rigidbody2D rb;
+
+    //Holds navmesh agent reference 
+    private NavMeshAgent agent;
 
     //Variables for enemy stats
     [Header("Enemies Stats")]
@@ -23,9 +26,9 @@ public class EnemyController : DropBranchHandler
     //Variables for movement
     [SerializeField] private float distanceBtwPlayer;
     private bool isFacingRight = true;
+    private bool haveTarget = false;
     //Variables for attacks  
     private bool canAttack = true;
-    private bool targetInRange = false;
 
     // Variables for color change effect
     [Header("Hit Settings")]    
@@ -39,30 +42,34 @@ public class EnemyController : DropBranchHandler
 
     private void Start()
     {
-        //sprite render
-        sr = GetComponent<SpriteRenderer>();
+       Init();
+    }
 
+    public void Init()
+    {
+        //reset enemies stats
+        canAttack = true;
+        isFacingRight = true;
+        haveTarget = false; //Set have target to false, so it will only attack the player when it is near.
+        //get references
+        sr = GetComponent<SpriteRenderer>();
         //get enemy animator
         am = GetComponent<Animator>();
 
-        // Get Rigidbody2D reference
-        rb = GetComponent<Rigidbody2D>();
+        //nav mesh agent
+        agent = GetComponent<NavMeshAgent>();
+        agent.updateRotation = false;
+        agent.updateUpAxis = false;
+        agent.speed = speed;
 
         originalColor = sr.color; // Save the original color of the enemy sprite
 
         //set currentHp to max hp
         currentHp = maxHp;
         UpdatHealthBar();
-    }
-    public void Init()
-    {
+
         //Initializes the reference
-        target = Game.GetPlayer().gameObject;
-
-        //sprite render
-        sr = GetComponent<SpriteRenderer>();
-
-        originalColor = sr.color; // Save the original color of the enemy sprite
+        target = FindObjectOfType<PlayerController>().gameObject;
     }
 
     private void FixedUpdate()
@@ -75,8 +82,14 @@ public class EnemyController : DropBranchHandler
         //get the distance between the player and enemy
         distanceBtwPlayer = Vector2.Distance(target.transform.position, transform.position);
 
-        if (canAttack)
-        {           
+        //Check if target is within range to chase
+        if (distanceBtwPlayer < chaseDistanceThreshold)
+        {
+            haveTarget = true;
+        }
+
+        if (haveTarget && canAttack)
+        {
             // Checks if target is within range for attacking
             if (distanceBtwPlayer < attackDistanceThreshold)
             {
@@ -84,7 +97,7 @@ public class EnemyController : DropBranchHandler
             }
             else
             {
-                // Move towards the player if allowed to attack
+                // Move towards the player
                 ChaseTarget(target);
             }
         }
@@ -104,6 +117,8 @@ public class EnemyController : DropBranchHandler
     public void ChaseTarget(GameObject target)
     {
         //chase the player
+        agent.SetDestination(new Vector3(target.gameObject.transform.position.x, target.gameObject.transform.position.y, 0f));
+        
         //get the direction of the player
         Vector2 direction = target.transform.position - transform.position;
         direction.Normalize();
@@ -119,7 +134,7 @@ public class EnemyController : DropBranchHandler
         }
 
         // Move the enemy using Rigidbody2D.MovePosition
-        rb.MovePosition(rb.position + direction * speed * Time.fixedDeltaTime);
+        //rb.MovePosition(rb.position + direction * speed * Time.fixedDeltaTime);
 
         //set animation to walk
         am.SetBool("isWalking", true);
@@ -137,18 +152,21 @@ public class EnemyController : DropBranchHandler
 
     void Attack(GameObject objToDamage)
     {
+        Debug.Log("Attacking target");
         //attack animation
         am.SetTrigger("Attacking");
-        stopMoving();
+
+        //damage the player
         PlayerController playerHealth = objToDamage.GetComponent<PlayerController>();
         if (playerHealth != null)
         {
             playerHealth.TakeDamage(atk);
         }
 
-        // TODO: Play the enemy hit sound
+        //Play the enemy hit sound
         SoundManager.PlaySound(SoundType.CLAW_ATTACK);
-        Debug.Log("Attacking target");
+        
+        //add the delay
         StartCoroutine(AttackTimer());
     }
 
@@ -157,19 +175,22 @@ public class EnemyController : DropBranchHandler
     {
         if (collision.CompareTag("Player"))
         {
-            targetInRange = true;
+            //targetInRange = true;
         }         
 
     }
     void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
-            targetInRange = false;
+        {
+            //targetInRange = false;
+        }
     }
 
     void stopMoving()
     {
-        rb.velocity = Vector2.zero; // Stops the Rigidbody2D's movement
+        agent.isStopped = true;
+
         //set animation to walk
         am.SetBool("isWalking", false);
     }
@@ -179,11 +200,11 @@ public class EnemyController : DropBranchHandler
     {
         Debug.Log("timer start");
         canAttack = false;
-        //stopMoving();
+        stopMoving();
         //Timer to add in pauses between attacks
-        yield return new WaitForSeconds(atkCooldown);
-
-        canAttack = true;       
+        yield return new WaitForSeconds(atkCooldown);        
+        canAttack = true;
+        agent.isStopped = false;
     }
 
     public void TakeDamage(float damage)

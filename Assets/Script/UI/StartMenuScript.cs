@@ -7,9 +7,6 @@ public class StartMenuScript : MonoBehaviour, IInputReceiver
 {
     private GameController gameController;
     [SerializeField] private AudioSource audioSource;
-    private int success;
-    private int numOfEnemiesKilled;
-    private float timer;
 
     public void InitializeMenu(GameController gameController)
     {
@@ -17,37 +14,10 @@ public class StartMenuScript : MonoBehaviour, IInputReceiver
     }
 
     //set start menu display
-    public void ShowStartMenu(int wave, int numOfEnemiesKilled, float timer)
+    public void ShowStartMenu()
     {
         //TODO: play main menu bgm
         SoundManager.PlaySound(SoundType.MAIN_MENU,audioSource,0.6f);
-        this.success = wave;
-        this.numOfEnemiesKilled = numOfEnemiesKilled;
-        this.timer = timer;
-        UpdateMenuText();
-    }
-
-    private void UpdateMenuText()
-    {
-        //format game over text display
-        Text gameOverText = this.GetComponentInChildren<Text>();
-        gameOverText.text = "Memory's Flame Game\n";
-
-        if (gameController.gameOver)
-        {
-            gameOverText.text += "\nGame Over: Game Stats\n-------------------------------";
-            gameOverText.text += "\nSurvived until Wave: " + success;
-            gameOverText.text += "\nEnemies Killed: " + numOfEnemiesKilled;
-            gameOverText.text += "\nTime survived: " + Mathf.FloorToInt(timer) + "s";
-
-            gameOverText.text += "\n\nSpace - Play Again";
-            gameOverText.text += "\nEsc - Exit";
-        }
-        else
-        {
-            gameOverText.text += "\n\nSpace - Play";
-            gameOverText.text += "\nEsc - Exit";
-        }
     }
 
     public void DoMoveDir(Vector2 aDir)

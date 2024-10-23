@@ -61,17 +61,19 @@ public class Tree : DropBranchHandler, IInteractReciever
         DropBranches();
         Destroy(gameObject);     
     }
-
-    //interact handling
-    public void StartInteract()
+    public void OnMouseDown()
     {
-        Debug.Log("start interact");
         if (!EventSystem.current.IsPointerOverGameObject() && ti.interactable == true)
         {
-            // TODO: Play cut sound
+            //Play cut sound
             SoundManager.PlaySound(SoundType.CUTTREE, audioSource, 1f);
             isCutting = true; // Player has started holding down the mouse button           
         }
+    }
+    //interact handling
+    public void StartInteract()
+    {
+        //Debug.Log("start interact");
     }
     public void StopInteract()
     {

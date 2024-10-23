@@ -16,6 +16,7 @@ public class GameController : MonoBehaviour
 
     [Header("Game Stats")]
     //Game Controller Variables
+    public levelType currentLvl;
     public int numOfEnemiesKilled = 0;
     public int totalNumEnemiesKilled = 0;
     private static Dictionary<MemoryFragType, bool> memoryFragmentsList = new Dictionary<MemoryFragType, bool>(); //track sequences for achievements
@@ -32,6 +33,12 @@ public class GameController : MonoBehaviour
     // Event that notifies subscribers when the current ammo changes
     public static event Action<int> branchCollectedChanged;
     public static event Action<MemoryFragType> memFragmentsCollected;
+
+    public enum levelType
+    {
+        LEVEL_1,LEVEL_2,LEVEL_3, NULL
+    }
+
     private void Awake()
     {
         //Set the reference to Game
@@ -53,22 +60,25 @@ public class GameController : MonoBehaviour
     {
         //reset
         memoryFragmentsList.Clear();
+
         //initialise the memory fragment list first
         memoryFragmentsList.Add(MemoryFragType.HEADBAND, false);
         memoryFragmentsList.Add(MemoryFragType.BROKENSWORD, false);
-        memoryFragmentsList.Add(MemoryFragType.NECKLACE, false);
+        memoryFragmentsList.Add(MemoryFragType.NECKLACE, false);        
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        //show start menu
-        OpenStartMenu();
-
         //initialise the player
-        pc.Init();                                
+        pc.Init();
         Game.SetPlayer(pc);
 
+        //set the starting lvl to lvl 1
+        currentLvl = levelType.LEVEL_1;
+
+        //show start menu
+        OpenStartMenu();       
     }
 
     public int GetSticks()
@@ -149,9 +159,12 @@ public class GameController : MonoBehaviour
         {
             RestartGame();
         }
-
-        CloseStartMenu();
-
+        else
+        {
+            //Start Lvl One
+            OpenLevel("Level_1");
+        }
+        
         ///!!important must set player to reeceive the input for it to move
         SetPlayerInputReciever();
         SetPlayerShootInteractReciever();
@@ -160,24 +173,21 @@ public class GameController : MonoBehaviour
         Game.GetPlayer().Reset();
 
         //resume Game
-        ResumeGame();
-
-        SoundManager.PlaySound(SoundType.LEVEL1,null,0.6f);
-        //Start wave
-        //StartCoroutine(StartWave());
-
-        //close the wave stats ui
-        //Game.GetHUDController().CloseWaveStatsPanel();
+        ResumeGame();        
     }
 
     public void RestartGame()
     {
-        
-        // Get the current active scene
-        Scene currentScene = SceneManager.GetActiveScene();
+        if (currentLvl == levelType.LEVEL_1)
+        {
+            //close the scene first 
+            menuSceneManager.CloseMenuScene("Level_1");
+            //restart the scene
+            OpenLevel("Level_1");
+        }
 
-        // Reload the current scene
-        SceneManager.LoadScene(currentScene.name);
+        gameIsActive = false;
+        gameOver = false;
         Debug.Log("Game Restart");
     }
 
@@ -296,9 +306,23 @@ public class GameController : MonoBehaviour
         });
     }
 
-    public void OpenStartMenu()
+    public void OpenLevel(string lvl)
     {
         PauseGame();
+
+        CloseStartMenu();
+
+        menuSceneManager.OpenMenuScene(lvl, () =>
+        {
+            //initialize lvl 1 manager after scene finishes loading
+            Level_1_Manager lvlManager = FindObjectOfType<Level_1_Manager>();
+            lvlManager.InitializeLvl(this);
+        });
+    }
+
+    public void OpenStartMenu()
+    {
+        //PauseGame();
 
         ClosePauseMenu();
 
@@ -310,7 +334,7 @@ public class GameController : MonoBehaviour
 
             //set input receiver
             inputHandler.SetInputReceiver(menuScript);
-            menuScript.ShowStartMenu(0, totalNumEnemiesKilled, gameTimer);
+            menuScript.ShowStartMenu();
         });
     }
 

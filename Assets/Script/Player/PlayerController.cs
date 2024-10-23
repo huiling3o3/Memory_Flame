@@ -40,7 +40,7 @@ public class PlayerController : MonoBehaviour
     public void Init()
     {
         //set player initial position
-        transform.position = Vector2.zero;
+        //transform.position = Vector2.zero;
         //reset all the variables
         Reset();
         originalColor = sr.color; // Save the original color of the enemy sprite
