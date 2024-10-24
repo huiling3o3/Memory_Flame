@@ -50,7 +50,7 @@ public class PlayerShoot : MonoBehaviour, IInteractReciever
     // Update is called once per frame
     void Update()
     {
-        if (Game.GetGameController().gameIsActive && !Game.GetGameController().gameOver)
+        if (Game.GetGameController().isPaused && !Game.GetGameController().isGameOver)
         {
             HandleAim();
             DepleteAmmo();
@@ -120,7 +120,7 @@ public class PlayerShoot : MonoBehaviour, IInteractReciever
         //Debug.Log("PUPU");
 
         //there is enough ammo
-        if (currentAmmo > 0 && !Game.GetGameController().gameOver)
+        if (currentAmmo > 0 && !Game.GetGameController().isGameOver)
         {
             // Calculate the correct bullet rotation
             Quaternion bulletRotation = fireTorch.transform.rotation;

@@ -8,15 +8,14 @@ public class GameController : MonoBehaviour
 {
     [Header("To be Assigned")]
     //references to assigned
-    public GameObject playerObj;    
+    public PlayerController player;    
     InputHandler inputHandler;
     InteractHandler interactHandler;
     MenuSceneManager menuSceneManager;
-    PlayerController pc;
+    Scene_Manager currentSceneManager;
+    public sceneName initialScene;
 
     [Header("Game Stats")]
-    //Game Controller Variables
-    public levelType currentLvl;
     public int numOfEnemiesKilled = 0;
     public int totalNumEnemiesKilled = 0;
     private static Dictionary<MemoryFragType, bool> memoryFragmentsList = new Dictionary<MemoryFragType, bool>(); //track sequences for achievements
@@ -24,8 +23,8 @@ public class GameController : MonoBehaviour
     [SerializeField] int branchCollected = 0;
     private float gameTimer;
 
-    public bool gameIsActive = false;
-    public bool gameOver = false;
+    public bool isPaused = false;
+    public bool isGameOver = false;
 
     [Header("Database")]
     [SerializeField] private List<string> fileNameList;
@@ -33,18 +32,13 @@ public class GameController : MonoBehaviour
     // Event that notifies subscribers when the current ammo changes
     public static event Action<int> branchCollectedChanged;
     public static event Action<MemoryFragType> memFragmentsCollected;
-
-    public enum levelType
-    {
-        LEVEL_1,LEVEL_2,LEVEL_3, NULL
-    }
+    public static event Action<bool> OnGamePaused;   // Event fired when the game is paused
+    public static event Action<bool> OnGameResumed;  // Event fired when the game is resumed
 
     private void Awake()
     {
         //Set the reference to Game
         Game.SetGameController(this);
-
-        pc = playerObj.GetComponent<PlayerController>();
         menuSceneManager = GetComponent<MenuSceneManager>();
         inputHandler = GetComponent<InputHandler>();
         interactHandler = GetComponent<InteractHandler>();
@@ -70,17 +64,127 @@ public class GameController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //initialise the player
-        pc.Init();
-        Game.SetPlayer(pc);
-
-        //set the starting lvl to lvl 1
-        currentLvl = levelType.LEVEL_1;
-
+        //Game.SetPlayer(player);
+        //SetPause(false);
         //show start menu
         OpenStartMenu();       
     }
 
+    
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (!isPaused) return;
+        //proceed game timers
+        gameTimer += Time.deltaTime;
+
+        if (Input.GetKeyDown(KeyCode.Backspace))
+        {
+            Game.GetWaveManager().NextWave();
+        }
+
+        branchCollectedChanged?.Invoke(branchCollected);
+    }
+
+    public void StartGame()
+    {
+        isPaused = true;
+
+        if (isGameOver)
+        {
+            RestartGame();
+        }
+        else
+        {
+            //Start Lvl One
+            OpenLevel("Level_1");
+        }
+        
+        ///!!important must set player to reeceive the input for it to move
+        SetPlayerInputReciever();
+        SetPlayerShootInteractReciever();
+
+        //reset game variables
+        Game.GetPlayer().Reset();
+
+        //resume Game
+        ResumeGame();        
+    }
+
+    public void RestartGame()
+    {
+        //if (currentLvl == levelType.LEVEL_1)
+        //{
+        //    //close the scene first 
+        //    menuSceneManager.CloseMenuScene("Level_1");
+        //    //restart the scene
+        //    OpenLevel("Level_1");
+        //}
+
+        isPaused = false;
+        isGameOver = false;
+        Debug.Log("Game Restart");
+    }
+
+    IEnumerator StartWave()
+    {
+        //wait for 2 seconds before starting the game
+        yield return new WaitForSeconds(2f);
+
+        //Open the UI panel
+        //Game.GetHUDController().OpenWaveStatsPanel();
+
+        Debug.Log("Game Controller: Calling Start Wave");
+
+        //RESET timers
+        gameTimer = 0;
+        //reset the number of enemies killed
+        numOfEnemiesKilled = 0;
+        totalNumEnemiesKilled = 0;
+
+        //call the wave manager to start the wave of enemies
+        //Game.GetWaveManager().NextWave();
+
+        //update the HUD manager to update the UI
+        UpdateHUD(numOfEnemiesKilled);
+
+        //resume Game
+        ResumeGame();
+    }
+
+    public void GameOver()
+    {
+        isGameOver = true;
+        isPaused = false;
+        //TogglePause();
+    }
+    public bool CheckGameOver()
+    {
+        //check if game over
+        return isGameOver;
+    }
+    public void EnemyKilled()
+    {
+        numOfEnemiesKilled++;
+        totalNumEnemiesKilled++;
+        //Check if all the current wave of enemies are killed if killed
+        if (numOfEnemiesKilled == Game.GetWaveManager().GetEnemyCountInWave())
+            {
+                //call the wave manager to start the next wave of enemies
+                //Game.GetWaveManager().NextWave();
+                //reset the number of enemies killed
+                numOfEnemiesKilled = 0;
+            }
+
+        //update the HUD manager to update the UI on the wave stats to get the number of enemies left 
+        UpdateHUD(numOfEnemiesKilled);
+    }
+    public static void UpdateHUD(int numOfEnemiesKilled)
+    {
+        //Game.GetHUDController().UpdateWaveStats(Game.GetWaveManager().GetCurrentWave(), Game.GetWaveManager().GetEnemyCountInWave() - numOfEnemiesKilled);
+    }
+    #region Game Variables function
     public int GetSticks()
     {
         int sticksToGive = 0;
@@ -136,124 +240,17 @@ public class GameController : MonoBehaviour
 
         return collectedAll;
     }
-    // Update is called once per frame
-    void Update()
-    {
-        if (!gameIsActive) return;
-        //proceed game timers
-        gameTimer += Time.deltaTime;
-
-        if (Input.GetKeyDown(KeyCode.Backspace))
-        {
-            Game.GetWaveManager().NextWave();
-        }
-
-        branchCollectedChanged?.Invoke(branchCollected);
-    }
-
-    public void StartGame()
-    {
-        gameIsActive = true;
-
-        if (gameOver)
-        {
-            RestartGame();
-        }
-        else
-        {
-            //Start Lvl One
-            OpenLevel("Level_1");
-        }
-        
-        ///!!important must set player to reeceive the input for it to move
-        SetPlayerInputReciever();
-        SetPlayerShootInteractReciever();
-
-        //reset game variables
-        Game.GetPlayer().Reset();
-
-        //resume Game
-        ResumeGame();        
-    }
-
-    public void RestartGame()
-    {
-        if (currentLvl == levelType.LEVEL_1)
-        {
-            //close the scene first 
-            menuSceneManager.CloseMenuScene("Level_1");
-            //restart the scene
-            OpenLevel("Level_1");
-        }
-
-        gameIsActive = false;
-        gameOver = false;
-        Debug.Log("Game Restart");
-    }
-
-    IEnumerator StartWave()
-    {
-        //wait for 2 seconds before starting the game
-        yield return new WaitForSeconds(2f);
-
-        //Open the UI panel
-        //Game.GetHUDController().OpenWaveStatsPanel();
-
-        Debug.Log("Game Controller: Calling Start Wave");
-
-        //RESET timers
-        gameTimer = 0;
-        //reset the number of enemies killed
-        numOfEnemiesKilled = 0;
-        totalNumEnemiesKilled = 0;
-
-        //call the wave manager to start the wave of enemies
-        //Game.GetWaveManager().NextWave();
-
-        //update the HUD manager to update the UI
-        UpdateHUD(numOfEnemiesKilled);
-
-        //resume Game
-        ResumeGame();
-    }
-
-    public void GameOver()
-    {
-        gameOver = true;
-        gameIsActive = false;
-        OpenStartMenu();
-    }
-
-    public void EnemyKilled()
-    {
-        numOfEnemiesKilled++;
-        totalNumEnemiesKilled++;
-        //Check if all the current wave of enemies are killed if killed
-        if (numOfEnemiesKilled == Game.GetWaveManager().GetEnemyCountInWave())
-            {
-                //call the wave manager to start the next wave of enemies
-                //Game.GetWaveManager().NextWave();
-                //reset the number of enemies killed
-                numOfEnemiesKilled = 0;
-            }
-
-        //update the HUD manager to update the UI on the wave stats to get the number of enemies left 
-        UpdateHUD(numOfEnemiesKilled);
-    }
-    public static void UpdateHUD(int numOfEnemiesKilled)
-    {
-        //Game.GetHUDController().UpdateWaveStats(Game.GetWaveManager().GetCurrentWave(), Game.GetWaveManager().GetEnemyCountInWave() - numOfEnemiesKilled);
-    }
+    #endregion 
 
     #region input
 
     public void SetPlayerInputReciever()
     {
         //set input handler to movement script
-        inputHandler.SetInputReceiver(playerObj.GetComponent<PlayerMovement>()); ;
+        inputHandler.SetInputReceiver(player.GetComponent<PlayerMovement>()); ;
     }
 
-    public void SetTreeInteractReciever(Tree tr)
+    public void SetTreeInteractReciever(CutTree tr)
     { 
         //set the input handler to the tree interacting with the player
         interactHandler.SetInteractReceiver(tr);
@@ -262,29 +259,101 @@ public class GameController : MonoBehaviour
     public void SetPlayerShootInteractReciever()
     {
         //set the input handler to the player weapon 
-        interactHandler.SetInteractReceiver(playerObj.GetComponent<PlayerShoot>());
+        interactHandler.SetInteractReceiver(player.GetComponent<PlayerShoot>());
     }
     #endregion
 
-    #region Menus
+    #region Scene Manager
+
+    public void LoadScene(sceneName aScene)
+    {
+        AsyncOperation loadSceneOp = SceneManager.LoadSceneAsync(aScene.ToString(), LoadSceneMode.Additive);
+        loadSceneOp.completed += (result) =>
+        {
+            StartMenuScript menuScript = FindObjectOfType<StartMenuScript>();
+            if (menuScript != null)
+            {
+                //set input receiver
+                inputHandler.SetInputReceiver(menuScript);
+            }
+
+            Scene scene = SceneManager.GetSceneByName(aScene.ToString());
+            GameObject[] rootGameObjects = scene.GetRootGameObjects();
+            foreach (GameObject rootObject in rootGameObjects)
+            {
+                currentSceneManager = rootObject.GetComponentInChildren<Scene_Manager>();
+                if (currentSceneManager != null)
+                {
+                    // Initialize the scene controller
+                    currentSceneManager.Initialize(this);
+                    break;
+                }                            
+            }            
+        };
+    }
+
+    public void RemoveScene(sceneName aScene)
+    {
+        Scene scene = SceneManager.GetSceneByName(aScene.ToString());
+        SceneManager.UnloadSceneAsync(scene);
+    }
+
+    public void RestartLevel()
+    {
+        if (currentSceneManager != null) currentSceneManager.Initialize(this);
+    }
+
+    public void StartLevel(PlayerController playerScript)
+    {
+        player = playerScript;
+
+        ///!!important must set player to reeceive the input for it to move
+        SetPlayerInputReciever();
+        SetPlayerShootInteractReciever();
+
+        //set game ongoing
+        //SetGameOver(false, false, 0, 0);
+        //SetPause(false);
+    }
+
+    public void SetPause(bool aPause)
+    {
+        //set pause state
+        isPaused = aPause;
+
+        Debug.Log("Game Paused");
+
+        // Fire the OnGamePaused event
+        OnGamePaused?.Invoke(isPaused);
+    }
 
     public void ResumeGame()
-    {
-        //unpause game
-        Time.timeScale = 1f;
-        gameIsActive = true;
+    {     
+        isPaused = false;
+        Debug.Log("Game Resumed");
 
         //set input handler to movement script
-        inputHandler.SetInputReceiver(playerObj.GetComponent<PlayerMovement>());
-
-        //close pause menu
-        ClosePauseMenu();
+        inputHandler.SetInputReceiver(player.GetComponent<PlayerMovement>());
+        interactHandler.SetInteractReceiver(player.GetComponent<PlayerShoot>());
+        // Fire the OnGameResumed event
+        OnGameResumed?.Invoke(isPaused);
     }
 
     public void PauseGame()
     {
-        Time.timeScale = 0;
-        gameIsActive = false;
+        isPaused = true;
+        Debug.Log("Game Paused");       
+
+        PauseMenuScript recieverScript = FindObjectOfType<PauseMenuScript>();
+        if (recieverScript != null)
+        {
+            //set input receiver
+            inputHandler.SetInputReceiver(recieverScript);
+            interactHandler.SetInteractReceiver(null);
+        }
+
+        // Fire the OnGamePaused event
+        OnGamePaused?.Invoke(isPaused);
     }
 
     public void ClosePauseMenu()
@@ -292,18 +361,15 @@ public class GameController : MonoBehaviour
         menuSceneManager.CloseMenuScene("PauseMenuScene");
     }
 
-    public void OpenPauseMenu()
+    public void TogglePause()
     {
-        PauseGame();
+        //PauseGame();
+        SetPause(!isPaused);
+        //initialize menu after scene finishes loading
+        PauseMenuScript menuScript = FindObjectOfType<PauseMenuScript>();
+        menuScript.InitializeMenu(this);
 
-        menuSceneManager.OpenMenuScene("PauseMenuScene", () =>
-        {
-            //initialize menu after scene finishes loading
-            PauseMenuScript menuScript = FindObjectOfType<PauseMenuScript>();
-            menuScript.InitializeMenu(this);
-
-            inputHandler.SetInputReceiver(menuScript);
-        });
+        inputHandler.SetInputReceiver(menuScript);
     }
 
     public void OpenLevel(string lvl)
@@ -316,7 +382,7 @@ public class GameController : MonoBehaviour
         {
             //initialize lvl 1 manager after scene finishes loading
             Level_1_Manager lvlManager = FindObjectOfType<Level_1_Manager>();
-            lvlManager.InitializeLvl(this);
+            lvlManager.Initialize(this);
         });
     }
 
@@ -324,18 +390,23 @@ public class GameController : MonoBehaviour
     {
         //PauseGame();
 
-        ClosePauseMenu();
+        //ClosePauseMenu();
 
-        menuSceneManager.OpenMenuScene("StartMenuScene", () =>
-        {
-            //initialize menu after scene finishes loading
-            StartMenuScript menuScript = FindObjectOfType<StartMenuScript>();
-            menuScript.InitializeMenu(this);
+        LoadScene(sceneName.StartMenuScene);
+        //StartMenuScript menuScript = FindObjectOfType<StartMenuScript>();
+        //set input receiver
+        //inputHandler.SetInputReceiver(menuScript);
 
-            //set input receiver
-            inputHandler.SetInputReceiver(menuScript);
-            menuScript.ShowStartMenu();
-        });
+        //menuSceneManager.OpenMenuScene("StartMenuScene", () =>
+        //{
+        //    //initialize menu after scene finishes loading
+        //    StartMenuScript menuScript = FindObjectOfType<StartMenuScript>();
+        //    //menuScript.InitializeMenu(this);
+
+        //    //set input receiver
+        //    inputHandler.SetInputReceiver(menuScript);
+        //    menuScript.ShowStartMenu();
+        //});
     }
 
     public void CloseStartMenu()

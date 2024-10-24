@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float MaxHP = 100f;
     [SerializeField] private bool inSafeZone; //bool to check not affect the ammoDepletion
     [SerializeField] private bool playerDead; //bool to check player dead to stop the coldlvl from increasing
+    public Transform initialPosition;
 
     [Header("Hypothermia System")]
     [SerializeField] float currentColdLvl;
@@ -23,10 +24,13 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Color hitFreezeColor = Color.blue; // Color when hit by enemies
     [SerializeField] private float colorChangeDuration = 0.1f; // Duration for the color change
     private Color originalColor; // Store the original color of the enemy
+    
     //references
     PlayerMovement pm;
     Animator am;
     private SpriteRenderer sr;
+    private Level_Controller levelController;
+    
     void Awake()
     {
         //sprite render
@@ -37,16 +41,16 @@ public class PlayerController : MonoBehaviour
     }
 
     //called by the game controller when the game starts
-    public void Init()
+    public void Init(Level_Controller aController)
     {
+        levelController = aController;
+
         //set player initial position
-        //transform.position = Vector2.zero;
+        this.transform.position = aController.startPosition.transform.position;
+
         //reset all the variables
         Reset();
-        originalColor = sr.color; // Save the original color of the enemy sprite
-        //set all the references connected to the player interactions
-        //pm = GetComponent<PlayerMovement>();
-        //am = GetComponent<Animator>();
+        originalColor = sr.color; // Save the original color of the enemy sprite       
     }
 
     private void Update()

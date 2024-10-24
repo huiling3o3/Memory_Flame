@@ -31,6 +31,8 @@ public class hoverHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         if (buttonAnimator != null)
         {
             buttonAnimator.SetBool("hovered", true);
+            //TODO: play hover btn sound
+            PlayHoverSound();
         }
     }
 
@@ -41,6 +43,14 @@ public class hoverHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         if (buttonAnimator != null)
         {
             buttonAnimator.SetBool("hovered", false);
+            
         }
     }
+
+    //public method for the unity editor to ply callback method
+    public void PlayHoverSound()
+    {
+        SoundManager.PlaySound(SoundType.HOVER,null,0.6f);
+    }
+
 }

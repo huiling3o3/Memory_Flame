@@ -29,7 +29,7 @@ public class EnemyShoot : MonoBehaviour
 
     public void DoShoot()
     {
-        if (!Game.GetGameController().gameOver && canAttack)
+        if (!Game.GetGameController().isGameOver && canAttack)
         {
             //spawn bullet
             GameObject SpawnBullet = Instantiate(bullet, bulletSpawnPoint.position, Quaternion.identity);

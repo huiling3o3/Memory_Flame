@@ -42,10 +42,10 @@ public class EnemyController : DropBranchHandler
 
     private void Start()
     {
-       Init();
+       //Init();
     }
 
-    public void Init()
+    public void Init(GameObject Target)
     {
         //reset enemies stats
         canAttack = true;
@@ -69,12 +69,25 @@ public class EnemyController : DropBranchHandler
         UpdatHealthBar();
 
         //Initializes the reference
-        target = FindObjectOfType<PlayerController>().gameObject;
+        //target = FindObjectOfType<PlayerController>().gameObject;
+        target = Target;
+    }
+    private void OnEnable()
+    {
+        // Subscribe to the events
+        GameController.OnGamePaused += HandleGamePaused;
+        GameController.OnGameResumed += HandleGameResumed;
     }
 
+    private void OnDisable()
+    {
+        // Unsubscribe to avoid memory leaks
+        GameController.OnGamePaused -= HandleGamePaused;
+        GameController.OnGameResumed -= HandleGameResumed;
+    }
     private void FixedUpdate()
     {
-        if (target == null)
+        if (target == null || Game.GetGameController().isGameOver)
         {
             return;
         }
@@ -101,6 +114,20 @@ public class EnemyController : DropBranchHandler
                 ChaseTarget(target);
             }
         }
+    }
+
+    // Called when the game is paused
+    private void HandleGamePaused(bool isPaused)
+    {
+        Debug.Log($"{gameObject.name} received pause notification");
+        stopMoving();
+    }
+
+    // Called when the game is resumed
+    private void HandleGameResumed(bool isPaused)
+    {
+        Debug.Log($"{gameObject.name} received resume notification");
+        agent.isStopped = false;
     }
 
     //Initializes the enemy stats 

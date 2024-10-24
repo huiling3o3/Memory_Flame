@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class CampFireController : MonoBehaviour
 {
+    private Level_Controller levelController;
+
     // Fire System
     [Header("Fire System")]
     [SerializeField] private float maxHealth = 100f; 
@@ -15,6 +17,8 @@ public class CampFireController : MonoBehaviour
     [SerializeField] private List<Sprite> fireSprites; // List of fire sprites
     [SerializeField] SpriteRenderer fireSpriteRenderer;
     [SerializeField] GameObject instructions;
+
+    public bool CanBurn = true;
     // Event that notifies subscribers when the current ammo changes
     public static event Action<float> fireHealthChanged;
     void Awake()
@@ -25,14 +29,54 @@ public class CampFireController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+       
+    }
+
+    public void Initialize(Level_Controller aController)
+    {
+        levelController = aController;
         currentHealth = maxHealth; // Initialize health
         UpdateFireAppearance();    // Set initial fire appearance
         instructions.SetActive(false);
+        CanBurn = true;
+    }
+
+    private void OnEnable()
+    {
+        // Subscribe to the events
+        GameController.OnGamePaused += HandleGamePaused;
+        GameController.OnGameResumed += HandleGameResumed;
+    }
+
+    private void OnDisable()
+    {
+        // Unsubscribe to avoid memory leaks
+        GameController.OnGamePaused -= HandleGamePaused;
+        GameController.OnGameResumed -= HandleGameResumed;
+    }
+
+    // Called when the game is paused
+    private void HandleGamePaused(bool isPaused)
+    {
+        Debug.Log($"{gameObject.name} received pause notification");
+        CanBurn = !isPaused;
+    }
+
+    // Called when the game is resumed
+    private void HandleGameResumed(bool isPaused)
+    {
+        Debug.Log($"{gameObject.name} received resume notification");
+        CanBurn = isPaused;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (!CanBurn && levelController.CheckGameOver() && levelController.CheckIsStarted())
+        {
+            return;
+        }
+
         BurnFire(); // Deplete fire health over time
         UpdateFireAppearance(); // Update fire sprite based on current health
         AddBranchesToFire(); // F key to add the branches to the campfire
@@ -48,7 +92,7 @@ public class CampFireController : MonoBehaviour
         fireHealthChanged?.Invoke(currentHealth);
 
         // If the fire health reaches 0, trigger game over
-        if (!Game.GetGameController().gameOver && currentHealth <= 0)
+        if (!Game.GetGameController().isGameOver && currentHealth <= 0)
         {
             Debug.Log("Fire Burned Out!!!");
             // Trigger game over event
@@ -62,7 +106,7 @@ public class CampFireController : MonoBehaviour
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth); // Clamp health between 0 and max
 
         // If the fire health reaches 0, trigger game over
-        if (!Game.GetGameController().gameOver && currentHealth <= 0)
+        if (!levelController.CheckGameOver() && currentHealth <= 0)
         {
             Debug.Log("Fire Burned Out!!!");
             // Trigger game over event
@@ -100,7 +144,7 @@ public class CampFireController : MonoBehaviour
     void AddBranchesToFire()
     {
         //Check if player is within the fire place to add branches
-        if (!Game.GetPlayer().IsPlayerInSafeZone()) { return; }
+        if (!levelController.GetPlayer().IsPlayerInSafeZone()) { return; }
 
         if (Input.GetKeyDown(KeyCode.E)) // Press 'E' to add branch 
         {

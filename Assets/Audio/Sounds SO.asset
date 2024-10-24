@@ -45,3 +45,18 @@ MonoBehaviour:
     mixer: {fileID: -1134275722379470470, guid: 088f86acdf57719488210e783e23eef6, type: 2}
     sounds:
     - {fileID: 8300000, guid: 648cc30e8a2e26a4ab9c191b749f7941, type: 3}
+  - name: HOVER
+    volume: 1
+    mixer: {fileID: -4903254787991985976, guid: 088f86acdf57719488210e783e23eef6, type: 2}
+    sounds:
+    - {fileID: 8300000, guid: 8329f79585bdb74458a768edc4e8d0c7, type: 3}
+  - name: SUBMIT
+    volume: 1
+    mixer: {fileID: -4903254787991985976, guid: 088f86acdf57719488210e783e23eef6, type: 2}
+    sounds:
+    - {fileID: 8300000, guid: 8329f79585bdb74458a768edc4e8d0c7, type: 3}
+  - name: CANCEL
+    volume: 1
+    mixer: {fileID: -4903254787991985976, guid: 088f86acdf57719488210e783e23eef6, type: 2}
+    sounds:
+    - {fileID: 8300000, guid: 8329f79585bdb74458a768edc4e8d0c7, type: 3}

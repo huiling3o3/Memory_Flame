@@ -91,6 +91,10 @@ public class PlayerMovement : MonoBehaviour, IInputReceiver
     #region Input handling
     public void DoDash()
     {
+        if (Game.GetGameController().isGameOver)
+        {
+            return;
+        }
         if (isDashing)
         {
             return;
@@ -105,6 +109,12 @@ public class PlayerMovement : MonoBehaviour, IInputReceiver
 
     public void DoMoveDir(Vector2 aDir)
     {
+
+        if (Game.GetGameController().isGameOver)
+        {
+            return;
+        }
+
         if (isDashing)
         {
             // Don't allow normal movement during dash or knockback
@@ -166,7 +176,7 @@ public class PlayerMovement : MonoBehaviour, IInputReceiver
     public void DoCancelAction()
     {
         //pause game
-        Game.GetGameController().OpenPauseMenu();
+        Game.GetGameController().PauseGame();
     }
 
     #endregion Input handling

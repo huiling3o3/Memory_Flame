@@ -10,10 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 2156092811467021105}
   - component: {fileID: 8665886609549660742}
-  - component: {fileID: 6952353762470886788}
   - component: {fileID: 1081634863667976489}
   - component: {fileID: 7054577745304967820}
   - component: {fileID: 1475861499745290037}
+  - component: {fileID: 6333637863765659572}
   m_Layer: 0
   m_Name: Tree
   m_TagString: Tree
@@ -90,25 +90,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &6952353762470886788
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 989924223119679683}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e7d645e65061eaf4a9c8a20390385496, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  branchPrefab: {fileID: 5306673620990420075, guid: fe05affa94828a1449f0abd0d9159053, type: 3}
-  branchNum: 2
-  isCutting: 0
-  holdTime: 0
-  requiredHoldTime: 3
-  fillCircle: {fileID: 891453626560973698}
-  audioSource: {fileID: 0}
 --- !u!70 &1081634863667976489
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -141,8 +122,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.0004938444, y: -0.017778873}
-  m_Size: {x: 1.0872387, y: 1.4776886}
+  m_Offset: {x: 0.14490621, y: -0.2926283}
+  m_Size: {x: 1.1151896, y: 2.0273876}
   m_Direction: 0
 --- !u!82 &7054577745304967820
 AudioSource:
@@ -256,6 +237,25 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0.15, y: -0.08, z: 0}
   m_TimeToStationary: 0.5
+--- !u!114 &6333637863765659572
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 989924223119679683}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5e2b1c6ab8466044a1f0e6871d42600, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  branchPrefab: {fileID: 5306673620990420075, guid: fe05affa94828a1449f0abd0d9159053, type: 3}
+  branchNum: 2
+  isCutting: 0
+  holdTime: 0
+  requiredHoldTime: 3
+  fillCircle: {fileID: 891453626560973698}
+  audioSource: {fileID: 7054577745304967820}
 --- !u!1 &1447397590022581299
 GameObject:
   m_ObjectHideFlags: 0

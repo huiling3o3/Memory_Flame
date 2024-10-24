@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class Tree : DropBranchHandler, IInteractReciever
+public class CutTree: DropBranchHandler, IInteractReciever
 {
     TreeInteract ti;
 
@@ -73,7 +73,7 @@ public class Tree : DropBranchHandler, IInteractReciever
     //interact handling
     public void StartInteract()
     {
-        //Debug.Log("start interact");
+        Debug.Log("start interact");
     }
     public void StopInteract()
     {

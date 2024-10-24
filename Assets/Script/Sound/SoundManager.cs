@@ -66,5 +66,8 @@ public enum SoundType
     CUTTREE,
     CLAW_ATTACK,
     MAIN_MENU,
-    LEVEL1
+    LEVEL1,
+    HOVER,
+    SUBMIT,
+    CANCEL
 }

@@ -151,8 +151,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.006845844, y: -0.075975895}
-  m_Size: {x: 0.16223793, y: 0.2647504}
+  m_Offset: {x: -0.006845844, y: -0.09887204}
+  m_Size: {x: 0.16223793, y: 0.31054282}
   m_Direction: 0
 --- !u!95 &2208241261437004068
 Animator:
@@ -209,6 +209,7 @@ MonoBehaviour:
   MaxHP: 100
   inSafeZone: 0
   playerDead: 0
+  initialPosition: {fileID: 0}
   currentColdLvl: 0
   maxColdLvl: 100
   coldRate: 1
