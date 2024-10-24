@@ -54,8 +54,8 @@ public class PlayerController : MonoBehaviour
     }
 
     private void Update()
-    {       
-        if (!playerDead)
+    {
+        if (!playerDead && !Game.GetGameController().isPaused)
         {
             // increase coldness over time
             IncreaseColdness();

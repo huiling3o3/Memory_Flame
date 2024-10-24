@@ -18,7 +18,6 @@ public class CampFireController : MonoBehaviour
     [SerializeField] SpriteRenderer fireSpriteRenderer;
     [SerializeField] GameObject instructions;
 
-    public bool CanBurn = true;
     // Event that notifies subscribers when the current ammo changes
     public static event Action<float> fireHealthChanged;
     void Awake()
@@ -38,41 +37,12 @@ public class CampFireController : MonoBehaviour
         currentHealth = maxHealth; // Initialize health
         UpdateFireAppearance();    // Set initial fire appearance
         instructions.SetActive(false);
-        CanBurn = true;
-    }
-
-    private void OnEnable()
-    {
-        // Subscribe to the events
-        GameController.OnGamePaused += HandleGamePaused;
-        GameController.OnGameResumed += HandleGameResumed;
-    }
-
-    private void OnDisable()
-    {
-        // Unsubscribe to avoid memory leaks
-        GameController.OnGamePaused -= HandleGamePaused;
-        GameController.OnGameResumed -= HandleGameResumed;
-    }
-
-    // Called when the game is paused
-    private void HandleGamePaused(bool isPaused)
-    {
-        Debug.Log($"{gameObject.name} received pause notification");
-        CanBurn = !isPaused;
-    }
-
-    // Called when the game is resumed
-    private void HandleGameResumed(bool isPaused)
-    {
-        Debug.Log($"{gameObject.name} received resume notification");
-        CanBurn = isPaused;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (!CanBurn && levelController.CheckGameOver() && levelController.CheckIsStarted())
+        if (Game.GetGameController().isPaused || levelController.CheckGameOver() || !levelController.CheckIsStarted())
         {
             return;
         }

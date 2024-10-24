@@ -7,9 +7,10 @@ public class StartMenuScript : Scene_Manager, IInputReceiver
 {
     [SerializeField] private AudioSource audioSource;
 
-    public override void Initialize(GameController aController)
+    public override void Initialize(GameController aController, InputHandler handler)
     {
-        base.Initialize(aController);
+        base.Initialize(aController,handler);
+        inputHandler.SetInputReceiver(this);
         SoundManager.PlaySound(SoundType.MAIN_MENU, audioSource, 0.6f);
     }
 
@@ -20,7 +21,7 @@ public class StartMenuScript : Scene_Manager, IInputReceiver
         SoundManager.PlaySound(SoundType.MAIN_MENU,audioSource,0.6f);
     }
 
-    public void StartLevel(sceneName toSwitch)
+    public void StartLevel(sceneType toSwitch)
     {
         gameController.LoadScene(toSwitch);
         gameController.RemoveScene(SceneName);
@@ -51,7 +52,7 @@ public class StartMenuScript : Scene_Manager, IInputReceiver
         //TODO: play click btn sound
         SoundManager.PlaySound(SoundType.SUBMIT, null, 0.6f);
         //start game lvl 1
-        StartLevel(sceneName.LEVEL_1);
+        StartLevel(sceneType.LEVEL_1);
     }
 
     public void DoCancelAction()

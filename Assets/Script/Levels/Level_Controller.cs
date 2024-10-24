@@ -10,11 +10,11 @@ public class Level_Controller : Scene_Manager
     public Transform startPosition;
     private CampFireController campFireController;
 
-    public override void Initialize(GameController aController)
+    public override void Initialize(GameController aController, InputHandler handler)
     {
         isStarted = false;
 
-        base.Initialize(aController);
+        base.Initialize(aController, handler);
 
         //initialize player 
         if (player == null) player = FindObjectOfType<PlayerController>();
