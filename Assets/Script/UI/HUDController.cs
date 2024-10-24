@@ -6,8 +6,6 @@ using UnityEngine.UI;
 
 public class HUDController : MonoBehaviour
 {
-    public GameObject pauseScreen;
-
     [Header("Collectables")]
     //reference to the UI variables
     [SerializeField] private TextMeshProUGUI branchTxt;

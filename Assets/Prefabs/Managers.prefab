@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 2598841252070352968}
   - component: {fileID: 5352455511172810725}
   - component: {fileID: 2575944562353601791}
-  - component: {fileID: 542404778692245322}
   - component: {fileID: 171984609424970426}
   - component: {fileID: 1523151512498828155}
   m_Layer: 0
@@ -51,7 +50,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
-  initialScene: 3
   numOfEnemiesKilled: 0
   totalNumEnemiesKilled: 0
   memoryFragmentsCollected: 0
@@ -196,18 +194,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 52f0f5947fcd3594e851e2a30b90de7e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &542404778692245322
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 90119636792357131}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8f467021f9bba594bada50bded10cd4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!82 &171984609424970426
