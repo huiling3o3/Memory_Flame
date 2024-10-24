@@ -76,14 +76,14 @@ public class EnemyController : DropBranchHandler
     {
         // Subscribe to the events
         GameController.OnGamePaused += HandleGamePaused;
-        GameController.OnGameResumed += HandleGameResumed;
+        //GameController.OnGameResumed += HandleGameResumed;
     }
 
     private void OnDisable()
     {
         // Unsubscribe to avoid memory leaks
         GameController.OnGamePaused -= HandleGamePaused;
-        GameController.OnGameResumed -= HandleGameResumed;
+        //GameController.OnGameResumed -= HandleGameResumed;
     }
     private void FixedUpdate()
     {
@@ -119,15 +119,16 @@ public class EnemyController : DropBranchHandler
     // Called when the game is paused
     private void HandleGamePaused(bool isPaused)
     {
-        Debug.Log($"{gameObject.name} received pause notification");
-        stopMoving();
-    }
-
-    // Called when the game is resumed
-    private void HandleGameResumed(bool isPaused)
-    {
-        Debug.Log($"{gameObject.name} received resume notification");
-        agent.isStopped = false;
+        if (isPaused)
+        {
+            Debug.Log($"{gameObject.name} received pause notification");
+            stopMoving();
+        }
+        else
+        {
+            Debug.Log($"{gameObject.name} received resume notification");
+            agent.isStopped = false;
+        }
     }
 
     //Initializes the enemy stats 
@@ -246,7 +247,6 @@ public class EnemyController : DropBranchHandler
         if (currentHp <= 0)
         {
             Destroy(gameObject);
-            Game.GetGameController().EnemyKilled();
             DropBranches();
         }
 

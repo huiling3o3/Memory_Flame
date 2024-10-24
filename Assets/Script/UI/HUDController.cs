@@ -6,12 +6,6 @@ using UnityEngine.UI;
 
 public class HUDController : MonoBehaviour
 {
-    public GameObject pauseScreen;
-
-    //[Header("Wave Txt")]
-    //[SerializeField] GameObject wavePanel;
-    //[SerializeField] private TextMeshProUGUI waveStatsTxt, enemiesTxt;
-
     [Header("Collectables")]
     //reference to the UI variables
     [SerializeField] private TextMeshProUGUI branchTxt;
@@ -69,9 +63,6 @@ public class HUDController : MonoBehaviour
         GameController.branchCollectedChanged += UpdateBranchCount;
         // Subscibe to memFragmentsCollected event from Game controller
         GameController.memFragmentsCollected += UpdateMemoryFragUI;
-        // Subscribe to the game pause events
-        GameController.OnGamePaused += ShowPauseScreen;
-        //GameController.OnGameResumed += ShowPauseScreen;
     }
 
     void OnDisable()
@@ -82,8 +73,6 @@ public class HUDController : MonoBehaviour
         CampFireController.fireHealthChanged -= UpdateFireBar;
         // Unsubscribe to the branchCollectChanged event from Game controller
         GameController.branchCollectedChanged -= UpdateBranchCount;
-        // Subscribe to the game pause events
-        GameController.OnGamePaused -= ShowPauseScreen;
     }
 
     public void UpdateMemoryFragUI(MemoryFragType fragType)
@@ -130,15 +119,5 @@ public class HUDController : MonoBehaviour
     {
         ColdBar.value = currentCold / maxCold;
         fillCold.color = gradientCold.Evaluate(ColdBar.normalizedValue);
-    }
-
-    public void ShowPauseScreen(bool isPaused)
-    {
-        pauseScreen.SetActive(isPaused);
-    }
-
-    public void ShowGameOverScreen(bool isGameOver)
-    {
-        //gameOverScreen.SetActive(isGameOver);
     }
 }

@@ -4,15 +4,17 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 
-public class PauseMenuScript : MonoBehaviour, IInputReceiver
+public class PauseMenuScript : Scene_Manager, IInputReceiver
 {
-    private GameController gameController;
+    //private GameController gameController;
     [SerializeField] private TextMeshProUGUI titleText;
-    public void InitializeMenu(GameController gameController)
+    public override void Initialize(GameController gameController, InputHandler handler)
     {
-        this.gameController = gameController;
+        base.Initialize(gameController, handler);
+        inputHandler.SetInputReceiver(this);
         UpdateText();
     }
+
     private void UpdateText()
     {
         //format game over text display
@@ -54,13 +56,13 @@ public class PauseMenuScript : MonoBehaviour, IInputReceiver
     public void DoSubmitAction()
     {
         //Open start menu
-        gameController.OpenStartMenu();
+        //gameController.OpenStartMenu();
     }
 
     public void DoCancelAction()
     {
         //resume game
-        gameController.ResumeGame();
+        gameController.ClosePauseMenu();
     }
 
 }
