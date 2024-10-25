@@ -20,6 +20,7 @@ public class CampFireController : MonoBehaviour
 
     // Event that notifies subscribers when the current ammo changes
     public static event Action<float> fireHealthChanged;
+
     void Awake()
     {
         //fireSpriteRenderer = GetComponent<SpriteRenderer>();
@@ -108,6 +109,7 @@ public class CampFireController : MonoBehaviour
         float healthIncreaseAmount = branchAmount * 2;
         currentHealth += healthIncreaseAmount;
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth); // Clamp health to max value
+        Game.GetGameController().RemoveStick(branchAmount);
     }
 
 

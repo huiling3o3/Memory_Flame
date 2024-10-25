@@ -79,7 +79,7 @@ public class GameController : MonoBehaviour
     public void GameOver()
     {
         isGameOver = true;
-        isPaused = false;
+        OpenGameOverMenu();
     }
 
     public bool CheckGameOver()
@@ -143,6 +143,14 @@ public class GameController : MonoBehaviour
         Debug.Log("Branch Amt: " + branchCollected);
     }
 
+    public void RemoveStick(int branchAmt)
+    {
+        branchCollected = branchCollected - branchAmt;
+        // Trigger the event with the updated branch collected
+        branchCollectedChanged?.Invoke(branchCollected);
+        Debug.Log("Branch Amt left: " + branchCollected);
+    }
+
     public void AddMemoryFragment(MemoryFragType mf)
     {
         //check if all the list have been collected
@@ -153,6 +161,10 @@ public class GameController : MonoBehaviour
         {
             //set the memory fragment to be found
             memoryFragmentsList[mf] = true;
+            //Update the HUD to collect the memFrag
+            memFragmentsCollected.Invoke(mf);
+
+            //switch the scene when the fragment is completed
             switch (mf) 
             {
                 case MemoryFragType.HEADBAND:
@@ -164,7 +176,7 @@ public class GameController : MonoBehaviour
                 case MemoryFragType.NECKLACE:
                     break;
             }
-            memFragmentsCollected.Invoke(mf);
+            
         }
 
         memoryFragmentsCollected++;
@@ -270,5 +282,11 @@ public class GameController : MonoBehaviour
         LoadScene(sceneType.StartMenuScene);
     }
 
+    public void OpenGameOverMenu()
+    {
+        SetPause(false);
+        if (currentSceneManager != null) RemoveScene(currentSceneManager.SceneName);
+        LoadScene(sceneType.GameOverScene);
+    }
     #endregion
 }

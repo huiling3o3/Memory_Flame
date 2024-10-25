@@ -12,7 +12,7 @@ public class PauseMenuScript : Scene_Manager, IInputReceiver
     {
         base.Initialize(gameController, handler);
         inputHandler.SetInputReceiver(this);
-        UpdateText();
+        //UpdateText();
     }
 
     private void UpdateText()

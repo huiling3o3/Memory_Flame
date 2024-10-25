@@ -106,6 +106,8 @@ public class PlayerController : MonoBehaviour
             Debug.Log("Character dead");
             playerDead = true;
             Game.GetGameController().GameOver();
+            //To Do: switch to dead animation
+            am.SetTrigger("PlayerDead");
         }
 
         if (currentHp > 0.1)
