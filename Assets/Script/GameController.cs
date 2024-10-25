@@ -153,6 +153,17 @@ public class GameController : MonoBehaviour
         {
             //set the memory fragment to be found
             memoryFragmentsList[mf] = true;
+            switch (mf) 
+            {
+                case MemoryFragType.HEADBAND:
+                    LoadScene(sceneType.LEVEL_2);
+                    RemoveScene(currentSceneManager.SceneName);
+                    break;
+                case MemoryFragType.BROKENSWORD:
+                    break;
+                case MemoryFragType.NECKLACE:
+                    break;
+            }
             memFragmentsCollected.Invoke(mf);
         }
 

@@ -295,6 +295,8 @@ GameObject:
   - component: {fileID: 41069208}
   - component: {fileID: 41069210}
   - component: {fileID: 41069209}
+  - component: {fileID: 41069211}
+  - component: {fileID: 41069212}
   m_Layer: 0
   m_Name: Tilemap_path
   m_TagString: Untagged
@@ -18696,6 +18698,36 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!114 &41069211
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 41069207}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9809bf1345abc5648af68b3a82653f08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OverrideArea: 1
+  m_Area: 0
+  m_IgnoreFromBuild: 0
+  m_AffectedAgents: ffffffff
+--- !u!114 &41069212
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 41069207}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 709c8d6349be44c68dff3d220992400c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AffectedAgents: ffffffff
+  m_TileModifiers: []
 --- !u!4 &88592023 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5864667530200761118, guid: 874b48ee25eb0a849a69bcff0050e6a2, type: 3}
@@ -74945,7 +74977,7 @@ MonoBehaviour:
   m_VoxelSize: 0.16666667
   m_BuildHeightMesh: 0
   m_HideEditorLogs: 0
-  m_NavMeshData: {fileID: 0}
+  m_NavMeshData: {fileID: 23800000, guid: 008de538abdd25a41b1ebacb02774d54, type: 2}
 --- !u!4 &1688455849
 Transform:
   m_ObjectHideFlags: 0

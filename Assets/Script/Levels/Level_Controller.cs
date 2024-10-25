@@ -22,7 +22,7 @@ public class Level_Controller : Scene_Manager
 
         //initialise the campfire
         if(campFireController == null) campFireController = FindObjectOfType<CampFireController>();
-        if (campFireController != null) campFireController.Initialize(this);
+        if(campFireController != null) campFireController.Initialize(this);
 
         //initialize all enemies 
         if (enemyList == null)
