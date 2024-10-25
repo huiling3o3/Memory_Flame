@@ -5,7 +5,7 @@ using UnityEngine;
 public class TreeInteract : MonoBehaviour
 {
     public bool interactable;
-    Tree tr;
+    CutTree tr;
     [SerializeField] GameObject instructions;
     private void Start()
     {
@@ -17,9 +17,9 @@ public class TreeInteract : MonoBehaviour
         {
             interactable = true;
             instructions.SetActive(true);
-            
+
             //Set the interactable object to tree
-            tr = GetComponentInParent<Tree>();
+            tr = GetComponentInParent<CutTree>();
             Game.GetGameController().SetTreeInteractReciever(tr);
         }
     }

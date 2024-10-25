@@ -6,10 +6,10 @@ using UnityEngine.UI;
 
 public class HUDController : MonoBehaviour
 {
-
-    //[Header("Wave Txt")]
-    //[SerializeField] GameObject wavePanel;
-    //[SerializeField] private TextMeshProUGUI waveStatsTxt, enemiesTxt;
+    [Header("Collectables")]
+    //reference to the UI variables
+    [SerializeField] private TextMeshProUGUI branchTxt;
+    [SerializeField] private Image Shield;
 
     [Header("Player's Torch Ammo")]
     //reference to the UI variables
@@ -59,6 +59,10 @@ public class HUDController : MonoBehaviour
         PlayerShoot.currentAmmoChanged += UpdateUIAmmo;
         // Subscribe to the fireHealthChanged event from CampFireController
         CampFireController.fireHealthChanged += UpdateFireBar;
+        // Subscribe to the branchCollectChanged event from Game controller
+        GameController.branchCollectedChanged += UpdateBranchCount;
+        // Subscibe to memFragmentsCollected event from Game controller
+        GameController.memFragmentsCollected += UpdateMemoryFragUI;
     }
 
     void OnDisable()
@@ -66,7 +70,32 @@ public class HUDController : MonoBehaviour
         // Unsubscribe from the event when this object is disabled or destroyed
         PlayerShoot.currentAmmoChanged -= UpdateUIAmmo;
         // Unsubscribe to the fireHealthChanged event from CampFireController
-        CampFireController.fireHealthChanged += UpdateFireBar;
+        CampFireController.fireHealthChanged -= UpdateFireBar;
+        // Unsubscribe to the branchCollectChanged event from Game controller
+        GameController.branchCollectedChanged -= UpdateBranchCount;
+    }
+
+    public void UpdateMemoryFragUI(MemoryFragType fragType)
+    {
+        // Ensure the alpha value is between 0 (fully transparent) and 1 (fully opaque)
+        float alphaValue = 1f;
+
+        if (fragType == MemoryFragType.HEADBAND)
+        {
+            // Get the current color of the image
+            Color currentColor = Shield.color;
+
+            // Set the alpha value while keeping the other color values unchanged
+            currentColor.a = alphaValue;
+
+            // Apply the updated color back to the image
+            Shield.color = currentColor;
+        }
+    }
+
+    public void UpdateBranchCount(int amt)
+    {
+        branchTxt.text = "x " + amt.ToString();
     }
 
     public void UpdateUIAmmo(float currentAmmo)
@@ -91,5 +120,4 @@ public class HUDController : MonoBehaviour
         ColdBar.value = currentCold / maxCold;
         fillCold.color = gradientCold.Evaluate(ColdBar.normalizedValue);
     }
-
 }

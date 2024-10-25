@@ -14,8 +14,8 @@ public class DealDamge : MonoBehaviour
             if (playerHealth != null)
             {
                 //Set the interactable object to tree
-                ec = GetComponentInParent<EnemyController>();
-                playerHealth.TakeDamage(ec.atk);
+                //ec = GetComponentInParent<EnemyController>();
+                //playerHealth.TakeDamage(ec.atk);
             }
         }
 

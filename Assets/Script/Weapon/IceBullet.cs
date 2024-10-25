@@ -23,7 +23,7 @@ public class IceBullet : BulletBehaviour
             {
                 Debug.Log("Hit player");
                 PlayerController player = collision.GetComponent<PlayerController>();
-                player.IncreaseColdness(damagePower);
+                player.TakeFreezeDamage(damagePower);
             }
 
             //Destory Bullet

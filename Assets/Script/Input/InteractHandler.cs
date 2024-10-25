@@ -10,6 +10,7 @@ public class InteractHandler : MonoBehaviour
     {
         //set current input receiver (to control 1 thing at a time)
         activeReceiver = inputReceiver;
+        Debug.Log("active receiver: " + activeReceiver);
     }
 
     // Update is called once per frame

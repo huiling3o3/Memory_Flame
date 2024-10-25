@@ -29,9 +29,34 @@ MonoBehaviour:
     volume: 1
     mixer: {fileID: -4903254787991985976, guid: 088f86acdf57719488210e783e23eef6, type: 2}
     sounds:
-    - {fileID: 8300000, guid: b910342d66535fc46812108334871f79, type: 3}
+    - {fileID: 8300000, guid: 31b851a9f3269554eb47ea5df8ea5eb1, type: 3}
   - name: CLAW_ATTACK
     volume: 1
     mixer: {fileID: -4903254787991985976, guid: 088f86acdf57719488210e783e23eef6, type: 2}
     sounds:
-    - {fileID: 8300000, guid: 31b851a9f3269554eb47ea5df8ea5eb1, type: 3}
+    - {fileID: 8300000, guid: b910342d66535fc46812108334871f79, type: 3}
+  - name: MAIN_MENU
+    volume: 1
+    mixer: {fileID: -1134275722379470470, guid: 088f86acdf57719488210e783e23eef6, type: 2}
+    sounds:
+    - {fileID: 8300000, guid: 32543e4339335e94c90125a9e628256b, type: 3}
+  - name: LEVEL1
+    volume: 1
+    mixer: {fileID: -1134275722379470470, guid: 088f86acdf57719488210e783e23eef6, type: 2}
+    sounds:
+    - {fileID: 8300000, guid: 648cc30e8a2e26a4ab9c191b749f7941, type: 3}
+  - name: HOVER
+    volume: 1
+    mixer: {fileID: -4903254787991985976, guid: 088f86acdf57719488210e783e23eef6, type: 2}
+    sounds:
+    - {fileID: 8300000, guid: 8329f79585bdb74458a768edc4e8d0c7, type: 3}
+  - name: SUBMIT
+    volume: 1
+    mixer: {fileID: -4903254787991985976, guid: 088f86acdf57719488210e783e23eef6, type: 2}
+    sounds:
+    - {fileID: 8300000, guid: 8329f79585bdb74458a768edc4e8d0c7, type: 3}
+  - name: CANCEL
+    volume: 1
+    mixer: {fileID: -4903254787991985976, guid: 088f86acdf57719488210e783e23eef6, type: 2}
+    sounds:
+    - {fileID: 8300000, guid: 8329f79585bdb74458a768edc4e8d0c7, type: 3}

@@ -13,29 +13,20 @@ public class PlayerShoot : MonoBehaviour, IInteractReciever
     //reference to the bullet objects to spawn the bullets
     [SerializeField] private Transform bulletSpawnPoint;
     [SerializeField] private GameObject bullet;
-   
-    //Mouse pos variables 
-    private Vector2 worldPos;
-    private Vector2 dir;
-
-    // Minimum and maximum angle constraints    
-    private float angle;
-    [Header("Fire Torch Angle Constraints")]
-    [SerializeField] private float minAngle = -45f;
-    [SerializeField] private float maxAngle = 45f;
 
     // Fire Ammo System
     [Header("Fire Ammo System")]
     [SerializeField] private float maxAmmo = 100f; // Maximum fire ammo
     [SerializeField] private float currentAmmo; 
     [SerializeField] private float ammoDepletionRate = 10f; // Ammo depletes per second when shooting, decrease it to so slower
-
+ 
     //reference to the player movement to calculate the shooting direction
     PlayerMovement pm;
     PlayerController pc;
 
     // Event that notifies subscribers when the current ammo changes
     public static event Action<float> currentAmmoChanged;
+    bool haveAmmo;
     void Awake()
     {
         pm = GetComponent<PlayerMovement>();
@@ -46,42 +37,65 @@ public class PlayerShoot : MonoBehaviour, IInteractReciever
     void Start()
     {
         // Initialize ammo
+        Reset();
+    }
+    //Rest function
+    public void Reset()
+    {
+        // Initialize ammo
         currentAmmo = maxAmmo;
+        haveAmmo = true;
     }
 
     // Update is called once per frame
     void Update()
     {
-        HandleTorchRotation();
-        DepleteAmmo();
+        if (!Game.GetGameController().isPaused && !Game.GetGameController().isGameOver)
+        {
+            HandleAim();
+            DepleteAmmo();
+            RegenerateAmmo();
+        }
+        
     } 
 
-    private void HandleTorchRotation()
+    private void HandleAim()
     {
-        //rotate the torch towards the mouse pos
-        worldPos = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
-        dir = (worldPos - (Vector2)fireTorch.transform.position).normalized;
-        fireTorch.transform.right = dir;
+        //Receive input for mouse direction from world space and convert it to 2d
+        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        mousePos.z = Camera.main.nearClipPlane;
 
-        //Calculate the torch angle
-        angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+        //Calculate direction from player to mouse
+        Vector3 aimDir = (mousePos - transform.position).normalized;
 
-        // Clamp the angle within the min and max limits
-        angle = Mathf.Clamp(angle, minAngle, maxAngle);
+        if (pm.isPlayerFacingRight())
+        {
+            fireTorch.transform.right = new Vector3(Mathf.Clamp(aimDir.x, 0.45f, 0.8f), aimDir.y, 0);
+            fireTorch.transform.localScale = new Vector3(1, 1, 1);
+        }
+        else
+        {            
+            fireTorch.transform.right = new Vector3(Mathf.Clamp(aimDir.x, -0.45f, -0.8f), aimDir.y, 0);
+            // When facing left, flip the torch by adjusting the local scale on the X-axis
+            fireTorch.transform.localScale = new Vector3(-1, 1, 1);
+        }
 
-        // Apply the constrained angle to the torch rotation
-        fireTorch.transform.rotation = Quaternion.Euler(0f, 0f, angle);
+        //Debug.Log(aimDir + ": " + fireTorch.transform.right);
     }
-
-
 
     private void DepleteAmmo()
     {
-        if(!pc.IsPlayerInSafeZone())
+        if (!pc.IsPlayerInSafeZone() && haveAmmo)
         {
             // Deplete ammo over time
             currentAmmo -= ammoDepletionRate * Time.deltaTime;
             currentAmmo = Mathf.Clamp(currentAmmo, 0, maxAmmo); // Ensure ammo doesn't go below 0
+
+            if (currentAmmo <= 0)
+            {
+                pc.IncreaseColdnessRate(); //increase coldness faster
+                haveAmmo = false;
+            }
         }
 
         // Trigger the event with the updated ammo percentage
@@ -90,8 +104,14 @@ public class PlayerShoot : MonoBehaviour, IInteractReciever
 
     public void RegenerateAmmo()
     {
-        //Call this method when player is back into campfire 
-        currentAmmo = maxAmmo;
+        //Call this method when player is back into campfire
+        if (pc.IsPlayerInSafeZone())
+        {
+            //increase ammo over time
+            currentAmmo += ammoDepletionRate * Time.deltaTime;
+            currentAmmo = Mathf.Clamp(currentAmmo, 0, maxAmmo); // Ensure ammo doesn't go below 0
+        }          
+        //currentAmmo = maxAmmo;
     }
 
     #region interact handling
@@ -100,23 +120,24 @@ public class PlayerShoot : MonoBehaviour, IInteractReciever
         //Debug.Log("PUPU");
 
         //there is enough ammo
-        if (currentAmmo > 0)
+        if (currentAmmo > 0 && !Game.GetGameController().isGameOver && !Game.GetGameController().isPaused)
         {
             // Calculate the correct bullet rotation
             Quaternion bulletRotation = fireTorch.transform.rotation;
+            //spawn bullet
+            GameObject SpawnBullet = Instantiate(bullet, bulletSpawnPoint.position, bulletRotation);
+            
+            Vector2 shootDirection;
 
-            // If the player is flipped, adjust the bullet's rotation by 180 degrees
             if (pm.isPlayerFacingRight())
             {
-                bulletRotation = Quaternion.Euler(0f, 0f, angle);
+                shootDirection = SpawnBullet.transform.right;
             }
             else
             {
-                bulletRotation = Quaternion.Euler(0f, 0f, angle + 180f);
+                shootDirection = -SpawnBullet.transform.right;
             }
-
-            //spawn bullet
-            GameObject SpawnBullet = Instantiate(bullet, bulletSpawnPoint.position, bulletRotation);
+            SpawnBullet.GetComponent<Rigidbody2D>().velocity = shootDirection;         
         }
     }
 

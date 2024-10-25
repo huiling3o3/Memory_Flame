@@ -3,49 +3,28 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class StartMenuScript : MonoBehaviour, IInputReceiver
+public class StartMenuScript : Scene_Manager, IInputReceiver
 {
-    private GameController gameController;
+    [SerializeField] private AudioSource audioSource;
 
-    private int success;
-    private int numOfEnemiesKilled;
-    private float timer;
-
-    public void InitializeMenu(GameController gameController)
+    public override void Initialize(GameController aController, InputHandler handler)
     {
-        this.gameController = gameController;
+        base.Initialize(aController,handler);
+        inputHandler.SetInputReceiver(this);
+        SoundManager.PlaySound(SoundType.MAIN_MENU, audioSource, 0.6f);
     }
 
     //set start menu display
-    public void ShowStartMenu(int wave, int numOfEnemiesKilled, float timer)
+    public void ShowStartMenu()
     {
-        this.success = wave;
-        this.numOfEnemiesKilled = numOfEnemiesKilled;
-        this.timer = timer;
-        UpdateMenuText();
+        //TODO: play main menu bgm
+        SoundManager.PlaySound(SoundType.MAIN_MENU,audioSource,0.6f);
     }
 
-    private void UpdateMenuText()
+    public void StartLevel(sceneType toSwitch)
     {
-        //format game over text display
-        Text gameOverText = this.GetComponentInChildren<Text>();
-        gameOverText.text = "Memory's Flame Game\n";
-
-        if (gameController.gameOver)
-        {
-            gameOverText.text += "\nGame Over: Game Stats\n-------------------------------";
-            gameOverText.text += "\nSurvived until Wave: " + success;
-            gameOverText.text += "\nEnemies Killed: " + numOfEnemiesKilled;
-            gameOverText.text += "\nTime survived: " + Mathf.FloorToInt(timer) + "s";
-
-            gameOverText.text += "\n\nSpace - Play Again";
-            gameOverText.text += "\nEsc - Exit";
-        }
-        else
-        {
-            gameOverText.text += "\n\nSpace - Play";
-            gameOverText.text += "\nEsc - Exit";
-        }
+        gameController.LoadScene(toSwitch);
+        gameController.RemoveScene(SceneName);
     }
 
     public void DoMoveDir(Vector2 aDir)
@@ -70,18 +49,22 @@ public class StartMenuScript : MonoBehaviour, IInputReceiver
 
     public void DoSubmitAction()
     {
-        //start game again
-        gameController.StartGame();
+        //TODO: play click btn sound
+        SoundManager.PlaySound(SoundType.SUBMIT, null, 0.6f);
+        //start game lvl 1
+        StartLevel(sceneType.LEVEL_1);
     }
 
     public void DoCancelAction()
     {
+        //TODO: play click btn sound
+        SoundManager.PlaySound(SoundType.CANCEL, null, 0.6f);
 #if UNITY_EDITOR
         //if in unity editor, stop playing
         UnityEditor.EditorApplication.isPlaying = false;
 #else
             //if not in unity editor, quit application
-            Application.Quit();
+            Application.Quit();           
 #endif
     }
 }

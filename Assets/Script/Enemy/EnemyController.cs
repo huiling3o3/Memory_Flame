@@ -1,15 +1,18 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.Pool;
+using UnityEngine.AI;
 using UnityEngine.UI;
 
 public class EnemyController : DropBranchHandler
 {
     //reference
-    [SerializeField]
+    //[SerializeField]
     private GameObject target; //player
     private Animator am;
     private SpriteRenderer sr;
+
+    //Holds navmesh agent reference 
+    private NavMeshAgent agent;
 
     //Variables for enemy stats
     [Header("Enemies Stats")]
@@ -17,13 +20,15 @@ public class EnemyController : DropBranchHandler
     [SerializeField] private float maxHp;
     [SerializeField] public int atk;
     [SerializeField] private int atkCooldown;
+    [SerializeField] private float attackDistanceThreshold = 0.8f;
+    [SerializeField] private float chaseDistanceThreshold = 3f;
 
     //Variables for movement
-    private float distanceBtwPlayer;
-
+    [SerializeField] private float distanceBtwPlayer;
+    private bool isFacingRight = true;
+    private bool haveTarget = false;
     //Variables for attacks  
     private bool canAttack = true;
-    private bool targetInRange = false;
 
     // Variables for color change effect
     [Header("Hit Settings")]    
@@ -37,47 +42,92 @@ public class EnemyController : DropBranchHandler
 
     private void Start()
     {
-        //sprite render
-        sr = GetComponent<SpriteRenderer>();
+       //Init();
+    }
 
+    public void Init(GameObject Target)
+    {
+        //reset enemies stats
+        canAttack = true;
+        isFacingRight = true;
+        haveTarget = false; //Set have target to false, so it will only attack the player when it is near.
+        //get references
+        sr = GetComponent<SpriteRenderer>();
         //get enemy animator
         am = GetComponent<Animator>();
+
+        //nav mesh agent
+        agent = GetComponent<NavMeshAgent>();
+        agent.updateRotation = false;
+        agent.updateUpAxis = false;
+        agent.speed = speed;
 
         originalColor = sr.color; // Save the original color of the enemy sprite
 
         //set currentHp to max hp
         currentHp = maxHp;
         UpdatHealthBar();
-    }
-    public void Init()
-    {
+
         //Initializes the reference
-        target = Game.GetPlayer().gameObject;
-
-        //sprite render
-        sr = GetComponent<SpriteRenderer>();
-
-        originalColor = sr.color; // Save the original color of the enemy sprite
+        //target = FindObjectOfType<PlayerController>().gameObject;
+        target = Target;
+    }
+    private void OnEnable()
+    {
+        // Subscribe to the events
+        GameController.OnGamePaused += HandleGamePaused;
+        //GameController.OnGameResumed += HandleGameResumed;
     }
 
-    private void Update()
+    private void OnDisable()
     {
-        if (canAttack)
+        // Unsubscribe to avoid memory leaks
+        GameController.OnGamePaused -= HandleGamePaused;
+        //GameController.OnGameResumed -= HandleGameResumed;
+    }
+    private void FixedUpdate()
+    {
+        if (target == null || Game.GetGameController().isGameOver)
         {
-            // Move towards the player if allowed to attack
-            GetTarget(target);
-            //set animation to walk
-            am.SetBool("isWalking", true);
+            return;
+        }
+
+        //get the distance between the player and enemy
+        distanceBtwPlayer = Vector2.Distance(target.transform.position, transform.position);
+
+        //Check if target is within range to chase
+        if (distanceBtwPlayer < chaseDistanceThreshold)
+        {
+            haveTarget = true;
+        }
+
+        if (haveTarget && canAttack)
+        {
             // Checks if target is within range for attacking
-            if (targetInRange)
+            if (distanceBtwPlayer < attackDistanceThreshold)
             {
-                StartCoroutine(Attack());
+                Attack(target.gameObject);
             }
+            else
+            {
+                // Move towards the player
+                ChaseTarget(target);
+            }
+        }
+    }
+
+    // Called when the game is paused
+    private void HandleGamePaused(bool isPaused)
+    {
+        if (isPaused)
+        {
+            Debug.Log($"{gameObject.name} received pause notification");
+            stopMoving();
         }
         else
         {
-            //set animation to idle
-            am.SetBool("isWalking", false);
+            Debug.Log($"{gameObject.name} received resume notification");
+            agent.isStopped = false;
         }
     }
 
@@ -92,17 +142,11 @@ public class EnemyController : DropBranchHandler
         this.atkCooldown = atkCooldown;
     }
 
-    //Controls the enemy movement 
-    public void GetTarget(GameObject target)
+    public void ChaseTarget(GameObject target)
     {
-        if (target == null)
-        {
-            return;
-        }
-
-        //get the distance between the player and enemy
-        distanceBtwPlayer = Vector2.Distance(transform.position, target.transform.position);
-
+        //chase the player
+        agent.SetDestination(new Vector3(target.gameObject.transform.position.x, target.gameObject.transform.position.y, 0f));
+        
         //get the direction of the player
         Vector2 direction = target.transform.position - transform.position;
         direction.Normalize();
@@ -110,15 +154,48 @@ public class EnemyController : DropBranchHandler
         // Flip the sprite based on the direction of movement
         if (direction.x < 0)
         {
-            sr.flipX = true; // Moving left, flip the sprite
+            FlipRight(false);
         }
         else if (direction.x > 0)
         {
-            sr.flipX = false; // Moving right, do not flip
+            FlipRight(true);
         }
 
-        //set enemy to follow the player using its position
-        transform.position = Vector2.MoveTowards(transform.position, target.transform.position, speed * Time.deltaTime);
+        // Move the enemy using Rigidbody2D.MovePosition
+        //rb.MovePosition(rb.position + direction * speed * Time.fixedDeltaTime);
+
+        //set animation to walk
+        am.SetBool("isWalking", true);
+    }
+
+    private void FlipRight(bool faceRight)
+    {
+        isFacingRight = faceRight;
+
+        //change the player's X value to flip
+        Vector3 localScale = transform.localScale;
+        localScale.x = faceRight ? Mathf.Abs(localScale.x) : -Mathf.Abs(localScale.x);
+        transform.localScale = localScale;
+    }
+
+    void Attack(GameObject objToDamage)
+    {
+        Debug.Log("Attacking target");
+        //attack animation
+        am.SetTrigger("Attacking");
+
+        //damage the player
+        PlayerController playerHealth = objToDamage.GetComponent<PlayerController>();
+        if (playerHealth != null)
+        {
+            playerHealth.TakeDamage(atk);
+        }
+
+        //Play the enemy hit sound
+        SoundManager.PlaySound(SoundType.CLAW_ATTACK);
+        
+        //add the delay
+        StartCoroutine(AttackTimer());
     }
 
     //Trigger used to define enemy attack radius 
@@ -126,33 +203,36 @@ public class EnemyController : DropBranchHandler
     {
         if (collision.CompareTag("Player"))
         {
-            targetInRange = true;
+            //targetInRange = true;
         }         
 
     }
     void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
-            targetInRange = false;
+        {
+            //targetInRange = false;
+        }
     }
 
     void stopMoving()
     {
-        transform.position = transform.position;
+        agent.isStopped = true;
+
+        //set animation to walk
+        am.SetBool("isWalking", false);
     }
-    
-    IEnumerator Attack()
+
+    //Timer to add in pauses between attacks
+    IEnumerator AttackTimer()
     {
-        //Debug.Log("timer start");
+        Debug.Log("timer start");
         canAttack = false;
         stopMoving();
-        // TODO: Play the enemy hit sound
-        SoundManager.PlaySound(SoundType.CLAW_ATTACK);
-        //attack animation
-        am.SetTrigger("attack");
         //Timer to add in pauses between attacks
-        yield return new WaitForSeconds(atkCooldown);
+        yield return new WaitForSeconds(atkCooldown);        
         canAttack = true;
+        agent.isStopped = false;
     }
 
     public void TakeDamage(float damage)
@@ -167,7 +247,6 @@ public class EnemyController : DropBranchHandler
         if (currentHp <= 0)
         {
             Destroy(gameObject);
-            Game.GetGameController().EnemyKilled();
             DropBranches();
         }
 
@@ -186,14 +265,10 @@ public class EnemyController : DropBranchHandler
     {
         // Change the sprite color to the hit color
         sr.color = hitColor;
-        // TODO: Play the enemy hurt sound
 
-        // Stop the enemy movement for a while
-        canAttack = false;
         // Wait for the duration of the color change
         yield return new WaitForSeconds(colorChangeDuration);
-        // resume the enemy movement
-        canAttack = true;
+
         // Revert the sprite color back to the original color
         sr.color = originalColor;
     }

@@ -75,53 +75,7 @@ public static class Game
     public static void SetEnemySpawner(EnemySpawner es) => enemySpawner = es;
     #endregion
 
-    //#region buff
-    ///// <summary>
-    ///// Buff Set and Get
-    ///// </summary>
-    ///// <param name="bList"></param>
-    //public static void SetBuffList(List<Buff> bList) 
-    //{
-    //    buffList = bList;
-    //}
-    //public static List<Buff> GetBuffList() => buffList;
-    //public static Buff GetBuffByRefID(string id)
-    //{
-    //    return buffList.Find(x => x.id == id);
-    //}
-    //#endregion
-
-    //#region weapon
-    //public static Weapon GetWeaponByRefID(string id)
-    //{
-    //    return weaponList.Find(x => x.id == id);
-    //}
-    //public static List<Weapon> GetWeaponList() => weaponList;
-    //public static void SetWeaponList(List<Weapon> wList) => weaponList = wList;
-
-    //#endregion
-
-    //#region barrel
-    //public static Barrel GetBarrelByRefID(string id)
-    //{
-    //    return barrelList.Find(x => x.id == id);
-    //}
-    //public static List<Barrel> GetBarrelList() => barrelList;
-    //public static void SetBarrelList(List<Barrel> bList) => barrelList = bList;
-
-    //#endregion
-
-    //#region dialogue
-    //public static Dialogue GetDialogueByRefID(string cutsceneID)
-    //{
-    //    return dialogueList.Find(x => x.cutsceneID == cutsceneID);
-    //}
-
-    //public static List <Dialogue> GetDialogueList() 
-    //{  
-    //    return dialogueList; 
-    //}
-
+    
     //public static void SetDialogueList(List <Dialogue> dList)
     //{
     //    dialogueList = dList;

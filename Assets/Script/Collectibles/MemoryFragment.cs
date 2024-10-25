@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class MemoryFragment : Collectible
 {
+    [SerializeField] MemoryFragType mf;
     protected override void Collect()
     {
         base.Collect(); // to handle object destruction
@@ -11,7 +12,7 @@ public class MemoryFragment : Collectible
         GameController controller = Game.GetGameController();
         if (controller != null)
         {
-            controller.AddMemoryFragment(); // add to memory fragment count
+            controller.AddMemoryFragment(mf); // add to memory fragment count
         }
     }
 }

@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class CampFireController : MonoBehaviour
 {
+    private Level_Controller levelController;
+
     // Fire System
     [Header("Fire System")]
     [SerializeField] private float maxHealth = 100f; 
@@ -14,6 +16,7 @@ public class CampFireController : MonoBehaviour
     // List of fire sprites for different health levels
     [SerializeField] private List<Sprite> fireSprites; // List of fire sprites
     [SerializeField] SpriteRenderer fireSpriteRenderer;
+    [SerializeField] GameObject instructions;
 
     // Event that notifies subscribers when the current ammo changes
     public static event Action<float> fireHealthChanged;
@@ -25,13 +28,25 @@ public class CampFireController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+       
+    }
+
+    public void Initialize(Level_Controller aController)
+    {
+        levelController = aController;
         currentHealth = maxHealth; // Initialize health
         UpdateFireAppearance();    // Set initial fire appearance
+        instructions.SetActive(false);
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (Game.GetGameController().isPaused || levelController.CheckGameOver() || !levelController.CheckIsStarted())
+        {
+            return;
+        }
+
         BurnFire(); // Deplete fire health over time
         UpdateFireAppearance(); // Update fire sprite based on current health
         AddBranchesToFire(); // F key to add the branches to the campfire
@@ -47,7 +62,7 @@ public class CampFireController : MonoBehaviour
         fireHealthChanged?.Invoke(currentHealth);
 
         // If the fire health reaches 0, trigger game over
-        if (!Game.GetGameController().gameOver && currentHealth <= 0)
+        if (!Game.GetGameController().isGameOver && currentHealth <= 0)
         {
             Debug.Log("Fire Burned Out!!!");
             // Trigger game over event
@@ -61,7 +76,7 @@ public class CampFireController : MonoBehaviour
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth); // Clamp health between 0 and max
 
         // If the fire health reaches 0, trigger game over
-        if (!Game.GetGameController().gameOver && currentHealth <= 0)
+        if (!levelController.CheckGameOver() && currentHealth <= 0)
         {
             Debug.Log("Fire Burned Out!!!");
             // Trigger game over event
@@ -99,7 +114,7 @@ public class CampFireController : MonoBehaviour
     void AddBranchesToFire()
     {
         //Check if player is within the fire place to add branches
-        if (!Game.GetPlayer().IsPlayerInSafeZone()) { return; }
+        if (!levelController.GetPlayer().IsPlayerInSafeZone()) { return; }
 
         if (Input.GetKeyDown(KeyCode.E)) // Press 'E' to add branch 
         {
@@ -117,8 +132,7 @@ public class CampFireController : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.Keypad1)) // Press '1' to Increase fire health by 20%
         {
-            //AddBranches(10); 
-           
+            //AddBranches(10);           
         }
         else if (Input.GetKeyDown(KeyCode.Keypad2)) // Press '2' to Increase fire health by 35%
         {
@@ -129,15 +143,12 @@ public class CampFireController : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.tag == "Player")
-        {
-            //Regenerate the Ammo
-            PlayerShoot ps = collision.GetComponent<PlayerShoot>();
-            ps.RegenerateAmmo();
-            //Everytime the fire torch is regenerated, 2% of the fire is taken away
-            BorrowFire(2);
+        {                    
             //Player enter into a safe zone, so the ammo does not start to drop
             PlayerController pc = collision.GetComponent<PlayerController>();
             pc.EnterSafeZone();
+            
+            instructions.SetActive(true);
         }
     }
 
@@ -147,7 +158,10 @@ public class CampFireController : MonoBehaviour
         {
             //When player exit the safe zone the fire torch will start to deplete over time
             PlayerController pc = collision.GetComponent<PlayerController>();
+            //Everytime the fire torch is regenerated, 2% of the fire is taken away
+            BorrowFire(2);
             pc.ExitSafeZone();
+            instructions.SetActive(false);
         }
     }
 
