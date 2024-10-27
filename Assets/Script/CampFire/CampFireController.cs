@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CampFireController : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class CampFireController : MonoBehaviour
     [SerializeField] private float maxHealth = 100f; 
     [SerializeField] private float currentHealth;
     [SerializeField] private float healthDepletionRate = 0.5f;
+    [SerializeField] private int branchHealAmount = 2;
 
     // List of fire sprites for different health levels
     [SerializeField] private List<Sprite> fireSprites; // List of fire sprites
@@ -20,6 +22,17 @@ public class CampFireController : MonoBehaviour
 
     // Event that notifies subscribers when the current ammo changes
     public static event Action<float> fireHealthChanged;
+
+    [SerializeField]
+    private Slider fireHealthBar;
+    private enum FireState
+    {
+        Burning, 
+        Extinguished
+    }
+
+    [SerializeField]
+    private FireState fireState = FireState.Burning;
 
     void Awake()
     {
@@ -92,6 +105,8 @@ public class CampFireController : MonoBehaviour
         // Calculate the current fire health percentage
         float healthPercentage = currentHealth / maxHealth;
 
+        fireHealthBar.value = healthPercentage;
+
         // Determine which sprite to display based on the health percentage
         int spriteIndex = Mathf.FloorToInt(healthPercentage * (fireSprites.Count - 1));
 
@@ -106,7 +121,7 @@ public class CampFireController : MonoBehaviour
     {
         // Increase the fire health based on the amount of branch the player had collected
         // Each branch is worth 2 points
-        float healthIncreaseAmount = branchAmount * 2;
+        float healthIncreaseAmount = branchAmount * branchHealAmount;
         currentHealth += healthIncreaseAmount;
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth); // Clamp health to max value
         Game.GetGameController().RemoveStick(branchAmount);
@@ -124,7 +139,15 @@ public class CampFireController : MonoBehaviour
             int sticks = Game.GetGameController().GetSticks();
             if (sticks > 0)
             {
-                AddBranches(sticks);// if enough update the branches num in game controller & increase the branch health 
+                int sticksUsed = (int)((maxHealth - currentHealth) / branchHealAmount) + 1; 
+                if(sticks >= sticksUsed)
+                {
+                    AddBranches(sticksUsed);// if enough update the branches num in game controller & increase the branch health 
+                }
+                else
+                {
+                    AddBranches(sticks);
+                }
                 Debug.Log($"{sticks} given to the fire");
             }
             else
