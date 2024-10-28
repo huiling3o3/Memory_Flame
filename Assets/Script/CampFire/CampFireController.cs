@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,6 +15,8 @@ public class CampFireController : MonoBehaviour
     [SerializeField] private float currentHealth;
     [SerializeField] private float healthDepletionRate = 0.5f;
     [SerializeField] private int branchHealAmount = 2;
+    [SerializeField] private int amountToReviveFire = 10;
+    [SerializeField] private float reviveFireStartingHealth = 50f;
 
     // List of fire sprites for different health levels
     [SerializeField] private List<Sprite> fireSprites; // List of fire sprites
@@ -76,11 +79,15 @@ public class CampFireController : MonoBehaviour
         fireHealthChanged?.Invoke(currentHealth);
 
         // If the fire health reaches 0, trigger game over
-        if (!Game.GetGameController().isGameOver && currentHealth <= 0)
+        //if (!Game.GetGameController().isGameOver && currentHealth <= 0)
+        //{
+        //    Debug.Log("Fire Burned Out!!!");
+        //    // Trigger game over event
+        //    //Game.GetGameController().GameOver();
+        //}
+        if(currentHealth <= 0)
         {
-            Debug.Log("Fire Burned Out!!!");
-            // Trigger game over event
-            //Game.GetGameController().GameOver();
+            KillFire();
         }
     }
     private void BorrowFire(int amount)
@@ -135,24 +142,38 @@ public class CampFireController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.E)) // Press 'E' to add branch 
         {
-            //Check in the game controller whether the player have enough branch
-            int sticks = Game.GetGameController().GetSticks();
-            if (sticks > 0)
+            switch (fireState)
             {
-                int sticksUsed = (int)((maxHealth - currentHealth) / branchHealAmount) + 1; 
-                if(sticks >= sticksUsed)
-                {
-                    AddBranches(sticksUsed);// if enough update the branches num in game controller & increase the branch health 
-                }
-                else
-                {
-                    AddBranches(sticks);
-                }
-                Debug.Log($"{sticks} given to the fire");
-            }
-            else
-            {
-                Debug.Log($"not enough branches");
+                case FireState.Burning:
+                    //Check in the game controller whether the player have enough branch
+                    int sticks = Game.GetGameController().GetSticks();
+                    if (sticks > 0)
+                    {
+                        int sticksUsed = (int)((maxHealth - currentHealth) / branchHealAmount) + 1;
+                        if (sticks >= sticksUsed)
+                        {
+                            AddBranches(sticksUsed);// if enough update the branches num in game controller & increase the branch health 
+                        }
+                        else
+                        {
+                            AddBranches(sticks);
+                        }
+                        Debug.Log($"{sticks} given to the fire");
+                    }
+                    else
+                    {
+                        Debug.Log($"not enough branches");
+                    }
+                    break;
+
+                case FireState.Extinguished:
+                    if(Game.GetGameController().GetSticks() >= amountToReviveFire)
+                    {
+                        Game.GetGameController().RemoveStick(amountToReviveFire);
+                        fireState = FireState.Burning;
+                        currentHealth = reviveFireStartingHealth;
+                    }
+                    break;
             }
         }
         else if (Input.GetKeyDown(KeyCode.Keypad1)) // Press '1' to Increase fire health by 20%
@@ -163,6 +184,10 @@ public class CampFireController : MonoBehaviour
         {
             AddBranches(15); 
         }
+    }
+    private void KillFire()
+    {
+        fireState = FireState.Extinguished;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
