@@ -7,6 +7,7 @@ public class Collectible : MonoBehaviour
     protected virtual void Collect()
     {
         // to be overridden by subclasses if necessary
+        Pickup.instance.RemoveCollectible(this);
         Destroy(gameObject);  // destroy the collectible after collection
     }
 

@@ -126,14 +126,15 @@ public class GameController : MonoBehaviour
     #region Game Variables function
     public int GetSticks()
     {
-        int sticksToGive = 0;
-        if (branchCollected != 0)
-        {
-            sticksToGive = branchCollected;
-            //clear the sticks
-            branchCollected = 0;
-        }
-        return sticksToGive;
+        //int sticksToGive = 0;
+        //if (branchCollected != 0)
+        //{
+        //    sticksToGive = branchCollected;
+        //    //clear the sticks
+        //    branchCollected = 0;
+        //}
+        //return sticksToGive;
+        return branchCollected;
     }
     public void AddStick()
     {
