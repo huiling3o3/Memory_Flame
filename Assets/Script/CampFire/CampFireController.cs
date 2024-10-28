@@ -80,7 +80,7 @@ public class CampFireController : MonoBehaviour
         {
             Debug.Log("Fire Burned Out!!!");
             // Trigger game over event
-            Game.GetGameController().GameOver();
+            //Game.GetGameController().GameOver();
         }
     }
     private void BorrowFire(int amount)
@@ -94,7 +94,7 @@ public class CampFireController : MonoBehaviour
         {
             Debug.Log("Fire Burned Out!!!");
             // Trigger game over event
-            Game.GetGameController().GameOver();
+            //Game.GetGameController().GameOver();
         }
     }
 
