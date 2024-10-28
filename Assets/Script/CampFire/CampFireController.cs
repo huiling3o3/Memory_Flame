@@ -7,8 +7,6 @@ using UnityEngine.UI;
 
 public class CampFireController : MonoBehaviour
 {
-    private Level_Controller levelController;
-
     // Fire System
     [Header("Fire System")]
     [SerializeField] private float maxHealth = 100f; 
@@ -45,12 +43,11 @@ public class CampFireController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-       
+        Initialize();
     }
 
-    public void Initialize(Level_Controller aController)
+    public void Initialize()
     {
-        levelController = aController;
         currentHealth = maxHealth; // Initialize health
         UpdateFireAppearance();    // Set initial fire appearance
         instructions.SetActive(false);
@@ -59,7 +56,7 @@ public class CampFireController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Game.GetGameController().isPaused || levelController.CheckGameOver() || !levelController.CheckIsStarted())
+        if (Game.GetGameController().isPaused || Level_Controller.instance.CheckGameOver() || !Level_Controller.instance.CheckIsStarted())
         {
             return;
         }
@@ -97,7 +94,7 @@ public class CampFireController : MonoBehaviour
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth); // Clamp health between 0 and max
 
         // If the fire health reaches 0, trigger game over
-        if (!levelController.CheckGameOver() && currentHealth <= 0)
+        if (!Level_Controller.instance.CheckGameOver() && currentHealth <= 0)
         {
             Debug.Log("Fire Burned Out!!!");
             // Trigger game over event
@@ -138,7 +135,7 @@ public class CampFireController : MonoBehaviour
     void AddBranchesToFire()
     {
         //Check if player is within the fire place to add branches
-        if (!levelController.GetPlayer().IsPlayerInSafeZone()) { return; }
+        if (!Level_Controller.instance.GetPlayer().IsPlayerInSafeZone()) { return; }
 
         if (Input.GetKeyDown(KeyCode.E)) // Press 'E' to add branch 
         {

@@ -10,6 +10,12 @@ public class Level_Controller : Scene_Manager
     public Transform startPosition;
     private CampFireController campFireController;
 
+    public static Level_Controller instance;
+
+    private void Awake()
+    {
+        if(instance == null)instance = this;
+    }
     public override void Initialize(GameController aController, InputHandler handler)
     {
         isStarted = false;
@@ -22,7 +28,7 @@ public class Level_Controller : Scene_Manager
 
         //initialise the campfire
         if(campFireController == null) campFireController = FindObjectOfType<CampFireController>();
-        if(campFireController != null) campFireController.Initialize(this);
+        //if(campFireController != null) campFireController.Initialize();
 
         //initialize all enemies 
         if (enemyList == null)

@@ -24,7 +24,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Color hitFreezeColor = Color.blue; // Color when hit by enemies
     [SerializeField] private float colorChangeDuration = 0.1f; // Duration for the color change
     private Color originalColor; // Store the original color of the enemy
-    
+
+    [SerializeField]
+    private GameObject firePlacePrefab; 
+
     //references
     PlayerMovement pm;
     Animator am;
@@ -75,6 +78,10 @@ public class PlayerController : MonoBehaviour
             else
             {               
                 am.SetBool("Move", false);
+            }
+            if(Input.GetKeyDown(KeyCode.Q))
+            {
+                Instantiate(firePlacePrefab, transform.position, Quaternion.identity);
             }
         }     
     }
