@@ -68,11 +68,16 @@ public class GameController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!isPaused) return;
+        if (isPaused) return;
         //proceed game timers
         gameTimer += Time.deltaTime;
 
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            branchCollected += 10;
+        }
         branchCollectedChanged?.Invoke(branchCollected);
+
     }
 
     #region Game Settings
@@ -126,14 +131,6 @@ public class GameController : MonoBehaviour
     #region Game Variables function
     public int GetSticks()
     {
-        //int sticksToGive = 0;
-        //if (branchCollected != 0)
-        //{
-        //    sticksToGive = branchCollected;
-        //    //clear the sticks
-        //    branchCollected = 0;
-        //}
-        //return sticksToGive;
         return branchCollected;
     }
     public void AddStick()

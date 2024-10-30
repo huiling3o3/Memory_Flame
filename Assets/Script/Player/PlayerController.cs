@@ -81,7 +81,8 @@ public class PlayerController : MonoBehaviour
             }
             if(Input.GetKeyDown(KeyCode.Q))
             {
-                Instantiate(firePlacePrefab, transform.position, Quaternion.identity);
+                
+                //Instantiate(firePlacePrefab, transform.position, Quaternion.identity);
             }
         }     
     }

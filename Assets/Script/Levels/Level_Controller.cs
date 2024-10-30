@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class Level_Controller : Scene_Manager
 {
-    private List<EnemyController> enemyList;
+    List<EnemyController> enemyList;
     [SerializeField] private bool isStarted;
     private PlayerController player;
     public Transform startPosition;
-    private CampFireController campFireController;
+    private List<CampFireController> campFireList;
 
     public static Level_Controller instance;
 
@@ -27,7 +27,17 @@ public class Level_Controller : Scene_Manager
         if (player != null) player.Init(this);
 
         //initialise the campfire
-        if(campFireController == null) campFireController = FindObjectOfType<CampFireController>();
+        if (campFireList == null)
+        {
+            campFireList = new List<CampFireController>();
+            campFireList.AddRange(FindObjectsOfType<CampFireController>());
+        }
+
+        foreach (CampFireController campfire in campFireList)
+        {
+            campfire.Initialize(this);
+        }
+
         //if(campFireController != null) campFireController.Initialize();
 
         //initialize all enemies 

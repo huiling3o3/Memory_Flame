@@ -58,7 +58,7 @@ public class HUDController : MonoBehaviour
         // Subscribe to the currentAmmoChanged event from PlayerShoot
         PlayerShoot.currentAmmoChanged += UpdateUIAmmo;
         // Subscribe to the fireHealthChanged event from CampFireController
-        CampFireController.fireHealthChanged += UpdateFireBar;
+        //CampFireController.fireHealthChanged += UpdateFireBar;
         // Subscribe to the branchCollectChanged event from Game controller
         GameController.branchCollectedChanged += UpdateBranchCount;
         // Subscibe to memFragmentsCollected event from Game controller
@@ -70,7 +70,7 @@ public class HUDController : MonoBehaviour
         // Unsubscribe from the event when this object is disabled or destroyed
         PlayerShoot.currentAmmoChanged -= UpdateUIAmmo;
         // Unsubscribe to the fireHealthChanged event from CampFireController
-        CampFireController.fireHealthChanged -= UpdateFireBar;
+        //CampFireController.fireHealthChanged -= UpdateFireBar;
         // Unsubscribe to the branchCollectChanged event from Game controller
         GameController.branchCollectedChanged -= UpdateBranchCount;
     }
