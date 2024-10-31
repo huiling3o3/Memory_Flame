@@ -7,20 +7,24 @@ using UnityEngine.EventSystems;
 public class CutTree: DropBranchHandler, IInteractReciever
 {
     // Timer variables for cutting the tree
+    [Header("Tree System")]
     public bool isCutting = false;
     public bool interactable = false;
     public float holdTime = 0f;
     public float requiredHoldTime = 3f; // Time required to hold down mouse to cut the tree
 
     // UI Variables
+    [Header("To Assign")]
     public Image fillCircle;
     [SerializeField] private AudioSource audioSource;
     [SerializeField] GameObject instructions;
-    
+    [SerializeField] private List<Sprite> treeSprites; // List of fire sprites
+    SpriteRenderer treeSpriteRenderer;
 
     private void Start()
     {
-        audioSource = GetComponent<AudioSource>();  
+        audioSource = GetComponent<AudioSource>();
+        treeSpriteRenderer = GetComponent<SpriteRenderer>();
         instructions.SetActive(false);
     }
     private void Update()
@@ -31,7 +35,20 @@ public class CutTree: DropBranchHandler, IInteractReciever
             holdTime += Time.deltaTime; // Increment the hold time
             //update the loading circle
             fillCircle.fillAmount = holdTime / requiredHoldTime;
-            
+
+            // Calculate the current tree health percentage
+            float healthPercentage = holdTime / requiredHoldTime;
+
+            //update the apperance
+            // Determine which sprite to display based on the health percentage
+            int spriteIndex = Mathf.FloorToInt(healthPercentage * (treeSprites.Count - 1));
+
+            // Clamp the index to ensure it's within the bounds of the list
+            spriteIndex = Mathf.Clamp(spriteIndex, 0, treeSprites.Count - 1);
+
+            // Update the sprite renderer with the selected sprite
+            treeSpriteRenderer.sprite = treeSprites[spriteIndex];
+
             // If the hold time reaches the required time, cut the tree
             if (holdTime >= requiredHoldTime)
             {

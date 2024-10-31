@@ -16,16 +16,18 @@ public class CampFireController : MonoBehaviour
     [SerializeField] private int currentBranches = 0;
     [SerializeField] private int amountToReviveFire = 10;
     [SerializeField] private FireState InitialState = FireState.Extinguished;
-    [SerializeField] private Level_Controller lvlController;
+    
     // List of fire sprites for different health levels
+    [Header("To Assign")]
     [SerializeField] private List<Sprite> fireSprites; // List of fire sprites
     [SerializeField] SpriteRenderer fireSpriteRenderer;
     [SerializeField] GameObject instructions;
     [SerializeField] TextMeshProUGUI branchTxt;
+    [SerializeField] private Slider fireHealthBar;
+    [SerializeField] float offset = -50f;
     private bool playerInRange = false;
-
-    [SerializeField]
-    private Slider fireHealthBar;
+    private Level_Controller lvlController;
+    
     private enum FireState
     {
         Burning, 
@@ -37,7 +39,7 @@ public class CampFireController : MonoBehaviour
 
     void Awake()
     {
-        //fireSpriteRenderer = GetComponent<SpriteRenderer>();
+
     }
 
     // Start is called before the first frame update
@@ -124,7 +126,6 @@ public class CampFireController : MonoBehaviour
     {
         if (fireSprites.Count == 0) { return; }
 
-
         // Calculate the current fire health percentage
         float healthPercentage = currentHealth / maxHealth;
 
@@ -143,8 +144,9 @@ public class CampFireController : MonoBehaviour
                 // Determine which sprite to display based on the health percentage
                 int spriteIndex = Mathf.FloorToInt(healthPercentage * (fireSprites.Count - 1));
 
-                //Debug.Log("Fire Apperance" + spriteIndex);
-
+                // Adjust instructions position based on health percentage
+                float yOffset = Mathf.Lerp(1f, -1f, 1 - healthPercentage); // Start high, go low as health decreases
+                instructions.transform.localPosition = new Vector3(instructions.transform.localPosition.x, yOffset, instructions.transform.localPosition.z);
                 // Clamp the index to ensure it's within the bounds of the list
                 spriteIndex = Mathf.Clamp(spriteIndex, 0, fireSprites.Count - 1);
 
@@ -179,9 +181,6 @@ public class CampFireController : MonoBehaviour
 
     void AddBranchesToFire()
     {
-        //Check if player is within the fire place to add branches
-        //if (!lvlController.GetPlayer().IsPlayerInSafeZone()) { return; }
-
         //Check in the game controller whether the player have enough branch
         int sticks = Game.GetGameController().GetSticks();
 

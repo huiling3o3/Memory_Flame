@@ -80,11 +80,6 @@ public class PlayerController : MonoBehaviour
             {               
                 am.SetBool("Move", false);
             }
-            if(Input.GetKeyDown(KeyCode.Q))
-            {
-                
-                //Instantiate(firePlacePrefab, transform.position, Quaternion.identity);
-            }
         }     
     }
 
