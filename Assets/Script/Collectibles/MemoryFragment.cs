@@ -5,8 +5,6 @@ using UnityEngine;
 public class MemoryFragment : MonoBehaviour
 {
     [SerializeField] MemoryFragType mf;
-    [SerializeField] sceneType nextLvl;
-    [SerializeField] Level_Controller lvlController;
     public void Collect()
     {
         GameController controller = Game.GetGameController();
