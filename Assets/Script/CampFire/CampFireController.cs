@@ -23,6 +23,7 @@ public class CampFireController : MonoBehaviour
     [SerializeField] SpriteRenderer fireSpriteRenderer;
     [SerializeField] GameObject instructions;
     [SerializeField] TextMeshProUGUI branchTxt;
+    private bool playerInRange = false;
 
     [SerializeField]
     private Slider fireHealthBar;
@@ -80,7 +81,10 @@ public class CampFireController : MonoBehaviour
 
         BurnFire(); // Deplete fire health over time
         UpdateFireAppearance(); // Update fire sprite based on current health
-        AddBranchesToFire(); // F key to add the branches to the campfire
+        if (Input.GetKeyDown(KeyCode.E) && playerInRange)
+        {
+            AddBranchesToFire(); // F key to add the branches to the campfire
+        }
     }
 
     private void BurnFire()
@@ -148,6 +152,7 @@ public class CampFireController : MonoBehaviour
                 // Update the sprite renderer with the selected sprite
                 fireSpriteRenderer.sprite = fireSprites[spriteIndex];
                 break;
+
             case FireState.Extinguished:
                 //hide the heath bar
                 fireHealthBar.gameObject.SetActive(false);
@@ -176,74 +181,70 @@ public class CampFireController : MonoBehaviour
     void AddBranchesToFire()
     {
         //Check if player is within the fire place to add branches
-        if (!lvlController.GetPlayer().IsPlayerInSafeZone()) { return; }
+        //if (!lvlController.GetPlayer().IsPlayerInSafeZone()) { return; }
 
-        if (Input.GetKeyDown(KeyCode.E)) // Press 'E' to add branch 
+        //Check in the game controller whether the player have enough branch
+        int sticks = Game.GetGameController().GetSticks();
+
+        switch (currentFireState)
         {
-            //Check in the game controller whether the player have enough branch
-            int sticks = Game.GetGameController().GetSticks();
-
-            switch (currentFireState)
-            {
-                case FireState.Burning:
+            case FireState.Burning:
                     
-                    if (sticks > 0)
+                if (sticks > 0)
+                {
+                    int sticksUsed = (int)((maxHealth - currentHealth) / branchHealAmount) + 1;
+                    if (sticks >= sticksUsed)
                     {
-                        int sticksUsed = (int)((maxHealth - currentHealth) / branchHealAmount) + 1;
-                        if (sticks >= sticksUsed)
-                        {
-                            AddBranches(sticksUsed);// if enough update the branches num in game controller & increase the branch health 
-                        }
-                        else
-                        {
-                            AddBranches(sticks);
-                        }
-                        Debug.Log($"{sticks} given to the fire");
+                        AddBranches(sticksUsed);// if enough update the branches num in game controller & increase the branch health 
                     }
                     else
                     {
-                        Debug.Log($"not enough branches");
+                        AddBranches(sticks);
                     }
-                    break;
+                    Debug.Log(name + "got healed");
+                }
+                else
+                {
+                    Debug.Log($"not enough branches");
+                }
+                break;
 
-                case FireState.Extinguished:
-                    if (currentBranches != amountToReviveFire)
+            case FireState.Extinguished:
+                if (currentBranches != amountToReviveFire)
+                {
+                    int currentStickRequired = amountToReviveFire - currentBranches;
+                    //check if player have enough sticks
+                    if (sticks > 0 && sticks < currentStickRequired) //not enough stick
                     {
-                        int currentStickRequired = amountToReviveFire - currentBranches;
-                        //check if player have enough sticks
-                        if (sticks > 0 && sticks < currentStickRequired) //not enough stick
-                        {
-                            //take all the player have and store it into the current branches
-                            currentBranches += sticks;
-                            //remove player current stick amt
-                            Game.GetGameController().RemoveStick(sticks);
-                        }
-                        else if (sticks >= currentStickRequired) //enough stick
-                        {
-                            //remove the amt of stick from player
-                            Game.GetGameController().RemoveStick(currentStickRequired);
-                            //revive the fire
-                            currentFireState = FireState.Burning;
-                            currentHealth = maxHealth;
-                            //update fire UI
-                            UpdateFireAppearance();
-                            //reset the current branches to revive
-                            currentBranches = 0;
-                        }
+                        //take all the player have and store it into the current branches
+                        currentBranches += sticks;
+                        //remove player current stick amt
+                        Game.GetGameController().RemoveStick(sticks);
                     }
+                    else if (sticks >= currentStickRequired) //enough stick
+                    {
+                        //remove the amt of stick from player
+                        Game.GetGameController().RemoveStick(currentStickRequired);
+                        //revive the fire
+                        currentFireState = FireState.Burning;
+                        currentHealth = maxHealth;
+                        //update fire UI
+                        UpdateFireAppearance();
+                        //reset the current branches to revive
+                        currentBranches = 0;
+                    }
+                }
                     
-                    //Check in the game controller whether the player have enough branch
-                    //if (Game.GetGameController().GetSticks() >= amountToReviveFire)
-                    //{
-                    //    Game.GetGameController().RemoveStick(amountToReviveFire);
-                    //    currentFireState = FireState.Burning;
-                    //    currentHealth = reviveFireStartingHealth;
-                    //}
+                //Check in the game controller whether the player have enough branch
+                //if (Game.GetGameController().GetSticks() >= amountToReviveFire)
+                //{
+                //    Game.GetGameController().RemoveStick(amountToReviveFire);
+                //    currentFireState = FireState.Burning;
+                //    currentHealth = reviveFireStartingHealth;
+                //}
 
-                    break;
-            }
+                break;
         }
-
     }
     private void KillFire()
     {
@@ -256,9 +257,11 @@ public class CampFireController : MonoBehaviour
         if (collision.tag == "Player")
         {                    
             //Player enter into a safe zone, so the ammo does not start to drop
-            PlayerController pc = collision.GetComponent<PlayerController>();
-            pc.EnterSafeZone();
+            //PlayerController pc = collision.GetComponent<PlayerController>();
+            //pc.EnterSafeZone();
             
+            playerInRange = true;
+
             instructions.SetActive(true);
         }
     }
@@ -268,10 +271,13 @@ public class CampFireController : MonoBehaviour
         if (collision.tag == "Player")
         {
             //When player exit the safe zone the fire torch will start to deplete over time
-            PlayerController pc = collision.GetComponent<PlayerController>();
-            //Everytime the fire torch is regenerated, 2% of the fire is taken away
-            BorrowFire(2);
-            pc.ExitSafeZone();
+            //PlayerController pc = collision.GetComponent<PlayerController>();
+            ////Everytime the fire torch is regenerated, 2% of the fire is taken away
+            //BorrowFire(2);
+            //pc.ExitSafeZone();
+
+            playerInRange = false;
+
             instructions.SetActive(false);
         }
     }
