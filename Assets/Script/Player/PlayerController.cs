@@ -30,6 +30,7 @@ public class PlayerController : MonoBehaviour
 
     //references
     PlayerMovement pm;
+    PlayerShoot ps;
     Animator am;
     private SpriteRenderer sr;
     private Level_Controller levelController;
@@ -40,6 +41,7 @@ public class PlayerController : MonoBehaviour
         sr = GetComponent<SpriteRenderer>();
         am = GetComponent<Animator>();
         pm = GetComponent<PlayerMovement>();
+        ps = GetComponent<PlayerShoot>();
         originalColor = sr.color; // Save the original color of the enemy sprite
     }
 
@@ -94,6 +96,7 @@ public class PlayerController : MonoBehaviour
         currentColdLvl = 0;
         inSafeZone = false;
         playerDead = false;
+        ps.Reset();
     }
 
     public float GetMovementSpeed() => pm.moveSpeed;

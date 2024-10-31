@@ -348,7 +348,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99f6a4472ac76ab4f8e794981871bbca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SceneName: 5
+  am: {fileID: 0}
+  SceneName: 4
 --- !u!1 &1188735244
 GameObject:
   m_ObjectHideFlags: 0
@@ -461,23 +462,23 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 85824449326655314, guid: 43b792ffba73cae47b87053c7a2b9077, type: 3}
       propertyPath: m_Name
-      value: restart Button
+      value: mainMenu Button
       objectReference: {fileID: 0}
     - target: {fileID: 3923746954362707175, guid: 43b792ffba73cae47b87053c7a2b9077, type: 3}
       propertyPath: m_text
-      value: RESTART
+      value: MAIN MENU
       objectReference: {fileID: 0}
     - target: {fileID: 6515397662799601239, guid: 43b792ffba73cae47b87053c7a2b9077, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 699101964}
     - target: {fileID: 6515397662799601239, guid: 43b792ffba73cae47b87053c7a2b9077, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: Restart
+      value: DoSubmitAction
       objectReference: {fileID: 0}
     - target: {fileID: 6515397662799601239, guid: 43b792ffba73cae47b87053c7a2b9077, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: PauseMenuScript, Assembly-CSharp
+      value: GameOverScript, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 6718351632622981261, guid: 43b792ffba73cae47b87053c7a2b9077, type: 3}
       propertyPath: m_Pivot.x
@@ -681,13 +682,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: MainMenu Button
       objectReference: {fileID: 0}
+    - target: {fileID: 8728540612239540951, guid: 0bc244e551ca41b4db31a122de9f4c2d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8817126406538470379, guid: 0bc244e551ca41b4db31a122de9f4c2d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 699101959}
     - target: {fileID: 8817126406538470379, guid: 0bc244e551ca41b4db31a122de9f4c2d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: DoSubmitAction
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 8817126406538470379, guid: 0bc244e551ca41b4db31a122de9f4c2d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName

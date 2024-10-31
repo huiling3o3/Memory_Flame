@@ -89,6 +89,8 @@ public class EnemyController : DropBranchHandler
     {
         if (target == null || Game.GetGameController().isGameOver)
         {
+            //stop enemy from moving
+            stopMoving();
             return;
         }
 
@@ -121,12 +123,12 @@ public class EnemyController : DropBranchHandler
     {
         if (isPaused)
         {
-            Debug.Log($"{gameObject.name} received pause notification");
+            //Debug.Log($"{gameObject.name} received pause notification");
             stopMoving();
         }
         else
         {
-            Debug.Log($"{gameObject.name} received resume notification");
+            //Debug.Log($"{gameObject.name} received resume notification");
             agent.isStopped = false;
         }
     }

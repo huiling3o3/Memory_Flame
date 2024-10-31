@@ -10,11 +10,11 @@ public class Level_Controller : Scene_Manager
     public Transform startPosition;
     private List<CampFireController> campFireList;
 
-    public static Level_Controller instance;
+    //public static Level_Controller instance;
 
     private void Awake()
     {
-        if(instance == null)instance = this;
+        //if(instance == null)instance = this;
     }
     public override void Initialize(GameController aController, InputHandler handler)
     {
@@ -23,8 +23,8 @@ public class Level_Controller : Scene_Manager
         base.Initialize(aController, handler);
 
         //initialize player 
-        if (player == null) player = FindObjectOfType<PlayerController>();
-        if (player != null) player.Init(this);
+        player = Game.GetPlayer();
+        player.Init(this);
 
         //initialise the campfire
         if (campFireList == null)
@@ -56,10 +56,6 @@ public class Level_Controller : Scene_Manager
 
         isStarted = true;
     }
-    public void SetGameOver(bool aGameOver, bool isWin)
-    {
-        //gameController.SetGameOver(aGameOver, isWin, collectedCount, collectibleList.Count);
-    }
 
     public bool CheckGameOver()
     {
@@ -80,13 +76,6 @@ public class Level_Controller : Scene_Manager
     // Update is called once per frame
     void Update()
     {
-        if (player != null && !gameController.CheckGameOver())
-        {
-            
-        }
-        else
-        {
-            //no player or game not active
-        }
+       
     }
 }

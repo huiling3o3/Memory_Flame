@@ -6,6 +6,7 @@ public class Scene_Manager : MonoBehaviour
 {
     protected GameController gameController;
     protected InputHandler inputHandler;
+    //public Animator am;
     public sceneType SceneName;
     
     public virtual void Initialize(GameController gameController, InputHandler handler)
@@ -17,5 +18,5 @@ public class Scene_Manager : MonoBehaviour
 
 public enum sceneType
 {
-    LEVEL_1, LEVEL_2, LEVEL_3, StartMenuScene, PauseMenuScene, GameOverScene
+    LEVEL_1, LEVEL_2, LEVEL_3, StartMenuScene, GameOverScene, GameWinScene
 }

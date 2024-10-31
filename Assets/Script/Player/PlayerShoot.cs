@@ -55,8 +55,7 @@ public class PlayerShoot : MonoBehaviour, IInteractReciever
             HandleAim();
             DepleteAmmo();
             RegenerateAmmo();
-        }
-        
+        }        
     } 
 
     private void HandleAim()

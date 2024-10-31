@@ -4,35 +4,20 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 
-public class PauseMenuScript : Scene_Manager, IInputReceiver
+public class PauseMenuScript : MonoBehaviour //IInputReceiver
 {
     //private GameController gameController;
     [SerializeField] private TextMeshProUGUI titleText;
-    public override void Initialize(GameController gameController, InputHandler handler)
-    {
-        base.Initialize(gameController, handler);
-        inputHandler.SetInputReceiver(this);
-        //UpdateText();
-    }
-
-    private void UpdateText()
-    {
-        //format game over text display
-        titleText.text = "Game Paused";
-
-        if (gameController.isGameOver)
-        {
-            titleText.text = "Game Over";
-        }
-        else
-        {
-            titleText.text = "Game Paused";
-        }
-    }
+    //public override void Initialize(GameController gameController, InputHandler handler)
+    //{
+    //    base.Initialize(gameController, handler);
+    //    inputHandler.SetInputReceiver(this);
+    //    //UpdateText();
+    //}
 
     public void Restart()
-    { 
-        //gameController.StartGame();
+    {
+        //Game.GetGameController().RestartLevel();
     }
 
     public void DoMoveDir(Vector2 aDir)
@@ -57,12 +42,13 @@ public class PauseMenuScript : Scene_Manager, IInputReceiver
     {
         //Open start menu
         //gameController.OpenStartMenu();
+        //gameController.ClosePauseMenu();
     }
 
     public void DoCancelAction()
     {
         //resume game
-        gameController.ClosePauseMenu();
+       //gameController.ClosePauseMenu();
     }
 
 }
