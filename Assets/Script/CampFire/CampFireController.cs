@@ -15,7 +15,6 @@ public class CampFireController : MonoBehaviour
     [SerializeField] private int branchHealAmount = 2;
     [SerializeField] private int currentBranches = 0;
     [SerializeField] private int amountToReviveFire = 10;
-    [SerializeField] private float reviveFireStartingHealth = 50f;
     [SerializeField] private FireState InitialState = FireState.Extinguished;
     [SerializeField] private Level_Controller lvlController;
     // List of fire sprites for different health levels
@@ -233,15 +232,7 @@ public class CampFireController : MonoBehaviour
                         //reset the current branches to revive
                         currentBranches = 0;
                     }
-                }
-                    
-                //Check in the game controller whether the player have enough branch
-                //if (Game.GetGameController().GetSticks() >= amountToReviveFire)
-                //{
-                //    Game.GetGameController().RemoveStick(amountToReviveFire);
-                //    currentFireState = FireState.Burning;
-                //    currentHealth = reviveFireStartingHealth;
-                //}
+                }               
 
                 break;
         }
@@ -256,10 +247,9 @@ public class CampFireController : MonoBehaviour
     {
         if (collision.tag == "Player")
         {                    
-            //Player enter into a safe zone, so the ammo does not start to drop
-            //PlayerController pc = collision.GetComponent<PlayerController>();
-            //pc.EnterSafeZone();
-            
+            PlayerController pc = collision.GetComponent<PlayerController>();
+            if (currentFireState == FireState.Burning)
+                pc.EnterSafeZone();
             playerInRange = true;
 
             instructions.SetActive(true);
@@ -270,14 +260,14 @@ public class CampFireController : MonoBehaviour
     {
         if (collision.tag == "Player")
         {
-            //When player exit the safe zone the fire torch will start to deplete over time
-            //PlayerController pc = collision.GetComponent<PlayerController>();
-            ////Everytime the fire torch is regenerated, 2% of the fire is taken away
-            //BorrowFire(2);
-            //pc.ExitSafeZone();
-
             playerInRange = false;
-
+            PlayerController pc = collision.GetComponent<PlayerController>();
+            if (currentFireState == FireState.Burning)
+            {
+                //Everytime the fire torch is regenerated, 2% of the fire is taken away
+                BorrowFire(2);
+                pc.ExitSafeZone();               
+            }
             instructions.SetActive(false);
         }
     }

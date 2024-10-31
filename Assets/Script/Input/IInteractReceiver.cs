@@ -5,7 +5,7 @@ using UnityEngine;
 public interface IInteractReciever
 {
     //void DoInteract(); //Interact controls
-    void StartInteract(); // Begin interaction (press and hold)
+    void HoldInteract(); // Begin interaction (press and hold)
     void StopInteract(); // Stop interaction (release hold)
-    void DoShoot(); // Handle shooting action (single left-click)
+    void StartInteract(); // Handle shooting action (single left-click)
 }

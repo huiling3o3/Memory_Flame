@@ -21,8 +21,7 @@ public class InteractHandler : MonoBehaviour
         // Handle left-click (shooting or interacting)
         if (Input.GetMouseButtonDown(0))
         {
-            activeReceiver.DoShoot(); // For shooting
-            activeReceiver.StartInteract(); // Start interaction (press and hold)
+            activeReceiver.StartInteract(); // For shooting           
             isInteracting = true;
         }
 
@@ -30,6 +29,7 @@ public class InteractHandler : MonoBehaviour
         if (Input.GetMouseButton(0) && isInteracting)
         {
             // Continue interaction (if necessary)
+            activeReceiver.HoldInteract(); // Start interaction (press and hold)
         }
 
         // When left-click is released, stop interaction
