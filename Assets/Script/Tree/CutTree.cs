@@ -6,8 +6,6 @@ using UnityEngine.EventSystems;
 
 public class CutTree: DropBranchHandler, IInteractReciever
 {
-    TreeInteract ti;
-
     // Timer variables for cutting the tree
     public bool isCutting = false;
     public bool interactable = false;
@@ -23,7 +21,6 @@ public class CutTree: DropBranchHandler, IInteractReciever
     private void Start()
     {
         audioSource = GetComponent<AudioSource>();  
-        ti = GetComponentInChildren<TreeInteract>();
         instructions.SetActive(false);
     }
     private void Update()
@@ -54,6 +51,8 @@ public class CutTree: DropBranchHandler, IInteractReciever
     {
         // Reset the cutting process
         isCutting = false;
+        interactable = false; 
+        instructions.SetActive(false);
         holdTime = 0f;
         audioSource.Pause();
     }
@@ -62,7 +61,8 @@ public class CutTree: DropBranchHandler, IInteractReciever
     {
         //Spawn the branches
         DropBranches();
-        Destroy(gameObject);     
+        //destroy game object
+        gameObject.SetActive(false);  
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

@@ -18,5 +18,5 @@ public class Scene_Manager : MonoBehaviour
 
 public enum sceneType
 {
-    LEVEL_1, LEVEL_2, LEVEL_3, StartMenuScene, GameOverScene, GameWinScene
+    LEVEL_1, LEVEL_2, LEVEL_3, StartMenuScene, GameWinScene
 }

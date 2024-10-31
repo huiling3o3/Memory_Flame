@@ -10,7 +10,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float MaxHP = 100f;
     [SerializeField] private bool inSafeZone; //bool to check not affect the ammoDepletion
     [SerializeField] private bool playerDead; //bool to check player dead to stop the coldlvl from increasing
-    public Transform initialPosition;
 
     [Header("Hypothermia System")]
     [SerializeField] float currentColdLvl;
@@ -55,7 +54,7 @@ public class PlayerController : MonoBehaviour
 
         //reset all the variables
         Reset();
-        originalColor = sr.color; // Save the original color of the enemy sprite       
+        sr.color = originalColor; // reset the sprite color       
     }
 
     private void Update()

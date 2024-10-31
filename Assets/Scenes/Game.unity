@@ -722,7 +722,6 @@ GameObject:
   - component: {fileID: 1060938080}
   - component: {fileID: 1060938083}
   - component: {fileID: 1060938082}
-  - component: {fileID: 1060938081}
   m_Layer: 5
   m_Name: GameOverMenu
   m_TagString: Untagged
@@ -752,19 +751,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1060938081
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1060938079}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 99f6a4472ac76ab4f8e794981871bbca, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  SceneName: 4
 --- !u!114 &1060938082
 MonoBehaviour:
   m_ObjectHideFlags: 0

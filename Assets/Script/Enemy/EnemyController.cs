@@ -6,7 +6,6 @@ using UnityEngine.UI;
 public class EnemyController : DropBranchHandler
 {
     //reference
-    //[SerializeField]
     private GameObject target; //player
     private Animator am;
     private SpriteRenderer sr;
@@ -25,6 +24,7 @@ public class EnemyController : DropBranchHandler
 
     //Variables for movement
     [SerializeField] private float distanceBtwPlayer;
+    [SerializeField] private Transform initialPosition;
     private bool isFacingRight = true;
     private bool haveTarget = false;
     //Variables for attacks  
@@ -40,17 +40,8 @@ public class EnemyController : DropBranchHandler
     [SerializeField] private Image healthbar;
     [SerializeField] private float currentHp;
 
-    private void Start()
+    void Awake()
     {
-       //Init();
-    }
-
-    public void Init(GameObject Target)
-    {
-        //reset enemies stats
-        canAttack = true;
-        isFacingRight = true;
-        haveTarget = false; //Set have target to false, so it will only attack the player when it is near.
         //get references
         sr = GetComponent<SpriteRenderer>();
         //get enemy animator
@@ -58,18 +49,33 @@ public class EnemyController : DropBranchHandler
 
         //nav mesh agent
         agent = GetComponent<NavMeshAgent>();
+
         agent.updateRotation = false;
         agent.updateUpAxis = false;
         agent.speed = speed;
 
-        originalColor = sr.color; // Save the original color of the enemy sprite
+        //store their original position
+        initialPosition = this.transform;
+        // Save the original color of the enemy sprite
+        originalColor = sr.color;
+    }
+
+    public void Init(GameObject Target)
+    {
+        //reset original posiion
+        this.transform.position = initialPosition.position;
+
+        //reset enemies stats
+        canAttack = true;
+        isFacingRight = true;
+        haveTarget = false; //Set have target to false, so it will only attack the player when it is near.
+
+        sr.color = originalColor; // reset the sprite color
 
         //set currentHp to max hp
         currentHp = maxHp;
         UpdatHealthBar();
 
-        //Initializes the reference
-        //target = FindObjectOfType<PlayerController>().gameObject;
         target = Target;
     }
     private void OnEnable()
@@ -248,7 +254,8 @@ public class EnemyController : DropBranchHandler
 
         if (currentHp <= 0)
         {
-            Destroy(gameObject);
+            //destroy game object
+            this.gameObject.SetActive(false);
             DropBranches();
         }
 

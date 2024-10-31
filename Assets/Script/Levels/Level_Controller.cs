@@ -4,17 +4,18 @@ using UnityEngine;
 
 public class Level_Controller : Scene_Manager
 {
-    List<EnemyController> enemyList;
-    [SerializeField] private bool isStarted;
-    private PlayerController player;
+    
+    [SerializeField] private bool isStarted;    
     public Transform startPosition;
+    private PlayerController player;
+    private List<EnemyController> enemyList;
     private List<CampFireController> campFireList;
+    private List<CutTree> treeList;
 
-    //public static Level_Controller instance;
 
     private void Awake()
     {
-        //if(instance == null)instance = this;
+
     }
     public override void Initialize(GameController aController, InputHandler handler)
     {
@@ -38,7 +39,18 @@ public class Level_Controller : Scene_Manager
             campfire.Initialize(this);
         }
 
-        //if(campFireController != null) campFireController.Initialize();
+        //initialise the interactable tree
+        if (treeList == null)
+        {
+            treeList = new List<CutTree>();
+            treeList.AddRange(FindObjectsOfType<CutTree>());
+        }
+
+        foreach (CutTree tr in treeList)
+        {
+            tr.gameObject.SetActive(true);
+            //treeList.Initialize(this);
+        }
 
         //initialize all enemies 
         if (enemyList == null)
@@ -49,6 +61,7 @@ public class Level_Controller : Scene_Manager
 
         foreach (EnemyController enemy in enemyList)
         {
+            enemy.gameObject.SetActive(true);
             enemy.Init(player.gameObject);
         }
 

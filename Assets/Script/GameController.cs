@@ -123,9 +123,9 @@ public class GameController : MonoBehaviour
 
         //reset game variables
         Game.GetPlayer().Reset();
+        branchCollected = 0;
 
         //set game ongoing
-        //SetGameOver(false, false, 0, 0);
         SetPause(false);
     }
 
@@ -298,20 +298,16 @@ public class GameController : MonoBehaviour
 
     public void OpenStartMenu()
     {
-        //SetPause(false);
         if (currentSceneManager != null) RemoveScene(currentSceneManager.SceneName);
         LoadScene(sceneType.StartMenuScene);
     }
 
     public void OpenGameOverMenu()
     {
-        //SetPause(false);
-        if (currentSceneManager != null) RemoveScene(currentSceneManager.SceneName);
-        LoadScene(sceneType.GameOverScene);
+        GameOverMenu.SetActive(true);
     }
     public void OpenGameCompleteMenu()
     {
-        //SetPause(true);
         if (currentSceneManager != null) RemoveScene(currentSceneManager.SceneName);
         LoadScene(sceneType.GameWinScene);
     }
