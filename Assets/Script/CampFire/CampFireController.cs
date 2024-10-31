@@ -145,7 +145,7 @@ public class CampFireController : MonoBehaviour
                 int spriteIndex = Mathf.FloorToInt(healthPercentage * (fireSprites.Count - 1));
 
                 // Adjust instructions position based on health percentage
-                float yOffset = Mathf.Lerp(1f, -1f, 1 - healthPercentage); // Start high, go low as health decreases
+                float yOffset = Mathf.Lerp(42.17f, -28.16f, 1 - healthPercentage); // Start high, go low as health decreases
                 instructions.transform.localPosition = new Vector3(instructions.transform.localPosition.x, yOffset, instructions.transform.localPosition.z);
                 // Clamp the index to ensure it's within the bounds of the list
                 spriteIndex = Mathf.Clamp(spriteIndex, 0, fireSprites.Count - 1);
