@@ -106,7 +106,7 @@ public class CutTree: DropBranchHandler, IInteractReciever
 
     public void StartInteract()
     {
-        if (!Game.GetGameController().isPaused || !Game.GetGameController().isGameOver)
+        if (interactable || !Game.GetGameController().isPaused || !Game.GetGameController().isGameOver)
         {
             SoundManager.PlaySound(SoundType.CUTTREE, audioSource, 1f);
         }

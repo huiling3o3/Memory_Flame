@@ -210,7 +210,6 @@ MonoBehaviour:
   MaxHP: 100
   inSafeZone: 0
   playerDead: 0
-  initialPosition: {fileID: 0}
   currentColdLvl: 0
   maxColdLvl: 100
   coldRate: 1
