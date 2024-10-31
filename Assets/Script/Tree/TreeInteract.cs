@@ -13,7 +13,7 @@ public class TreeInteract : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag == "Player")
+        if (collision.tag == "Player" && !Game.GetGameController().isPaused)
         {
             interactable = true;
             instructions.SetActive(true);
@@ -28,7 +28,11 @@ public class TreeInteract : MonoBehaviour
     {
         interactable = false;
         instructions.SetActive(false);
-        //Set the interactable object to playershoot
-        Game.GetGameController().SetPlayerShootInteractReciever();
+        if (!Game.GetGameController().isPaused)
+        {
+            //Set the interactable object to playershoot
+            Game.GetGameController().SetPlayerShootInteractReciever();
+        }
+        
     }
 }

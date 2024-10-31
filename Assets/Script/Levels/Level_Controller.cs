@@ -4,12 +4,18 @@ using UnityEngine;
 
 public class Level_Controller : Scene_Manager
 {
-    private List<EnemyController> enemyList;
+    List<EnemyController> enemyList;
     [SerializeField] private bool isStarted;
     private PlayerController player;
     public Transform startPosition;
-    private CampFireController campFireController;
+    private List<CampFireController> campFireList;
 
+    //public static Level_Controller instance;
+
+    private void Awake()
+    {
+        //if(instance == null)instance = this;
+    }
     public override void Initialize(GameController aController, InputHandler handler)
     {
         isStarted = false;
@@ -17,12 +23,22 @@ public class Level_Controller : Scene_Manager
         base.Initialize(aController, handler);
 
         //initialize player 
-        if (player == null) player = FindObjectOfType<PlayerController>();
-        if (player != null) player.Init(this);
+        player = Game.GetPlayer();
+        player.Init(this);
 
         //initialise the campfire
-        if(campFireController == null) campFireController = FindObjectOfType<CampFireController>();
-        if(campFireController != null) campFireController.Initialize(this);
+        if (campFireList == null)
+        {
+            campFireList = new List<CampFireController>();
+            campFireList.AddRange(FindObjectsOfType<CampFireController>());
+        }
+
+        foreach (CampFireController campfire in campFireList)
+        {
+            campfire.Initialize(this);
+        }
+
+        //if(campFireController != null) campFireController.Initialize();
 
         //initialize all enemies 
         if (enemyList == null)
@@ -39,10 +55,6 @@ public class Level_Controller : Scene_Manager
         gameController.StartLevel(player);
 
         isStarted = true;
-    }
-    public void SetGameOver(bool aGameOver, bool isWin)
-    {
-        //gameController.SetGameOver(aGameOver, isWin, collectedCount, collectibleList.Count);
     }
 
     public bool CheckGameOver()
@@ -64,13 +76,6 @@ public class Level_Controller : Scene_Manager
     // Update is called once per frame
     void Update()
     {
-        if (player != null && !gameController.CheckGameOver())
-        {
-            
-        }
-        else
-        {
-            //no player or game not active
-        }
+       
     }
 }

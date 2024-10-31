@@ -52,7 +52,8 @@ public class StartMenuScript : Scene_Manager, IInputReceiver
         //TODO: play click btn sound
         SoundManager.PlaySound(SoundType.SUBMIT, null, 0.6f);
         //start game lvl 1
-        StartLevel(sceneType.LEVEL_1);
+        StartCoroutine(gameController.LvlTransit(sceneType.LEVEL_1));
+
     }
 
     public void DoCancelAction()

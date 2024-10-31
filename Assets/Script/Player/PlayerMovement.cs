@@ -110,7 +110,7 @@ public class PlayerMovement : MonoBehaviour, IInputReceiver
     public void DoMoveDir(Vector2 aDir)
     {
 
-        if (Game.GetGameController().isGameOver)
+        if (Game.GetGameController().isGameOver || Game.GetGameController().isPaused)
         {
             return;
         }
@@ -176,7 +176,11 @@ public class PlayerMovement : MonoBehaviour, IInputReceiver
     public void DoCancelAction()
     {
         //pause game
-        Game.GetGameController().OpenPauseMenu();
+        if (!Game.GetGameController().isGameOver)
+        {
+            //pause or unpause
+            Game.GetGameController().TogglePause();
+        }
     }
 
     #endregion Input handling

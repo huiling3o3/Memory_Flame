@@ -10,17 +10,21 @@ public class CutTree: DropBranchHandler, IInteractReciever
 
     // Timer variables for cutting the tree
     public bool isCutting = false;
+    public bool interactable = false;
     public float holdTime = 0f;
     public float requiredHoldTime = 3f; // Time required to hold down mouse to cut the tree
 
     // UI Variables
     public Image fillCircle;
     [SerializeField] private AudioSource audioSource;
+    [SerializeField] GameObject instructions;
+    
 
     private void Start()
     {
         audioSource = GetComponent<AudioSource>();  
         ti = GetComponentInChildren<TreeInteract>();
+        instructions.SetActive(false);
     }
     private void Update()
     {
@@ -35,7 +39,6 @@ public class CutTree: DropBranchHandler, IInteractReciever
             if (holdTime >= requiredHoldTime)
             {
                 cutTree();
-                //StartCoroutine();
                 ResetCutting(); // Reset the cutting process after cutting the tree
             }
         }
@@ -61,19 +64,38 @@ public class CutTree: DropBranchHandler, IInteractReciever
         DropBranches();
         Destroy(gameObject);     
     }
-    public void OnMouseDown()
+
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!EventSystem.current.IsPointerOverGameObject() && ti.interactable == true)
+        if (collision.tag == "Player")
         {
-            //Play cut sound
-            SoundManager.PlaySound(SoundType.CUTTREE, audioSource, 1f);
-            isCutting = true; // Player has started holding down the mouse button           
+            interactable = true;
+            instructions.SetActive(true);
+
+            Game.GetGameController().SetTreeInteractReciever(this);
         }
     }
-    //interact handling
-    public void StartInteract()
+
+    private void OnTriggerExit2D(Collider2D collision)
     {
-        Debug.Log("start interact");
+        interactable = false;
+        instructions.SetActive(false);
+        if (!Game.GetGameController().isPaused)
+        {
+            //Set the interactable object to playershoot
+            Game.GetGameController().SetPlayerShootInteractReciever();
+        }
+    }
+
+    //interact handling
+    public void HoldInteract()
+    {
+        Debug.Log("Hold interact");
+        if (interactable || !Game.GetGameController().isPaused || !Game.GetGameController().isGameOver)
+        {            
+            isCutting = true;
+        }
+        
     }
     public void StopInteract()
     {
@@ -82,8 +104,12 @@ public class CutTree: DropBranchHandler, IInteractReciever
         ResetCutting();
     }
 
-    public void DoShoot()
-    { 
-        //do nothing
+    public void StartInteract()
+    {
+        if (!Game.GetGameController().isPaused || !Game.GetGameController().isGameOver)
+        {
+            SoundManager.PlaySound(SoundType.CUTTREE, audioSource, 1f);
+        }
+        
     }
 }

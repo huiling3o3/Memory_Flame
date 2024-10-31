@@ -55,8 +55,7 @@ public class PlayerShoot : MonoBehaviour, IInteractReciever
             HandleAim();
             DepleteAmmo();
             RegenerateAmmo();
-        }
-        
+        }        
     } 
 
     private void HandleAim()
@@ -115,7 +114,7 @@ public class PlayerShoot : MonoBehaviour, IInteractReciever
     }
 
     #region interact handling
-    public void DoShoot()
+    public void StartInteract()
     {
         //Debug.Log("PUPU");
 
@@ -141,7 +140,7 @@ public class PlayerShoot : MonoBehaviour, IInteractReciever
         }
     }
 
-    public void StartInteract()
+    public void HoldInteract()
     {
         //do nothing
     }

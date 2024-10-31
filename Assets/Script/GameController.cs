@@ -8,10 +8,13 @@ public class GameController : MonoBehaviour
 {
     [Header("To be Assigned")]
     //references to assigned
-    [SerializeField] PlayerController player;    
+    [SerializeField] PlayerController player;
+    [SerializeField] Animator transitionAnimtor;
     InputHandler inputHandler;
     InteractHandler interactHandler;
-    Scene_Manager currentSceneManager;
+    [SerializeField] Scene_Manager currentSceneManager;
+    [SerializeField] GameObject PauseMenu;
+    [SerializeField] GameObject GameOverMenu;
 
     [Header("Game Stats")]
     public int numOfEnemiesKilled = 0;
@@ -23,6 +26,7 @@ public class GameController : MonoBehaviour
 
     public bool isPaused = false;
     public bool isGameOver = false;
+    public bool isWin = false;
 
     [Header("Database")]
     [SerializeField] private List<string> fileNameList;
@@ -60,7 +64,6 @@ public class GameController : MonoBehaviour
     void Start()
     {
         Game.SetPlayer(player);
-        SetPause(false);
         //show start menu
         OpenStartMenu();       
     }   
@@ -68,18 +71,40 @@ public class GameController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!isPaused) return;
+        if (isPaused) return;
         //proceed game timers
         gameTimer += Time.deltaTime;
 
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            branchCollected += 10;
+        }
         branchCollectedChanged?.Invoke(branchCollected);
+
     }
 
     #region Game Settings
     public void GameOver()
     {
         isGameOver = true;
+        //Display game over screen
         OpenGameOverMenu();
+    }
+
+    public void SetGameOver(bool aGameOver, bool aWin)
+    {
+        //set game over state
+        isGameOver = aGameOver;
+
+        if (isGameOver && !aWin)
+        {
+            //Display game over screen
+            OpenGameOverMenu();
+        }
+        else
+        {
+            Debug.Log("Level Completed");
+        }
     }
 
     public bool CheckGameOver()
@@ -120,20 +145,16 @@ public class GameController : MonoBehaviour
 
         // Fire the OnGamePaused event
         OnGamePaused?.Invoke(isPaused);
+
+        //show game over screen if game over
+        PauseMenu.SetActive(isPaused);
     }
+
     #endregion
 
     #region Game Variables function
     public int GetSticks()
     {
-        //int sticksToGive = 0;
-        //if (branchCollected != 0)
-        //{
-        //    sticksToGive = branchCollected;
-        //    //clear the sticks
-        //    branchCollected = 0;
-        //}
-        //return sticksToGive;
         return branchCollected;
     }
     public void AddStick()
@@ -169,8 +190,10 @@ public class GameController : MonoBehaviour
             switch (mf) 
             {
                 case MemoryFragType.HEADBAND:
-                    LoadScene(sceneType.LEVEL_2);
-                    RemoveScene(currentSceneManager.SceneName);
+                    StartCoroutine(LvlTransit(sceneType.LEVEL_2));
+                    //go to level 2
+                    //LoadScene(sceneType.LEVEL_2);
+                    //RemoveScene(currentSceneManager.SceneName);
                     break;
                 case MemoryFragType.BROKENSWORD:
                     break;
@@ -228,6 +251,15 @@ public class GameController : MonoBehaviour
 
     #region Scene Manager
 
+    public IEnumerator LvlTransit(sceneType aScene)
+    {
+        transitionAnimtor.SetTrigger("End");
+        yield return new WaitForSeconds(1);
+        LoadScene(aScene);
+        RemoveScene(currentSceneManager.SceneName);
+        transitionAnimtor.SetTrigger("Start");
+    }
+
     public void LoadScene(sceneType aScene)
     {
         AsyncOperation loadSceneOp = SceneManager.LoadSceneAsync(aScene.ToString(), LoadSceneMode.Additive);
@@ -237,7 +269,7 @@ public class GameController : MonoBehaviour
             GameObject[] rootGameObjects = scene.GetRootGameObjects();
             foreach (GameObject rootObject in rootGameObjects)
             {
-                currentSceneManager = rootObject.GetComponentInChildren<Scene_Manager>();
+                currentSceneManager = rootObject.GetComponentInChildren<Scene_Manager>();                
                 if (currentSceneManager != null)
                 {
                     // Initialize the scene controller
@@ -259,35 +291,30 @@ public class GameController : MonoBehaviour
         if (currentSceneManager != null) currentSceneManager.Initialize(this, inputHandler);
     }
 
-    public void ClosePauseMenu()
+    public void TogglePause()
     {
-        RemoveScene(sceneType.PauseMenuScene);
-        //resume game
-        SetPause(false);
-        ///!!important must set player to reeceive the input for it to move
-        SetPlayerInputReciever();
-        SetPlayerShootInteractReciever();
-    }
-
-    public void OpenPauseMenu()
-    {
-        SetPause(true);
-        interactHandler.SetInteractReceiver(null);
-        LoadScene(sceneType.PauseMenuScene);       
+        SetPause(!isPaused);
     }
 
     public void OpenStartMenu()
     {
-        SetPause(false);
+        //SetPause(false);
         if (currentSceneManager != null) RemoveScene(currentSceneManager.SceneName);
         LoadScene(sceneType.StartMenuScene);
     }
 
     public void OpenGameOverMenu()
     {
-        SetPause(false);
+        //SetPause(false);
         if (currentSceneManager != null) RemoveScene(currentSceneManager.SceneName);
         LoadScene(sceneType.GameOverScene);
     }
+    public void OpenGameCompleteMenu()
+    {
+        //SetPause(true);
+        if (currentSceneManager != null) RemoveScene(currentSceneManager.SceneName);
+        LoadScene(sceneType.GameWinScene);
+    }
+
     #endregion
 }

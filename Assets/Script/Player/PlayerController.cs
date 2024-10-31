@@ -24,9 +24,13 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Color hitFreezeColor = Color.blue; // Color when hit by enemies
     [SerializeField] private float colorChangeDuration = 0.1f; // Duration for the color change
     private Color originalColor; // Store the original color of the enemy
-    
+
+    [SerializeField]
+    private GameObject firePlacePrefab; 
+
     //references
     PlayerMovement pm;
+    PlayerShoot ps;
     Animator am;
     private SpriteRenderer sr;
     private Level_Controller levelController;
@@ -37,6 +41,7 @@ public class PlayerController : MonoBehaviour
         sr = GetComponent<SpriteRenderer>();
         am = GetComponent<Animator>();
         pm = GetComponent<PlayerMovement>();
+        ps = GetComponent<PlayerShoot>();
         originalColor = sr.color; // Save the original color of the enemy sprite
     }
 
@@ -76,6 +81,11 @@ public class PlayerController : MonoBehaviour
             {               
                 am.SetBool("Move", false);
             }
+            if(Input.GetKeyDown(KeyCode.Q))
+            {
+                
+                //Instantiate(firePlacePrefab, transform.position, Quaternion.identity);
+            }
         }     
     }
 
@@ -86,6 +96,7 @@ public class PlayerController : MonoBehaviour
         currentColdLvl = 0;
         inSafeZone = false;
         playerDead = false;
+        ps.Reset();
     }
 
     public float GetMovementSpeed() => pm.moveSpeed;
