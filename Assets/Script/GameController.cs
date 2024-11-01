@@ -131,6 +131,9 @@ public class GameController : MonoBehaviour
         //set game ongoing
         SetPause(false);
         GameOverMenu.SetActive(false);
+
+        //show instructions
+        Game.GetHUDController().ShowInstructions("Keep warmth by staying near the campfire");
     }
 
     public void SetPause(bool aPause)
@@ -152,7 +155,7 @@ public class GameController : MonoBehaviour
 
         //show game over screen if game over
         PauseMenu.SetActive(isPaused);
-    }
+    } 
 
     #endregion
 
