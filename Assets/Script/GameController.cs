@@ -22,6 +22,7 @@ public class GameController : MonoBehaviour
     private static Dictionary<MemoryFragType, bool> memoryFragmentsList = new Dictionary<MemoryFragType, bool>(); //track sequences for achievements
     [SerializeField] int memoryFragmentsCollected = 0;
     [SerializeField] int branchCollected = 0;
+    [SerializeField] bool firetorchCollected = false;
     private float gameTimer;
 
     public bool isPaused = false;
@@ -119,7 +120,9 @@ public class GameController : MonoBehaviour
 
         ///!!important must set player to reeceive the input for it to move
         SetPlayerInputReciever();
-        SetPlayerShootInteractReciever();
+        //do not allow the player to have weapon at the start
+        interactHandler.SetInteractReceiver(null);
+        //SetPlayerShootInteractReciever();
 
         //reset game variables
         Game.GetPlayer().Reset();
@@ -154,6 +157,17 @@ public class GameController : MonoBehaviour
     #endregion
 
     #region Game Variables function
+    public void CollectFireTorch()
+    {
+        firetorchCollected = true;
+        SetPlayerShootInteractReciever();
+    }
+
+    public bool HaveFireTorch()
+    {
+        return firetorchCollected;
+    }
+
     public int GetSticks()
     {
         return branchCollected;
@@ -191,7 +205,7 @@ public class GameController : MonoBehaviour
             switch (mf) 
             {
                 case MemoryFragType.HEADBAND:
-                    StartCoroutine(LvlTransit(sceneType.LEVEL_2));
+                    //StartCoroutine(LvlTransit(sceneType.LEVEL_2));
                     //go to level 2
                     //LoadScene(sceneType.LEVEL_2);
                     //RemoveScene(currentSceneManager.SceneName);
