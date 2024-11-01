@@ -97,6 +97,7 @@ public class EnemyController : DropBranchHandler
         {
             //stop enemy from moving
             stopMoving();
+            canAttack = false;
             return;
         }
 

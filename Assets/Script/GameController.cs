@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 public class GameController : MonoBehaviour
 {
     [Header("To be Assigned")]
@@ -64,6 +65,8 @@ public class GameController : MonoBehaviour
     void Start()
     {
         Game.SetPlayer(player);
+        //set initial state
+        SetGameOver(false, false, 0, 0);
         //show start menu
         OpenStartMenu();       
     }   
@@ -91,20 +94,22 @@ public class GameController : MonoBehaviour
         OpenGameOverMenu();
     }
 
-    public void SetGameOver(bool aGameOver, bool aWin)
+    public void SetGameOver(bool aGameOver, bool aWin, int numCollected, int numTotal)
     {
         //set game over state
         isGameOver = aGameOver;
 
-        if (isGameOver && !aWin)
+        //show game over screen if game over
+        if (aWin)
         {
-            //Display game over screen
-            OpenGameOverMenu();
+            GameOverMenu.GetComponentInChildren<TextMeshProUGUI>().text = "Level Completed!";
         }
         else
         {
-            Debug.Log("Level Completed");
+            GameOverMenu.GetComponentInChildren<TextMeshProUGUI>().text = "Game Over!";
         }
+            
+        GameOverMenu.SetActive(true);
     }
 
     public bool CheckGameOver()
@@ -187,14 +192,16 @@ public class GameController : MonoBehaviour
             //Update the HUD to collect the memFrag
             memFragmentsCollected.Invoke(mf);
 
-            //switch the scene when the fragment is completed
+            //check if the game is over, if not switch the scene when the fragment is completed
+            if (isGameOver)
+            {
+                return;
+            }
+            
             switch (mf) 
             {
                 case MemoryFragType.HEADBAND:
                     StartCoroutine(LvlTransit(sceneType.LEVEL_2));
-                    //go to level 2
-                    //LoadScene(sceneType.LEVEL_2);
-                    //RemoveScene(currentSceneManager.SceneName);
                     break;
                 case MemoryFragType.BROKENSWORD:
                     break;
