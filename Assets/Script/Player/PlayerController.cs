@@ -24,12 +24,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float colorChangeDuration = 0.1f; // Duration for the color change
     private Color originalColor; // Store the original color of the enemy
 
-    [SerializeField]
-    private GameObject firePlacePrefab; 
-
     //references
     PlayerMovement pm;
-    PlayerShoot ps;
+    public PlayerShoot ps;
     Animator am;
     private SpriteRenderer sr;
     private Level_Controller levelController;
@@ -65,7 +62,7 @@ public class PlayerController : MonoBehaviour
             IncreaseColdness();
 
             //if player is in safe zone decrease coldness over time
-            RegenerateWarmth();
+            //RegenerateWarmth();
 
             // Update the player's health and cold UI
             Game.GetHUDController().UpdateHealthBar(currentHp, MaxHP);
@@ -157,13 +154,9 @@ public class PlayerController : MonoBehaviour
 
     public void RegenerateWarmth()
     {
-        //Call this method when player is back into campfire
-        if (IsPlayerInSafeZone())
-        {
-            //increase ammo over time
-            currentColdLvl -= coldRate * Time.deltaTime;
-            currentColdLvl = Mathf.Clamp(currentColdLvl, 0, maxColdLvl); // Ensure ammo doesn't go below 0
-        }
+        //increase ammo over time
+        currentColdLvl -= coldRate * Time.deltaTime;
+        currentColdLvl = Mathf.Clamp(currentColdLvl, 0, maxColdLvl); // Ensure ammo doesn't go below 0
     }
 
     public void ExitSafeZone() { inSafeZone = false; }

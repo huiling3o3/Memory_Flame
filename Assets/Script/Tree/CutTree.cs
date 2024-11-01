@@ -21,12 +21,20 @@ public class CutTree: DropBranchHandler, IInteractReciever
     [SerializeField] private List<Sprite> treeSprites; // List of fire sprites
     SpriteRenderer treeSpriteRenderer;
 
-    private void Start()
+    private void Awake()
     {
         audioSource = GetComponent<AudioSource>();
         treeSpriteRenderer = GetComponent<SpriteRenderer>();
         instructions.SetActive(false);
     }
+
+    public void Init()
+    {
+        //reset the tree appearance
+        ResetCutting();
+        instructions.SetActive(false);
+    }
+
     private void Update()
     {
         // If the player is holding the mouse button down and the tree is interactable
@@ -72,6 +80,8 @@ public class CutTree: DropBranchHandler, IInteractReciever
         instructions.SetActive(false);
         holdTime = 0f;
         audioSource.Pause();
+        //reset the tree appearance
+        treeSpriteRenderer.sprite = treeSprites[0];
     }
 
     private void cutTree()
@@ -107,7 +117,7 @@ public class CutTree: DropBranchHandler, IInteractReciever
     //interact handling
     public void HoldInteract()
     {
-        Debug.Log("Hold interact");
+        //Debug.Log("Hold interact");
         if (interactable || !Game.GetGameController().isPaused || !Game.GetGameController().isGameOver)
         {            
             isCutting = true;
@@ -117,7 +127,7 @@ public class CutTree: DropBranchHandler, IInteractReciever
     public void StopInteract()
     {
         //Stop interacting if the player did not hold the left mouse input within the give time
-        Debug.Log("Stop interact");
+        //Debug.Log("Stop interact");
         ResetCutting();
     }
 

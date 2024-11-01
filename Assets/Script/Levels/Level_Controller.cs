@@ -49,7 +49,7 @@ public class Level_Controller : Scene_Manager
         foreach (CutTree tr in treeList)
         {
             tr.gameObject.SetActive(true);
-            //treeList.Initialize(this);
+            tr.Init();
         }
 
         //initialize all enemies 

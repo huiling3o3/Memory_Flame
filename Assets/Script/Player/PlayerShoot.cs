@@ -2,6 +2,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 
 public class PlayerShoot : MonoBehaviour, IInteractReciever
@@ -9,7 +10,8 @@ public class PlayerShoot : MonoBehaviour, IInteractReciever
     //reference to the fire torch object to manipulate 
     [Header("Fire Torch Settings")]
     [SerializeField] private GameObject fireTorch;
-
+    [SerializeField] private Sprite burnOutTorch, burningTorch;
+    private SpriteRenderer torchSprite;
     //reference to the bullet objects to spawn the bullets
     [SerializeField] private Transform bulletSpawnPoint;
     [SerializeField] private GameObject bullet;
@@ -31,6 +33,7 @@ public class PlayerShoot : MonoBehaviour, IInteractReciever
     {
         pm = GetComponent<PlayerMovement>();
         pc = GetComponent<PlayerController>();
+        torchSprite = fireTorch.GetComponentInChildren<SpriteRenderer>();
     }
 
     // Start is called before the first frame update
@@ -54,9 +57,23 @@ public class PlayerShoot : MonoBehaviour, IInteractReciever
         {
             HandleAim();
             DepleteAmmo();
-            RegenerateAmmo();
+            //RegenerateAmmo();
+            UpdateApperance();
         }        
-    } 
+    }
+
+    private void UpdateApperance()
+    {
+        
+        if (currentAmmo <= 0)
+        {            
+            torchSprite.sprite = burnOutTorch;
+        }
+        else
+        {
+            torchSprite.sprite = burningTorch;
+        }
+    }
 
     private void HandleAim()
     {
@@ -103,6 +120,9 @@ public class PlayerShoot : MonoBehaviour, IInteractReciever
 
     public void RegenerateAmmo()
     {
+        //increase ammo over time
+        currentAmmo += ammoDepletionRate * Time.deltaTime;
+        currentAmmo = Mathf.Clamp(currentAmmo, 0, maxAmmo); // Ensure ammo doesn't go below 0
         //Call this method when player is back into campfire
         if (pc.IsPlayerInSafeZone())
         {

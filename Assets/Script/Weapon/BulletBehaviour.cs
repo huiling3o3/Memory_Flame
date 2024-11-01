@@ -35,8 +35,8 @@ public class BulletBehaviour : MonoBehaviour
         if ((whatDestoryBullet.value & (1 << collision.gameObject.layer)) > 0)
         {
             //spawn particles
-            //GameObject Impact = Instantiate(impactEffect, transform.position, Quaternion.identity);
-            //Destroy(Impact, 0.5f);
+            GameObject Impact = Instantiate(impactEffect, transform.position, Quaternion.identity);
+            Destroy(Impact, 0.5f);
 
             //play sound FX
 

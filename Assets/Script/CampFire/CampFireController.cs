@@ -27,7 +27,7 @@ public class CampFireController : MonoBehaviour
     [SerializeField] float offset = -50f;
     private bool playerInRange = false;
     private Level_Controller lvlController;
-    
+    private PlayerController pc;
     private enum FireState
     {
         Burning, 
@@ -46,6 +46,7 @@ public class CampFireController : MonoBehaviour
     void Start()
     {
         //Initialize();
+        pc = Game.GetPlayer();
     }
 
     public void Initialize(Level_Controller level_Controller)
@@ -85,6 +86,12 @@ public class CampFireController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.E) && playerInRange)
         {
             AddBranchesToFire(); // F key to add the branches to the campfire
+        }
+        if (playerInRange && currentFireState == FireState.Burning)
+        {
+            //Debug.Log("burning");
+            pc.RegenerateWarmth();
+            pc.ps.RegenerateAmmo(); //regenrate the player shooting ammo
         }
     }
 
@@ -246,9 +253,12 @@ public class CampFireController : MonoBehaviour
     {
         if (collision.tag == "Player")
         {                    
-            PlayerController pc = collision.GetComponent<PlayerController>();
+            //PlayerController pc = collision.GetComponent<PlayerController>();
             if (currentFireState == FireState.Burning)
+            {
                 pc.EnterSafeZone();
+            }
+
             playerInRange = true;
 
             instructions.SetActive(true);
@@ -260,11 +270,11 @@ public class CampFireController : MonoBehaviour
         if (collision.tag == "Player")
         {
             playerInRange = false;
-            PlayerController pc = collision.GetComponent<PlayerController>();
+            //PlayerController pc = collision.GetComponent<PlayerController>();
             if (currentFireState == FireState.Burning)
             {
                 //Everytime the fire torch is regenerated, 2% of the fire is taken away
-                BorrowFire(2);
+                BorrowFire(2);               
                 pc.ExitSafeZone();               
             }
             instructions.SetActive(false);

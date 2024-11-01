@@ -9,12 +9,12 @@ public class GameController : MonoBehaviour
     [Header("To be Assigned")]
     //references to assigned
     [SerializeField] PlayerController player;
-    [SerializeField] Animator transitionAnimtor;
-    InputHandler inputHandler;
-    InteractHandler interactHandler;
-    [SerializeField] Scene_Manager currentSceneManager;
+    [SerializeField] Animator transitionAnimtor;    
     [SerializeField] GameObject PauseMenu;
     [SerializeField] GameObject GameOverMenu;
+    InputHandler inputHandler;
+    InteractHandler interactHandler;
+    Scene_Manager currentSceneManager;
 
     [Header("Game Stats")]
     public int numOfEnemiesKilled = 0;
@@ -127,6 +127,7 @@ public class GameController : MonoBehaviour
 
         //set game ongoing
         SetPause(false);
+        GameOverMenu.SetActive(false);
     }
 
     public void SetPause(bool aPause)
