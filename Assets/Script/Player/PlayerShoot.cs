@@ -161,7 +161,8 @@ public class PlayerShoot : MonoBehaviour, IInteractReciever
             {
                 shootDirection = -SpawnBullet.transform.right;
             }
-            SpawnBullet.GetComponent<Rigidbody2D>().velocity = shootDirection;         
+
+            SpawnBullet.GetComponent<BulletBehaviour>().InIt(shootDirection);
         }
     }
 

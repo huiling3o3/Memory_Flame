@@ -17,8 +17,6 @@ public class GameController : MonoBehaviour
     Scene_Manager currentSceneManager;
 
     [Header("Game Stats")]
-    public int numOfEnemiesKilled = 0;
-    public int totalNumEnemiesKilled = 0;
     private static Dictionary<MemoryFragType, bool> memoryFragmentsList = new Dictionary<MemoryFragType, bool>(); //track sequences for achievements
     [SerializeField] int memoryFragmentsCollected = 0;
     [SerializeField] int branchCollected = 0;
@@ -58,7 +56,15 @@ public class GameController : MonoBehaviour
         //initialise the memory fragment list first
         memoryFragmentsList.Add(MemoryFragType.HEADBAND, false);
         memoryFragmentsList.Add(MemoryFragType.BROKENSWORD, false);
-        memoryFragmentsList.Add(MemoryFragType.NECKLACE, false);        
+        memoryFragmentsList.Add(MemoryFragType.NECKLACE, false);
+
+        isPaused = false;
+        isGameOver = false;
+        isWin = false;
+
+        memoryFragmentsCollected = 0;
+        branchCollected = 0;
+        firetorchCollected = false;
     }
 
     // Start is called before the first frame update
@@ -88,24 +94,18 @@ public class GameController : MonoBehaviour
     public void GameOver()
     {
         isGameOver = true;
-        //Display game over screen
-        OpenGameOverMenu();
-    }
-
-    public void SetGameOver(bool aGameOver, bool aWin)
-    {
-        //set game over state
-        isGameOver = aGameOver;
-
-        if (isGameOver && !aWin)
+        if (CheckFragmentCollectedAll())
         {
-            //Display game over screen
-            OpenGameOverMenu();
+            isWin = false;
+            Debug.Log("Game lose");
         }
         else
         {
             Debug.Log("Level Completed");
         }
+
+        //Display game over screen
+        OpenGameOverMenu();
     }
 
     public bool CheckGameOver()
@@ -116,17 +116,20 @@ public class GameController : MonoBehaviour
 
     public void StartLevel(PlayerController playerScript)
     {
+        InitializeGame();
+
         player = playerScript;
 
         ///!!important must set player to reeceive the input for it to move
         SetPlayerInputReciever();
+
         //do not allow the player to have weapon at the start
         interactHandler.SetInteractReceiver(null);
         //SetPlayerShootInteractReciever();
 
         //reset game variables
+        InitializeGame();
         Game.GetPlayer().Reset();
-        branchCollected = 0;
 
         //set game ongoing
         SetPause(false);

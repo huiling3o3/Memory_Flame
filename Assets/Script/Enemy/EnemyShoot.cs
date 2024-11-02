@@ -7,8 +7,9 @@ public class EnemyShoot : MonoBehaviour
     //reference to the bullet objects to spawn the bullets
     [SerializeField] private Transform bulletSpawnPoint;
     [SerializeField] private GameObject bullet;
-     private float timer;
-    bool canAttack = false;
+    private float timer;
+    [SerializeField] bool canAttack = false;
+    [SerializeField] GameObject Player;
     // Start is called before the first frame update
     void Start()
     {
@@ -34,11 +35,12 @@ public class EnemyShoot : MonoBehaviour
             //spawn bullet
             GameObject SpawnBullet = Instantiate(bullet, bulletSpawnPoint.position, Quaternion.identity);
 
-            Vector2 shootDirection = Game.GetPlayer().transform.position - SpawnBullet.transform.position;
+            Vector2 shootDirection = (Player.transform.position - SpawnBullet.transform.position).normalized;
 
-            SpawnBullet.GetComponent<Rigidbody2D>().velocity = shootDirection;
             float rot = Mathf.Atan2(shootDirection.y, shootDirection.x) * Mathf.Rad2Deg;
             SpawnBullet.transform.rotation = Quaternion.Euler(0, 0, rot);
+            // Set the bullet to fly
+            SpawnBullet.GetComponent<IceBullet>().InIt(shootDirection);
         }
     }
 
@@ -47,6 +49,7 @@ public class EnemyShoot : MonoBehaviour
         if (collision.tag == "Player")
         { 
             canAttack = true;
+            Player = collision.gameObject;
         }
     }
 
@@ -55,6 +58,7 @@ public class EnemyShoot : MonoBehaviour
         if (collision.tag == "Player")
         {
             canAttack = false;
+            Player = null;
         }
     }
 }

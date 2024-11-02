@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Level_Controller : Scene_Manager
-{
-    
+{    
     [SerializeField] private bool isStarted;    
     public Transform startPosition;
     private PlayerController player;
@@ -17,6 +16,7 @@ public class Level_Controller : Scene_Manager
     {
 
     }
+
     public override void Initialize(GameController aController, InputHandler handler)
     {
         isStarted = false;
