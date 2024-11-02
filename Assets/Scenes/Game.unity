@@ -981,12 +981,20 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1436306486342201346, guid: d33494c915e694542ac64c2004ba62c3, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2751161619299804596, guid: d33494c915e694542ac64c2004ba62c3, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1945926843}
+    - target: {fileID: 3769713742765602655, guid: d33494c915e694542ac64c2004ba62c3, type: 3}
+      propertyPath: m_text
+      value: RESTART
+      objectReference: {fileID: 0}
+    - target: {fileID: 3999878325008653739, guid: d33494c915e694542ac64c2004ba62c3, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4840860789022854092, guid: d33494c915e694542ac64c2004ba62c3, type: 3}
       propertyPath: m_Pivot.x
       value: 0
