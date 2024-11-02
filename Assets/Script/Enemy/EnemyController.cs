@@ -24,7 +24,7 @@ public class EnemyController : DropBranchHandler
 
     //Variables for movement
     [SerializeField] private float distanceBtwPlayer;
-    [SerializeField] private Transform initialPosition;
+    [SerializeField] private Vector2 initialPosition;
     private bool isFacingRight = true;
     private bool haveTarget = false;
     //Variables for attacks  
@@ -52,10 +52,10 @@ public class EnemyController : DropBranchHandler
 
         agent.updateRotation = false;
         agent.updateUpAxis = false;
-        agent.speed = speed;
+        agent.speed = speed;       
 
         //store their original position
-        initialPosition = this.transform;
+        initialPosition = transform.position;
         // Save the original color of the enemy sprite
         originalColor = sr.color;
     }
@@ -63,7 +63,7 @@ public class EnemyController : DropBranchHandler
     public void Init(GameObject Target)
     {
         //reset original posiion
-        this.transform.position = initialPosition.position;
+        transform.position = initialPosition;
 
         //reset enemies stats
         canAttack = true;
@@ -76,6 +76,7 @@ public class EnemyController : DropBranchHandler
         currentHp = maxHp;
         UpdatHealthBar();
 
+        //reset the player target
         target = Target;
     }
     private void OnEnable()
@@ -254,9 +255,9 @@ public class EnemyController : DropBranchHandler
         Debug.Log($"Enemy took {damage} damage");
 
         if (currentHp <= 0)
-        {
+        {            
             //destroy game object
-            this.gameObject.SetActive(false);
+            gameObject.SetActive(false);
             DropBranches();
         }
 
