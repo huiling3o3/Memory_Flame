@@ -13,18 +13,24 @@ public class BulletBehaviour : MonoBehaviour
     [SerializeField] protected GameObject impactEffect;
 
     // Start is called before the first frame update
-    protected virtual void Start()
+    private void Awake()
     {
         //set up the rigidbody
-        rb = GetComponent<Rigidbody2D>();
+        rb = GetComponent<Rigidbody2D>();       
+    }
+
+    public virtual void InIt(Vector2 shootDirection)
+    {
         //set the bullet to move in a straight velocity
         rb.velocity = transform.right * bulletSpeed;
         //destroy the bullet after a certain timing
         SetDestroyTime();
     }
 
-    private void SetDestroyTime()
+    protected void SetDestroyTime()
     {
+        //set the bullet to move in a straight velocity
+        rb.velocity = transform.right * bulletSpeed;
         Destroy(gameObject, destroyTime);
     }
 
@@ -36,7 +42,7 @@ public class BulletBehaviour : MonoBehaviour
         {
             //spawn particles
             GameObject Impact = Instantiate(impactEffect, transform.position, Quaternion.identity);
-            Destroy(Impact, 0.5f);
+            Destroy(Impact, 0.3f);
 
             //play sound FX
 
