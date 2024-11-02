@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using UnityEngine.SocialPlatforms.Impl;
 
 public class HUDController : MonoBehaviour
 {
@@ -33,6 +34,13 @@ public class HUDController : MonoBehaviour
     [Header("[Gradient to adjust color val]")]
     [SerializeField] private Gradient gradientCold;
     [SerializeField] private Image fillCold;
+
+    [Header("Dialogue")]
+    [SerializeField] private TextMeshProUGUI instructionsText;
+    [SerializeField] private GameObject popUpObj;
+    [SerializeField] private float minY, maxY;
+    [SerializeField] private float animDuration, stopDuration;
+    private bool isShowing;
 
     public void Awake()
     {
@@ -73,6 +81,63 @@ public class HUDController : MonoBehaviour
         //CampFireController.fireHealthChanged -= UpdateFireBar;
         // Unsubscribe to the branchCollectChanged event from Game controller
         GameController.branchCollectedChanged -= UpdateBranchCount;
+    }
+
+    public void ShowInstructions(string txt)
+    {
+        if (!isShowing)
+        {
+            StartCoroutine(OpenInstructions(txt));
+        }
+    }
+    private IEnumerator CloseInstructions()
+    {
+        // Animate the popup sliding from minY to maxY
+        float elapsedTime = 0f;
+        Vector2 startPosition = popUpObj.GetComponent<RectTransform>().anchoredPosition;
+
+        // Animate the popup sliding back from maxY to minY
+        elapsedTime = 0f;
+        while (elapsedTime < animDuration)
+        {
+            float newY = Mathf.SmoothStep(maxY, minY, elapsedTime / animDuration);
+            popUpObj.GetComponent<RectTransform>().anchoredPosition = new Vector2(startPosition.x, newY);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        // Ensure the popup is exactly at minY
+        popUpObj.GetComponent<RectTransform>().anchoredPosition = new Vector2(startPosition.x, minY);
+        yield return null;
+
+        //set showing flag to false
+        isShowing = false;
+    }
+    private IEnumerator OpenInstructions(string txt)
+    {
+        //set showing flag to true
+        isShowing = true;
+
+        //Change the text of the gameobject
+        instructionsText.text = txt;
+
+        // Animate the popup sliding from minY to maxY
+        float elapsedTime = 0f;
+        Vector2 startPosition = popUpObj.GetComponent<RectTransform>().anchoredPosition;
+
+        while (elapsedTime < animDuration)
+        {
+            float newY = Mathf.SmoothStep(minY, maxY, elapsedTime / animDuration);
+            popUpObj.GetComponent<RectTransform>().anchoredPosition = new Vector2(startPosition.x, newY);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        // Ensure the popup is exactly at maxY
+        popUpObj.GetComponent<RectTransform>().anchoredPosition = new Vector2(startPosition.x, maxY);
+
+        // Wait for stopDuration at maxY
+        yield return new WaitForSeconds(stopDuration);       
     }
 
     public void UpdateMemoryFragUI(MemoryFragType fragType)

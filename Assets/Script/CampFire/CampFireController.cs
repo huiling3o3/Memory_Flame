@@ -15,7 +15,7 @@ public class CampFireController : MonoBehaviour
     [SerializeField] private int branchHealAmount = 2;
     [SerializeField] private int currentBranches = 0;
     [SerializeField] private int amountToReviveFire = 10;
-    [SerializeField] private FireState InitialState = FireState.Extinguished;
+    [SerializeField] private FireState InitialState;
     
     // List of fire sprites for different health levels
     [Header("To Assign")]
@@ -24,7 +24,7 @@ public class CampFireController : MonoBehaviour
     [SerializeField] GameObject instructions;
     [SerializeField] TextMeshProUGUI branchTxt;
     [SerializeField] private Slider fireHealthBar;
-    [SerializeField] float offset = -50f;
+    [SerializeField] private bool canBurn = false;
     private bool playerInRange = false;
     private Level_Controller lvlController;
     private PlayerController pc;
@@ -50,11 +50,7 @@ public class CampFireController : MonoBehaviour
     }
 
     public void Initialize(Level_Controller level_Controller)
-    {
-        // Set initial fire appearance
-        UpdateFireAppearance();    
-        //set the interaction apperance to false
-        instructions.SetActive(false);
+    {       
         //Add the lvl controller ref
         lvlController = level_Controller;
         // Initialize health
@@ -71,12 +67,16 @@ public class CampFireController : MonoBehaviour
                 currentFireState = FireState.Extinguished;
                 break;
         }
+        // Set initial fire appearance
+        UpdateFireAppearance();
+        //set the interaction apperance to false
+        instructions.SetActive(false);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (lvlController == null || Game.GetGameController().isPaused || Game.GetGameController().isGameOver)
+        if (!canBurn || lvlController == null || Game.GetGameController().isPaused || Game.GetGameController().isGameOver)
         {
             return;
         }
@@ -89,10 +89,14 @@ public class CampFireController : MonoBehaviour
         }
         if (playerInRange && currentFireState == FireState.Burning)
         {
-            //Debug.Log("burning");
             pc.RegenerateWarmth();
             pc.ps.RegenerateAmmo(); //regenrate the player shooting ammo
         }
+    }
+
+    public void StartBurning()
+    {
+        canBurn = true;
     }
 
     private void BurnFire()

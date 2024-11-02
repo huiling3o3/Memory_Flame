@@ -11,7 +11,7 @@ public class Level_Controller : Scene_Manager
     private List<EnemyController> enemyList;
     private List<CampFireController> campFireList;
     private List<CutTree> treeList;
-
+    private fireTorch torch;
 
     private void Awake()
     {
@@ -63,6 +63,13 @@ public class Level_Controller : Scene_Manager
         {
             enemy.gameObject.SetActive(true);
             enemy.Init(player.gameObject);
+        }
+
+        //initialise the firetorch
+        if (torch == null)
+        {
+            torch = FindObjectOfType<fireTorch>();
+            torch.gameObject.SetActive(true);
         }
 
         gameController.StartLevel(player);

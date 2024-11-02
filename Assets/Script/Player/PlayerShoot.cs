@@ -42,6 +42,7 @@ public class PlayerShoot : MonoBehaviour, IInteractReciever
         // Initialize ammo
         Reset();
     }
+
     //Rest function
     public void Reset()
     {
@@ -53,18 +54,22 @@ public class PlayerShoot : MonoBehaviour, IInteractReciever
     // Update is called once per frame
     void Update()
     {
-        if (!Game.GetGameController().isPaused && !Game.GetGameController().isGameOver)
+        if (!Game.GetGameController().isPaused && !Game.GetGameController().isGameOver && Game.GetGameController().HaveFireTorch())
         {
             HandleAim();
             DepleteAmmo();
             //RegenerateAmmo();
             UpdateApperance();
-        }        
+        }
+        else
+        {
+            fireTorch.SetActive(false);
+        }
     }
 
     private void UpdateApperance()
     {
-        
+        fireTorch.SetActive(true);
         if (currentAmmo <= 0)
         {            
             torchSprite.sprite = burnOutTorch;
