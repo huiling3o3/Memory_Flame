@@ -688,6 +688,14 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7579874234280734927, guid: b108c60bfd7c32c4da74b5a6aaab46f6, type: 3}
+      propertyPath: dashingTime
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7579874234280734927, guid: b108c60bfd7c32c4da74b5a6aaab46f6, type: 3}
+      propertyPath: dashingPower
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 7899985628247263552, guid: b108c60bfd7c32c4da74b5a6aaab46f6, type: 3}
       propertyPath: m_LocalPosition.x
       value: -9.21

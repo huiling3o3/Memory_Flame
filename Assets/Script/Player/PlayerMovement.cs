@@ -10,11 +10,11 @@ public class PlayerMovement : MonoBehaviour, IInputReceiver
     public float moveSpeed;
     [SerializeField] private bool isFacingRight = true;
     //Dashing
-    private bool canDash = true;
-    private bool isDashing;
-    private float dashingPower = 5f;
-    private float dashingTime = 0.2f;
-    private float dashingCooldown = 1f;
+    [SerializeField] private bool canDash = true;
+    public bool isDashing;
+    [SerializeField] private float dashingPower = 5f;
+    [SerializeField] private float dashingTime = 0.2f;
+    [SerializeField] private float dashingCooldown = 1f;
 
     [SerializeField] private TrailRenderer tr;
 
@@ -47,24 +47,15 @@ public class PlayerMovement : MonoBehaviour, IInputReceiver
     {
         canDash = false;
         isDashing = true;
-        if (lastMovedVector.x == 0 && lastMovedVector.y > 0) //top
-        {
-            rb.velocity = new Vector2(0f, transform.localScale.y * dashingPower);
-        }
-        else if (lastMovedVector.x == 0 && lastMovedVector.y < 0) //down
-        {
-            rb.velocity = new Vector2(0f, transform.localScale.y * dashingPower * -1f);
-        }
-        else if (lastMovedVector.x < 0 && lastMovedVector.y == 0) //left
-        {
-            rb.velocity = new Vector2(transform.localScale.x * dashingPower, 0f);           
-        }
-        else if (lastMovedVector.x > 0 && lastMovedVector.y == 0) //right
-        {
-            rb.velocity = new Vector2(transform.localScale.x * dashingPower, 0f);
-        }
 
+        // Use the last moved vector for dash direction
+        Vector2 dashDirection = lastMovedVector.normalized;
+        rb.velocity = dashDirection * dashingPower;
+
+        // Enable dash trail effect
         tr.emitting = true;
+
+        // Dash duration
         yield return new WaitForSeconds(dashingTime);
 
         // Stop dashing
@@ -72,6 +63,7 @@ public class PlayerMovement : MonoBehaviour, IInputReceiver
         isDashing = false;
         tr.emitting = false;
 
+        // Dash cooldown
         yield return new WaitForSeconds(dashingCooldown);
         canDash = true;
     }
@@ -117,45 +109,28 @@ public class PlayerMovement : MonoBehaviour, IInputReceiver
 
         if (isDashing)
         {
-            // Don't allow normal movement during dash or knockback
+            // Don't allow normal movement during dash
             return;
         }
 
-        if (moveDir.x != 0)
+        // Update last moved vector if there's movement input
+        if (aDir != Vector2.zero)
         {
-            lastHorizontalVector = moveDir.x;
-            lastMovedVector = new Vector2(lastHorizontalVector, 0f);    //Last moved X
+            lastMovedVector = aDir.normalized;  // Update to track the latest direction, including diagonals
         }
 
-        if (moveDir.y != 0)
+        // Flip the sprite based on horizontal movement
+        if (aDir.x > 0)
         {
-            lastVerticalVector = moveDir.y;
-            lastMovedVector = new Vector2(0f, lastVerticalVector);  //Last moved Y
+            FlipRight(true); // face right
+        }
+        else if (aDir.x < 0)
+        {
+            FlipRight(false); // face left
         }
 
-        if (moveDir.x != 0 && moveDir.y != 0)
-        {
-            lastMovedVector = new Vector2(lastHorizontalVector, lastVerticalVector);    //While moving
-        }
-
-        if (moveDir.x > 0)
-        {
-            FlipRight(true); //face right
-        }
-        else if (moveDir.x < 0)
-        {
-            FlipRight(false); //face left
-        }
-
-        //get the movement direction
-        moveDir = aDir;
-       
-        moveDir = Vector2.ClampMagnitude(moveDir, 0.1f);
-
-        //normalize it to prevent diagonal movement being faster
-        moveDir = moveDir.normalized;
-
-        // Move the player object using MovePosition function of Rigidbody2D
+        // Normalize and apply movement
+        moveDir = aDir.normalized;
         rb.MovePosition(rb.position + moveDir * moveSpeed * Time.fixedDeltaTime);
     }
     public void DoLeftAction()
