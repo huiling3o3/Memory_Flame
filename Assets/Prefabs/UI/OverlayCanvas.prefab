@@ -2008,7 +2008,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -134}
+  m_AnchoredPosition: {x: 0, y: -162}
   m_SizeDelta: {x: 1114, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &6818859567963028505
@@ -3606,7 +3606,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 85824449326655314, guid: 43b792ffba73cae47b87053c7a2b9077, type: 3}
       propertyPath: m_Name
-      value: mainMenu Button
+      value: restart Button
       objectReference: {fileID: 0}
     - target: {fileID: 3923746954362707175, guid: 43b792ffba73cae47b87053c7a2b9077, type: 3}
       propertyPath: m_text
@@ -3618,7 +3618,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6515397662799601239, guid: 43b792ffba73cae47b87053c7a2b9077, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: OpenStartMenu
+      value: RestartLevel
       objectReference: {fileID: 0}
     - target: {fileID: 6515397662799601239, guid: 43b792ffba73cae47b87053c7a2b9077, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
@@ -3954,19 +3954,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8728540612239540951, guid: 0bc244e551ca41b4db31a122de9f4c2d, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8817126406538470379, guid: 0bc244e551ca41b4db31a122de9f4c2d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1436306486342201346}
+      objectReference: {fileID: 0}
     - target: {fileID: 8817126406538470379, guid: 0bc244e551ca41b4db31a122de9f4c2d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: 
+      value: OpenStartMenu
       objectReference: {fileID: 0}
     - target: {fileID: 8817126406538470379, guid: 0bc244e551ca41b4db31a122de9f4c2d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: PauseMenuScript, Assembly-CSharp
+      value: GameController, Assembly-CSharp
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

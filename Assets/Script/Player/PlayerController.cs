@@ -25,7 +25,7 @@ public class PlayerController : MonoBehaviour
     private Color originalColor; // Store the original color of the enemy
 
     //references
-    PlayerMovement pm;
+    public PlayerMovement pm;
     public PlayerShoot ps;
     Animator am;
     private SpriteRenderer sr;
