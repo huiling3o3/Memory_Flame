@@ -61,8 +61,8 @@ public class Level_Controller : Scene_Manager
 
         foreach (EnemyController enemy in enemyList)
         {
-            enemy.gameObject.SetActive(true);
             enemy.Init(player.gameObject);
+            enemy.gameObject.SetActive(true);           
         }
 
         //initialise the firetorch

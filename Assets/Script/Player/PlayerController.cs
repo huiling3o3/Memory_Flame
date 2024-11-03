@@ -69,7 +69,7 @@ public class PlayerController : MonoBehaviour
             Game.GetHUDController().UpdateColdBar(currentColdLvl, maxColdLvl);
 
             //Check player movement
-            if (pm.moveDir.x != 0 || pm.moveDir.y != 0)
+            if (pm.moveDir.x != 0 || pm.moveDir.y != 0 || pm.isDashing)
             {
                 am.SetBool("Move", true);               
             }

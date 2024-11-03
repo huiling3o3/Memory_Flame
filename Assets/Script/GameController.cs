@@ -265,8 +265,15 @@ public class GameController : MonoBehaviour
 
     public void SetPlayerShootInteractReciever()
     {
-        //set the input handler to the player weapon 
-        interactHandler.SetInteractReceiver(player.GetComponent<PlayerShoot>());
+        if (HaveFireTorch())
+        {
+            //set the input handler to the player weapon 
+            interactHandler.SetInteractReceiver(player.GetComponent<PlayerShoot>());
+        }
+        else
+        {
+            interactHandler.SetInteractReceiver(null);
+        }
     }
     #endregion
 
