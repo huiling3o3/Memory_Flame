@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float currentColdLvl;
     [SerializeField] float maxColdLvl = 100f;// Maximum cold bar
     [SerializeField] float coldRate = 10f; // Coldness increases per second when out of warm zone, decrease it to make it slower
+    [SerializeField] float regainWarmthRate = 10f;
     [SerializeField] float coldDamagePower = 10f; // The amount of damage to decrease the health if hit the max lvl
 
     // Variables for color change effect
@@ -52,6 +53,9 @@ public class PlayerController : MonoBehaviour
         //reset all the variables
         Reset();
         sr.color = originalColor; // reset the sprite color       
+
+        //set the player initial cold rate to be 50%
+        currentColdLvl = maxColdLvl / 2;
     }
 
     private void Update()
@@ -155,10 +159,14 @@ public class PlayerController : MonoBehaviour
     public void RegenerateWarmth()
     {
         //increase ammo over time
-        currentColdLvl -= coldRate * Time.deltaTime;
-        currentColdLvl = Mathf.Clamp(currentColdLvl, 0, maxColdLvl); // Ensure ammo doesn't go below 0
+        currentColdLvl -= regainWarmthRate * Time.deltaTime;
+        currentColdLvl = Mathf.Clamp(currentColdLvl, 0, maxColdLvl); // Ensure it doesn't go below 0
     }
 
+    public void PlayFootstepSound()
+    {
+        SoundManager.PlaySound(SoundType.FOOTSTEP, null, 0.5f);
+    }
     public void ExitSafeZone() { inSafeZone = false; }
     public void EnterSafeZone()
     {
@@ -166,6 +174,12 @@ public class PlayerController : MonoBehaviour
         if (playerDead) return;
         inSafeZone = true;
     }
+
+    public bool IsWarmed()
+    {
+        return inSafeZone && currentColdLvl <= 10f;
+    }
+
     public bool IsPlayerInSafeZone() => inSafeZone;
 
     // change the color when hit
@@ -179,7 +193,7 @@ public class PlayerController : MonoBehaviour
         else
             sr.color = hitColor;
         // TODO: Play the hurt sound
-
+        SoundManager.PlaySound(SoundType.HURT, null, 0.5f);
         // Wait for the duration of the color change
         yield return new WaitForSeconds(colorChangeDuration);
 

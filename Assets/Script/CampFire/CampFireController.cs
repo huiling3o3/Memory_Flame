@@ -16,6 +16,7 @@ public class CampFireController : MonoBehaviour
     [SerializeField] private int currentBranches = 0;
     [SerializeField] private int amountToReviveFire = 10;
     [SerializeField] private FireState InitialState;
+
     
     // List of fire sprites for different health levels
     [Header("To Assign")]
@@ -24,7 +25,8 @@ public class CampFireController : MonoBehaviour
     [SerializeField] GameObject instructions;
     [SerializeField] TextMeshProUGUI branchTxt;
     [SerializeField] private Slider fireHealthBar;
-    [SerializeField] private bool canBurn = false;
+    //A int to check if the campfire have been refueled since its initial stage
+    public int refilledCount = 0;
     private bool playerInRange = false;
     private Level_Controller lvlController;
     private PlayerController pc;
@@ -71,12 +73,14 @@ public class CampFireController : MonoBehaviour
         UpdateFireAppearance();
         //set the interaction apperance to false
         instructions.SetActive(false);
+        //set tutorial stats
+        refilledCount = 0;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (!canBurn || lvlController == null || Game.GetGameController().isPaused || Game.GetGameController().isGameOver)
+        if (lvlController == null || Game.GetGameController().isPaused || Game.GetGameController().isGameOver)
         {
             return;
         }
@@ -92,11 +96,6 @@ public class CampFireController : MonoBehaviour
             pc.RegenerateWarmth();
             pc.ps.RegenerateAmmo(); //regenrate the player shooting ammo
         }
-    }
-
-    public void StartBurning()
-    {
-        canBurn = true;
     }
 
     private void BurnFire()
@@ -122,6 +121,12 @@ public class CampFireController : MonoBehaviour
     }
     private void BorrowFire(int amount)
     {
+        //only borrow fire if the player have firetorch
+        if (!Game.GetGameController().HaveFireTorch())
+        {
+            return;
+        }
+
         // take away the fire health used to replenish the fire torch
         currentHealth -= maxHealth * amount / 100f;
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth); // Clamp health between 0 and max
@@ -150,19 +155,7 @@ public class CampFireController : MonoBehaviour
                 fireHealthBar.gameObject.SetActive(true);
 
                 //hide the branch txt to revive
-                branchTxt.gameObject.SetActive(false);
-
-                // Determine which sprite to display based on the health percentage
-                int spriteIndex = Mathf.FloorToInt(healthPercentage * (fireSprites.Count - 1));
-
-                // Adjust instructions position based on health percentage
-                float yOffset = Mathf.Lerp(42.17f, -28.16f, 1 - healthPercentage); // Start high, go low as health decreases
-                instructions.transform.localPosition = new Vector3(instructions.transform.localPosition.x, yOffset, instructions.transform.localPosition.z);
-                // Clamp the index to ensure it's within the bounds of the list
-                spriteIndex = Mathf.Clamp(spriteIndex, 0, fireSprites.Count - 1);
-
-                // Update the sprite renderer with the selected sprite
-                fireSpriteRenderer.sprite = fireSprites[spriteIndex];
+                branchTxt.gameObject.SetActive(false);               
                 break;
 
             case FireState.Extinguished:
@@ -176,7 +169,21 @@ public class CampFireController : MonoBehaviour
                 branchTxt.text = $"{currentBranches} / {amountToReviveFire}";
                 break;
 
-        }        
+        }
+
+        // Update the apperance of the fire
+
+        // Determine which sprite to display based on the health percentage
+        int spriteIndex = Mathf.FloorToInt(healthPercentage * (fireSprites.Count - 1));
+
+        // Adjust instructions position based on health percentage
+        float yOffset = Mathf.Lerp(42.17f, -28.16f, 1 - healthPercentage); // Start high, go low as health decreases
+        instructions.transform.localPosition = new Vector3(instructions.transform.localPosition.x, yOffset, instructions.transform.localPosition.z);
+        // Clamp the index to ensure it's within the bounds of the list
+        spriteIndex = Mathf.Clamp(spriteIndex, 0, fireSprites.Count - 1);
+
+        // Update the sprite renderer with the selected sprite
+        fireSpriteRenderer.sprite = fireSprites[spriteIndex];
     }
 
     public void AddBranches(int branchAmount)
@@ -210,6 +217,8 @@ public class CampFireController : MonoBehaviour
                     {
                         AddBranches(sticks);
                     }
+                    //tutorial
+                    ++refilledCount;
                     Debug.Log(name + "got healed");
                 }
                 else
@@ -236,17 +245,39 @@ public class CampFireController : MonoBehaviour
                         Game.GetGameController().RemoveStick(currentStickRequired);
                         //revive the fire
                         currentFireState = FireState.Burning;
+                        //set the current heath to max
                         currentHealth = maxHealth;
                         //update fire UI
                         UpdateFireAppearance();
                         //reset the current branches to revive
                         currentBranches = 0;
+                        //tutorial
+                        ++refilledCount;
                     }
                 }               
 
                 break;
         }
     }
+
+    public bool IsRefilledOnce()
+    {
+        if (refilledCount == 1)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    public bool IsRefilledAgain()
+    {
+        if (refilledCount > 1)
+        {
+            return true;
+        }
+        return false;
+    }
+
     private void KillFire()
     {
         currentFireState = FireState.Extinguished;

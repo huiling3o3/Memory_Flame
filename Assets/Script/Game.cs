@@ -29,6 +29,12 @@ public static class Game
     public static void SetSoundManager(SoundManager sm) => soundManager = sm;
     #endregion
 
+    #region taskManager
+    private static TaskManager taskManager;
+    public static TaskManager GetTaskManager() => taskManager;
+    public static void SetTaskManager(TaskManager tm) => taskManager = tm;
+    #endregion
+
     #region enemy
     public static List<Enemy> enemyList;
     // Enemy Set and Get

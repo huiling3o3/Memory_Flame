@@ -125,18 +125,13 @@ public class GameController : MonoBehaviour
 
         //do not allow the player to have weapon at the start
         interactHandler.SetInteractReceiver(null);
-        //SetPlayerShootInteractReciever();
 
         //reset game variables
         InitializeGame();
-        Game.GetPlayer().Reset();
 
         //set game ongoing
         SetPause(false);
         GameOverMenu.SetActive(false);
-
-        //show instructions
-        Game.GetHUDController().ShowInstructions("Keep warmth by staying near the campfire");
     }
 
     public void SetPause(bool aPause)

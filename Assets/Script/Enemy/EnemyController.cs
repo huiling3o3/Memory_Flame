@@ -203,7 +203,7 @@ public class EnemyController : DropBranchHandler
 
         //Play the enemy hit sound
         SoundManager.PlaySound(SoundType.CLAW_ATTACK);
-        
+
         //add the delay
         StartCoroutine(AttackTimer());
     }

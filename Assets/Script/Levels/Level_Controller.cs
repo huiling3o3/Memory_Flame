@@ -1,20 +1,36 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Level_Controller : Scene_Manager
 {    
-    [SerializeField] private bool isStarted;    
+    [SerializeField] private bool isStarted;
+    [SerializeField] string[] instructionArray;
+    [SerializeField] CampFireController tutorialCampfire;
+    string initialInstructions;
     public Transform startPosition;
     private PlayerController player;
     private List<EnemyController> enemyList;
     private List<CampFireController> campFireList;
     private List<CutTree> treeList;
     private fireTorch torch;
+    private TaskManager taskManager;
+    
 
     private void Awake()
     {
+        taskManager = GetComponent<TaskManager>();
+        
+        List<string> instructions = new List<string>()
+        {
+            "I'm feeling very COLD, I need something WARM",
+            "Oh no the campfire is dying, let's keep it burnning",
+            "I need more wood to sustain the FIRE, look for trees"
+        };
 
+        initialInstructions = "I'm feeling very COLD, I need something WARM";
     }
 
     public override void Initialize(GameController aController, InputHandler handler)
@@ -74,6 +90,9 @@ public class Level_Controller : Scene_Manager
 
         gameController.StartLevel(player);
 
+        // Display the first instruction
+        Game.GetHUDController().ShowInstructions(initialInstructions);
+
         isStarted = true;
     }
 
@@ -96,6 +115,29 @@ public class Level_Controller : Scene_Manager
     // Update is called once per frame
     void Update()
     {
-       
+        if (!isStarted)
+        {
+            return;
+
+        }
+
+        if (!taskManager.AreAllTasksCompleted())
+        {
+            //Check all the task
+            if (player.IsWarmed())
+            {
+                taskManager.SetTaskCompleted(TaskType.PLAYER_WARMED);
+            }
+            else if (tutorialCampfire.IsRefilledOnce())
+            {
+                taskManager.SetTaskCompleted(TaskType.FIRE_REFUELLED_ONCE);
+            }
+            else if (tutorialCampfire.IsRefilledAgain())
+            {
+                taskManager.SetTaskCompleted(TaskType.FIRE_REFUELLED_AGAIN);
+            }
+        }
     }
 }
+
+

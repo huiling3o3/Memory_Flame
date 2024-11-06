@@ -15,12 +15,14 @@ MonoBehaviour:
   sounds:
   - name: HURT
     volume: 1
-    mixer: {fileID: 0}
-    sounds: []
+    mixer: {fileID: -4903254787991985976, guid: 088f86acdf57719488210e783e23eef6, type: 2}
+    sounds:
+    - {fileID: 8300000, guid: b910342d66535fc46812108334871f79, type: 3}
   - name: FOOTSTEP
     volume: 1
-    mixer: {fileID: 0}
-    sounds: []
+    mixer: {fileID: -4903254787991985976, guid: 088f86acdf57719488210e783e23eef6, type: 2}
+    sounds:
+    - {fileID: 8300000, guid: b910342d66535fc46812108334871f79, type: 3}
   - name: SHOOT
     volume: 1
     mixer: {fileID: 0}

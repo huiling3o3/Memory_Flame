@@ -1,30 +1,33 @@
 using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using TMPro;
+using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SocialPlatforms.Impl;
 
 public class HUDController : MonoBehaviour
 {
     [Header("Collectables")]
     //reference to the UI variables
     [SerializeField] private TextMeshProUGUI branchTxt;
-    [SerializeField] private Image Shield;
+    [SerializeField] private Image HEADBAND;
+    [SerializeField] private Image NECKLACE;
+    [SerializeField] private Image BROKENSWORD;
 
     [Header("Player's Torch Ammo")]
     //reference to the UI variables
+    [SerializeField] private GameObject torchAmmo;
     [SerializeField] private Image fillImg;
     [SerializeField] private TextMeshProUGUI ammoTxt;
 
     [Header("Fire Timebar")]
     public Slider TimerBar;
+
     [Header("[Gradient to adjust color val]")]
     public Gradient gradient;
     [SerializeField] Image fill;
 
     [Header("Player Healthbar")]
     public Slider HealthBar;
+
     [Header("[Gradient to adjust color val]")]
     public Gradient gradientHealth;
     [SerializeField] Image fillHealth;
@@ -40,7 +43,7 @@ public class HUDController : MonoBehaviour
     [SerializeField] private GameObject popUpObj;
     [SerializeField] private float minY, maxY;
     [SerializeField] private float animDuration, stopDuration;
-    private bool isShowing;
+    [SerializeField] public bool IsInstructionVisible;
 
     public void Awake()
     {
@@ -58,15 +61,20 @@ public class HUDController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (Game.GetGameController().HaveFireTorch())
+        {
+            DisplayFireTorch(true);
+        }
+        else
+        {
+            DisplayFireTorch(false);
+        }
     }
 
     void OnEnable()
     {
         // Subscribe to the currentAmmoChanged event from PlayerShoot
         PlayerShoot.currentAmmoChanged += UpdateUIAmmo;
-        // Subscribe to the fireHealthChanged event from CampFireController
-        //CampFireController.fireHealthChanged += UpdateFireBar;
         // Subscribe to the branchCollectChanged event from Game controller
         GameController.branchCollectedChanged += UpdateBranchCount;
         // Subscibe to memFragmentsCollected event from Game controller
@@ -77,19 +85,32 @@ public class HUDController : MonoBehaviour
     {
         // Unsubscribe from the event when this object is disabled or destroyed
         PlayerShoot.currentAmmoChanged -= UpdateUIAmmo;
-        // Unsubscribe to the fireHealthChanged event from CampFireController
-        //CampFireController.fireHealthChanged -= UpdateFireBar;
         // Unsubscribe to the branchCollectChanged event from Game controller
         GameController.branchCollectedChanged -= UpdateBranchCount;
+        // Unsubscibe to memFragmentsCollected event from Game controller
+        GameController.memFragmentsCollected -= UpdateMemoryFragUI;
     }
 
     public void ShowInstructions(string txt)
     {
-        if (!isShowing)
+        if (!IsInstructionVisible)
         {
             StartCoroutine(OpenInstructions(txt));
         }
+        else
+        {
+            // Update the instruction text immediately without closing
+            instructionsText.text = txt;
+        }
     }
+    public void HideInstructions()
+    {
+        if (IsInstructionVisible)
+        {
+            StartCoroutine(CloseInstructions());
+        }
+    }
+
     private IEnumerator CloseInstructions()
     {
         // Animate the popup sliding from minY to maxY
@@ -108,15 +129,14 @@ public class HUDController : MonoBehaviour
 
         // Ensure the popup is exactly at minY
         popUpObj.GetComponent<RectTransform>().anchoredPosition = new Vector2(startPosition.x, minY);
-        yield return null;
 
         //set showing flag to false
-        isShowing = false;
+        IsInstructionVisible = false;
     }
     private IEnumerator OpenInstructions(string txt)
     {
         //set showing flag to true
-        isShowing = true;
+        IsInstructionVisible = true;
 
         //Change the text of the gameobject
         instructionsText.text = txt;
@@ -134,10 +154,7 @@ public class HUDController : MonoBehaviour
         }
 
         // Ensure the popup is exactly at maxY
-        popUpObj.GetComponent<RectTransform>().anchoredPosition = new Vector2(startPosition.x, maxY);
-
-        // Wait for stopDuration at maxY
-        yield return new WaitForSeconds(stopDuration);       
+        popUpObj.GetComponent<RectTransform>().anchoredPosition = new Vector2(startPosition.x, maxY);               
     }
 
     public void UpdateMemoryFragUI(MemoryFragType fragType)
@@ -148,13 +165,35 @@ public class HUDController : MonoBehaviour
         if (fragType == MemoryFragType.HEADBAND)
         {
             // Get the current color of the image
-            Color currentColor = Shield.color;
+            Color currentColor = HEADBAND.color;
 
             // Set the alpha value while keeping the other color values unchanged
             currentColor.a = alphaValue;
 
             // Apply the updated color back to the image
-            Shield.color = currentColor;
+            HEADBAND.color = currentColor;
+        }
+        else if (fragType == MemoryFragType.NECKLACE)
+        {
+            // Get the current color of the image
+            Color currentColor = NECKLACE.color;
+
+            // Set the alpha value while keeping the other color values unchanged
+            currentColor.a = alphaValue;
+
+            // Apply the updated color back to the image
+            NECKLACE.color = currentColor;
+        }
+        else if (fragType == MemoryFragType.BROKENSWORD)
+        {
+            // Get the current color of the image
+            Color currentColor = BROKENSWORD.color;
+
+            // Set the alpha value while keeping the other color values unchanged
+            currentColor.a = alphaValue;
+
+            // Apply the updated color back to the image
+            BROKENSWORD.color = currentColor;
         }
     }
 
@@ -184,5 +223,10 @@ public class HUDController : MonoBehaviour
     {
         ColdBar.value = currentCold / maxCold;
         fillCold.color = gradientCold.Evaluate(ColdBar.normalizedValue);
+    }
+
+    public void DisplayFireTorch(bool val)
+    {
+        torchAmmo.SetActive(true);
     }
 }
