@@ -216,7 +216,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   branchPrefab: {fileID: 5306673620990420075, guid: fe05affa94828a1449f0abd0d9159053, type: 3}
-  branchNum: 2
+  branchNum: 4
   isCutting: 0
   interactable: 0
   holdTime: 0
