@@ -68,6 +68,11 @@ public class CutTree: DropBranchHandler, IInteractReciever
         //    //Set the fill to 0
         //    fillCircle.fillAmount = 0f;
         //}
+
+        if (Input.GetMouseButtonUp(0))
+        {
+            StopInteract();
+        }
     }
 
     // If the player releases the mouse button, reset the hold timer
@@ -116,13 +121,13 @@ public class CutTree: DropBranchHandler, IInteractReciever
         {
             interactable = false;
             instructions.SetActive(false);
+            isCutting = false;
 
-            //stop audio
             if (isCutting)
             {
                 audioSource.Pause();
             }
-            
+
             if (!Game.GetGameController().isPaused)
             {
                 //Set the interactable object to playershoot
@@ -135,11 +140,9 @@ public class CutTree: DropBranchHandler, IInteractReciever
     public void HoldInteract()
     {
         //Debug.Log("Hold interact");
-        if (interactable || !Game.GetGameController().isPaused || !Game.GetGameController().isGameOver)
+        if ((interactable && isCutting) || !Game.GetGameController().isPaused || !Game.GetGameController().isGameOver)
         {
-            //play audio
-            //SoundManager.PlaySound(SoundType.CUTTREE, audioSource, 1f);
-            //isCutting = true;
+            
             holdTime += Time.deltaTime; // Increment the hold time
             //update the loading circle
             fillCircle.fillAmount = holdTime / requiredHoldTime;
@@ -164,6 +167,10 @@ public class CutTree: DropBranchHandler, IInteractReciever
                 ResetCutting(); // Reset the cutting process after cutting the tree
             }
         }
+        else
+        {
+            ResetCutting();
+        }
     }
     public void StopInteract()
     {
@@ -178,6 +185,7 @@ public class CutTree: DropBranchHandler, IInteractReciever
         {
             if (!isCutting)
             {
+                //SoundManager.PlaySound(SoundType.CUTTREE);
                 SoundManager.PlaySound(SoundType.CUTTREE, audioSource, 1f);
                 isCutting = true;
             }           

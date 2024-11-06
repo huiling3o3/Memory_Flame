@@ -24,7 +24,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Color hitFreezeColor = Color.blue; // Color when hit by enemies
     [SerializeField] private float colorChangeDuration = 0.1f; // Duration for the color change
     private Color originalColor; // Store the original color of the enemy
-
+    private AudioSource audioSource;
     //references
     public PlayerMovement pm;
     public PlayerShoot ps;
@@ -36,6 +36,7 @@ public class PlayerController : MonoBehaviour
     {
         //sprite render
         sr = GetComponent<SpriteRenderer>();
+        audioSource = GetComponent<AudioSource>();
         am = GetComponent<Animator>();
         pm = GetComponent<PlayerMovement>();
         ps = GetComponent<PlayerShoot>();
@@ -92,6 +93,7 @@ public class PlayerController : MonoBehaviour
         inSafeZone = false;
         playerDead = false;
         ps.Reset();
+        am.Play("Idle");
     }
 
     public float GetMovementSpeed() => pm.moveSpeed;
@@ -165,7 +167,7 @@ public class PlayerController : MonoBehaviour
 
     public void PlayFootstepSound()
     {
-        SoundManager.PlaySound(SoundType.FOOTSTEP, null, 0.5f);
+        SoundManager.PlaySound(SoundType.FOOTSTEP, audioSource, 0.5f);
     }
     public void ExitSafeZone() { inSafeZone = false; }
     public void EnterSafeZone()
@@ -193,7 +195,7 @@ public class PlayerController : MonoBehaviour
         else
             sr.color = hitColor;
         // TODO: Play the hurt sound
-        SoundManager.PlaySound(SoundType.HURT, null, 0.5f);
+        SoundManager.PlaySound(SoundType.HURT, audioSource, 0.5f);
         // Wait for the duration of the color change
         yield return new WaitForSeconds(colorChangeDuration);
 

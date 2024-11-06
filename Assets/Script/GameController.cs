@@ -116,8 +116,6 @@ public class GameController : MonoBehaviour
 
     public void StartLevel(PlayerController playerScript)
     {
-        InitializeGame();
-
         player = playerScript;
 
         ///!!important must set player to reeceive the input for it to move

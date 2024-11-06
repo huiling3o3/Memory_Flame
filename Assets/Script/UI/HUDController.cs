@@ -227,6 +227,6 @@ public class HUDController : MonoBehaviour
 
     public void DisplayFireTorch(bool val)
     {
-        torchAmmo.SetActive(true);
+        torchAmmo.SetActive(val);
     }
 }
