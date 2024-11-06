@@ -20,7 +20,6 @@ public class CutTree: DropBranchHandler, IInteractReciever
     [SerializeField] GameObject instructions;
     [SerializeField] private List<Sprite> treeSprites; // List of fire sprites
     SpriteRenderer treeSpriteRenderer;
-
     private void Awake()
     {
         audioSource = GetComponent<AudioSource>();
@@ -38,37 +37,37 @@ public class CutTree: DropBranchHandler, IInteractReciever
     private void Update()
     {
         // If the player is holding the mouse button down and the tree is interactable
-        if (isCutting)
-        {
-            holdTime += Time.deltaTime; // Increment the hold time
-            //update the loading circle
-            fillCircle.fillAmount = holdTime / requiredHoldTime;
+        //if (isCutting && interactable)
+        //{
+        //    holdTime += Time.deltaTime; // Increment the hold time
+        //    //update the loading circle
+        //    fillCircle.fillAmount = holdTime / requiredHoldTime;
 
-            // Calculate the current tree health percentage
-            float healthPercentage = holdTime / requiredHoldTime;
+        //    // Calculate the current tree health percentage
+        //    float healthPercentage = holdTime / requiredHoldTime;
 
-            //update the apperance
-            // Determine which sprite to display based on the health percentage
-            int spriteIndex = Mathf.FloorToInt(healthPercentage * (treeSprites.Count - 1));
+        //    //update the apperance
+        //    // Determine which sprite to display based on the health percentage
+        //    int spriteIndex = Mathf.FloorToInt(healthPercentage * (treeSprites.Count - 1));
 
-            // Clamp the index to ensure it's within the bounds of the list
-            spriteIndex = Mathf.Clamp(spriteIndex, 0, treeSprites.Count - 1);
+        //    // Clamp the index to ensure it's within the bounds of the list
+        //    spriteIndex = Mathf.Clamp(spriteIndex, 0, treeSprites.Count - 1);
 
-            // Update the sprite renderer with the selected sprite
-            treeSpriteRenderer.sprite = treeSprites[spriteIndex];
+        //    // Update the sprite renderer with the selected sprite
+        //    treeSpriteRenderer.sprite = treeSprites[spriteIndex];
 
-            // If the hold time reaches the required time, cut the tree
-            if (holdTime >= requiredHoldTime)
-            {
-                cutTree();
-                ResetCutting(); // Reset the cutting process after cutting the tree
-            }
-        }
-        else
-        {
-            //Set the fill to 0
-            fillCircle.fillAmount = 0f;
-        }
+        //    // If the hold time reaches the required time, cut the tree
+        //    if (holdTime >= requiredHoldTime)
+        //    {
+        //        cutTree();
+        //        ResetCutting(); // Reset the cutting process after cutting the tree
+        //    }
+        //}
+        //else
+        //{
+        //    //Set the fill to 0
+        //    fillCircle.fillAmount = 0f;
+        //}
     }
 
     // If the player releases the mouse button, reset the hold timer
@@ -105,13 +104,16 @@ public class CutTree: DropBranchHandler, IInteractReciever
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        interactable = false;
-        instructions.SetActive(false);
-        if (!Game.GetGameController().isPaused)
+        if (collision.tag == "Player")
         {
-            //Set the interactable object to playershoot
-            Game.GetGameController().SetPlayerShootInteractReciever();
-        }
+            interactable = false;
+            instructions.SetActive(false);
+            if (!Game.GetGameController().isPaused)
+            {
+                //Set the interactable object to playershoot
+                Game.GetGameController().SetPlayerShootInteractReciever();
+            }
+        }        
     }
 
     //interact handling
@@ -119,8 +121,31 @@ public class CutTree: DropBranchHandler, IInteractReciever
     {
         //Debug.Log("Hold interact");
         if (interactable || !Game.GetGameController().isPaused || !Game.GetGameController().isGameOver)
-        {            
-            isCutting = true;
+        {
+            //isCutting = true;
+            holdTime += Time.deltaTime; // Increment the hold time
+            //update the loading circle
+            fillCircle.fillAmount = holdTime / requiredHoldTime;
+
+            // Calculate the current tree health percentage
+            float healthPercentage = holdTime / requiredHoldTime;
+
+            //update the apperance
+            // Determine which sprite to display based on the health percentage
+            int spriteIndex = Mathf.FloorToInt(healthPercentage * (treeSprites.Count - 1));
+
+            // Clamp the index to ensure it's within the bounds of the list
+            spriteIndex = Mathf.Clamp(spriteIndex, 0, treeSprites.Count - 1);
+
+            // Update the sprite renderer with the selected sprite
+            treeSpriteRenderer.sprite = treeSprites[spriteIndex];
+
+            // If the hold time reaches the required time, cut the tree
+            if (holdTime >= requiredHoldTime)
+            {
+                cutTree();
+                ResetCutting(); // Reset the cutting process after cutting the tree
+            }
         }
         
     }
