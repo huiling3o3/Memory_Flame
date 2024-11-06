@@ -87,6 +87,8 @@ public class CutTree: DropBranchHandler, IInteractReciever
     {
         //Spawn the branches
         DropBranches();
+        //stop audio
+        audioSource.Pause();
         //destroy game object
         gameObject.SetActive(false);  
     }
