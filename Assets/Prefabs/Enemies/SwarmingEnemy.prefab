@@ -267,7 +267,6 @@ GameObject:
   - component: {fileID: 5442749387309952529}
   - component: {fileID: 264162778350763495}
   - component: {fileID: 3209002598054402567}
-  - component: {fileID: 4030983285826077326}
   m_Layer: 7
   m_Name: SwarmingEnemy
   m_TagString: Enemy
@@ -311,7 +310,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -364,6 +363,7 @@ MonoBehaviour:
   attackDistanceThreshold: 1.2
   chaseDistanceThreshold: 5
   distanceBtwPlayer: 2
+  initialPosition: {x: 0, y: 0}
   hitColor: {r: 1, g: 0, b: 0, a: 1}
   colorChangeDuration: 0.5
   healthbar: {fileID: 6637282407289069364}
@@ -446,15 +446,3 @@ NavMeshAgent:
   m_BaseOffset: -0.05
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &4030983285826077326
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7810130834882119780}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 477d0e4fde0477947949ac45641bb576, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
