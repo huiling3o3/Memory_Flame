@@ -19,19 +19,22 @@ MonoBehaviour:
     sounds:
     - {fileID: 8300000, guid: b910342d66535fc46812108334871f79, type: 3}
   - name: FOOTSTEP
-    volume: 1
+    volume: 0.2
     mixer: {fileID: -4903254787991985976, guid: 088f86acdf57719488210e783e23eef6, type: 2}
     sounds:
-    - {fileID: 8300000, guid: b910342d66535fc46812108334871f79, type: 3}
+    - {fileID: 8300000, guid: 9e3581f204d741b489e3077766521f70, type: 3}
+    - {fileID: 8300000, guid: c96e3c1d238f59940b4253c2f8d1b9da, type: 3}
+    - {fileID: 8300000, guid: d24b4099fe0777a42a13285de9fc2569, type: 3}
+    - {fileID: 8300000, guid: e07d0d5f0d456ca43a80299ca06dd26c, type: 3}
   - name: SHOOT
     volume: 1
     mixer: {fileID: 0}
     sounds: []
   - name: CUTTREE
-    volume: 1
+    volume: 0.5
     mixer: {fileID: -4903254787991985976, guid: 088f86acdf57719488210e783e23eef6, type: 2}
     sounds:
-    - {fileID: 8300000, guid: 31b851a9f3269554eb47ea5df8ea5eb1, type: 3}
+    - {fileID: 8300000, guid: 09adc567712ce02459f61962520edd4b, type: 3}
   - name: CLAW_ATTACK
     volume: 1
     mixer: {fileID: -4903254787991985976, guid: 088f86acdf57719488210e783e23eef6, type: 2}
