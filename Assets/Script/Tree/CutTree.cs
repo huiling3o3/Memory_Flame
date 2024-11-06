@@ -105,13 +105,13 @@ public class CutTree: DropBranchHandler, IInteractReciever
             interactable = true;
             instructions.SetActive(true);
 
+            Game.GetGameController().SetTreeInteractReciever(this);
+
             //resume audio
             if (isCutting)
             {
-                audioSource.Play();
+                SoundManager.PlaySound(SoundType.CUTTREE, audioSource, 1f);
             }
-
-            Game.GetGameController().SetTreeInteractReciever(this);
         }
     }
 
@@ -121,12 +121,8 @@ public class CutTree: DropBranchHandler, IInteractReciever
         {
             interactable = false;
             instructions.SetActive(false);
-            isCutting = false;
 
-            if (isCutting)
-            {
-                audioSource.Pause();
-            }
+            audioSource.Pause();
 
             if (!Game.GetGameController().isPaused)
             {
@@ -140,9 +136,9 @@ public class CutTree: DropBranchHandler, IInteractReciever
     public void HoldInteract()
     {
         //Debug.Log("Hold interact");
-        if ((interactable && isCutting) || !Game.GetGameController().isPaused || !Game.GetGameController().isGameOver)
+        if (interactable || !Game.GetGameController().isPaused || !Game.GetGameController().isGameOver)
         {
-            
+            isCutting = true;
             holdTime += Time.deltaTime; // Increment the hold time
             //update the loading circle
             fillCircle.fillAmount = holdTime / requiredHoldTime;
@@ -185,7 +181,6 @@ public class CutTree: DropBranchHandler, IInteractReciever
         {
             if (!isCutting)
             {
-                //SoundManager.PlaySound(SoundType.CUTTREE);
                 SoundManager.PlaySound(SoundType.CUTTREE, audioSource, 1f);
                 isCutting = true;
             }           
