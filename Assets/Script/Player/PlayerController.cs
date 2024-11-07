@@ -82,6 +82,7 @@ public class PlayerController : MonoBehaviour
             {               
                 am.SetBool("Move", false);
             }
+
         }     
     }
 
@@ -162,12 +163,12 @@ public class PlayerController : MonoBehaviour
     {
         //increase ammo over time
         currentColdLvl -= regainWarmthRate * Time.deltaTime;
-        currentColdLvl = Mathf.Clamp(currentColdLvl, 0, maxColdLvl); // Ensure it doesn't go below 0
+        currentColdLvl = Mathf.Clamp(currentColdLvl, 0, maxColdLvl); // Ensure it doesn't go beyond max
     }
 
     public void PlayFootstepSound()
     {
-        SoundManager.PlaySound(SoundType.FOOTSTEP, audioSource, 0.5f);
+        SoundManager.PlaySound(SoundType.FOOTSTEP, audioSource);
     }
     public void ExitSafeZone() { inSafeZone = false; }
     public void EnterSafeZone()

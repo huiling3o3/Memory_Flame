@@ -52,6 +52,8 @@ public class PlayerMovement : MonoBehaviour, IInputReceiver
         Vector2 dashDirection = lastMovedVector.normalized;
         rb.velocity = dashDirection * dashingPower;
 
+        //Play dash audio
+        SoundManager.PlaySound(SoundType.DASH, null, 0.1f);
         // Enable dash trail effect
         tr.emitting = true;
 

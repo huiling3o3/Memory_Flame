@@ -17,7 +17,6 @@ public class CampFireController : MonoBehaviour
     [SerializeField] private int amountToReviveFire = 10;
     [SerializeField] private FireState InitialState;
 
-    
     // List of fire sprites for different health levels
     [Header("To Assign")]
     [SerializeField] private List<Sprite> fireSprites; // List of fire sprites
@@ -30,6 +29,8 @@ public class CampFireController : MonoBehaviour
     private bool playerInRange = false;
     private Level_Controller lvlController;
     private PlayerController pc;
+    private AudioSource audioSource;
+
     private enum FireState
     {
         Burning, 
@@ -41,7 +42,7 @@ public class CampFireController : MonoBehaviour
 
     void Awake()
     {
-
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Start is called before the first frame update
@@ -62,6 +63,8 @@ public class CampFireController : MonoBehaviour
                 currentHealth = maxHealth;
                 currentBranches = 0;
                 currentFireState = FireState.Burning;
+                //play fire crackling sound
+                SoundManager.PlaySound(SoundType.FIRECRACKLING, audioSource, 1f);
                 break;
             case FireState.Extinguished:
                 currentHealth = 0;
@@ -107,6 +110,7 @@ public class CampFireController : MonoBehaviour
                 currentHealth -= healthDepletionRate * Time.deltaTime;
                 currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth); // Clamp health between 0 and max
 
+                
                 if (currentHealth <= 0)
                 {
                     KillFire();
@@ -146,6 +150,9 @@ public class CampFireController : MonoBehaviour
         float healthPercentage = currentHealth / maxHealth;
 
         fireHealthBar.value = healthPercentage;
+
+        // Adjust volume based on health percentage
+        audioSource.volume = healthPercentage;  // Sets the volume to match the health percentage (1.0 when full health, 0.0 when empty)
 
         //display the UI
         switch (currentFireState)
@@ -245,6 +252,8 @@ public class CampFireController : MonoBehaviour
                         Game.GetGameController().RemoveStick(currentStickRequired);
                         //revive the fire
                         currentFireState = FireState.Burning;
+                        //play fire crackling sound
+                        SoundManager.PlaySound(SoundType.FIRECRACKLING, audioSource, 1f);
                         //set the current heath to max
                         currentHealth = maxHealth;
                         //update fire UI
@@ -281,17 +290,23 @@ public class CampFireController : MonoBehaviour
     private void KillFire()
     {
         currentFireState = FireState.Extinguished;
+        pc.ExitSafeZone();
+        audioSource.Pause();
         //Debug.Log("Fire Burned Out!!!");
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.tag == "Player")
-        {                    
+        {
             //PlayerController pc = collision.GetComponent<PlayerController>();
             if (currentFireState == FireState.Burning)
             {
                 pc.EnterSafeZone();
+            }
+            else
+            {
+                pc.ExitSafeZone();
             }
 
             playerInRange = true;

@@ -18,7 +18,7 @@ public class StartMenuScript : Scene_Manager, IInputReceiver
     public void ShowStartMenu()
     {
         //TODO: play main menu bgm
-        SoundManager.PlaySound(SoundType.MAIN_MENU,audioSource,0.6f);
+        //SoundManager.PlaySound(SoundType.MAIN_MENU,audioSource,0.6f);
     }
 
     public void StartLevel(sceneType toSwitch)
@@ -49,17 +49,13 @@ public class StartMenuScript : Scene_Manager, IInputReceiver
 
     public void DoSubmitAction()
     {
-        //TODO: play click btn sound
-        SoundManager.PlaySound(SoundType.SUBMIT, null, 0.6f);
+
         //start game lvl 2
         StartCoroutine(gameController.LvlTransit(sceneType.LEVEL_2));
-
     }
 
     public void DoCancelAction()
-    {
-        //TODO: play click btn sound
-        SoundManager.PlaySound(SoundType.CANCEL, null, 0.6f);
+    {        
 #if UNITY_EDITOR
         //if in unity editor, stop playing
         UnityEditor.EditorApplication.isPlaying = false;

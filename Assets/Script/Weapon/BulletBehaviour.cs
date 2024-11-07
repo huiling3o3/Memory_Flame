@@ -16,11 +16,14 @@ public class BulletBehaviour : MonoBehaviour
     private void Awake()
     {
         //set up the rigidbody
-        rb = GetComponent<Rigidbody2D>();       
+        rb = GetComponent<Rigidbody2D>();
+        //play audio when bullet is spawned
+        SoundManager.PlaySound(SoundType.ENEMY_SHOOT);
     }
 
     public virtual void InIt(Vector2 shootDirection)
     {
+        
         //set the bullet to move in a straight velocity
         rb.velocity = transform.right * bulletSpeed;
         //destroy the bullet after a certain timing

@@ -15,6 +15,11 @@ public class SoundManager : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
     }
 
+    public AudioSource GetAudioSource()
+    { 
+        return audioSource;
+    }
+
     public static void PlaySound(SoundType sound, AudioSource source = null, float volume = 1)
     {
         SoundList soundList = Game.GetSoundManager().SO.sounds[(int)sound];
@@ -27,7 +32,7 @@ public class SoundManager : MonoBehaviour
             source.clip = randomClip;
             source.volume = volume * soundList.volume;
             source.Play();
-            if (sound == SoundType.MAIN_MENU)
+            if (sound == SoundType.MAIN_MENU || sound == SoundType.LEVELAMBIENCE)
             {
                 source.loop = true;
             }
@@ -35,9 +40,10 @@ public class SoundManager : MonoBehaviour
         else
         {
             Game.GetSoundManager().audioSource.outputAudioMixerGroup = soundList.mixer;
-            if (sound == SoundType.MAIN_MENU)
+            if (sound == SoundType.MAIN_MENU || sound == SoundType.LEVELAMBIENCE)
             {
                 Game.GetSoundManager().audioSource.Play();
+                Game.GetSoundManager().audioSource.volume = volume * soundList.volume;
                 Game.GetSoundManager().audioSource.loop = true;
             }
             else

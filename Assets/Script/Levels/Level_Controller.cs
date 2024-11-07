@@ -17,12 +17,11 @@ public class Level_Controller : Scene_Manager
     private List<CutTree> treeList;
     private fireTorch torch;
     private TaskManager taskManager;
-    
-
+    private AudioSource audioSource;
     private void Awake()
     {
         taskManager = GetComponent<TaskManager>();
-        
+        audioSource = GetComponent<AudioSource>();
         List<string> instructions = new List<string>()
         {
             "I'm feeling very COLD, I need something WARM",
@@ -84,15 +83,18 @@ public class Level_Controller : Scene_Manager
         //initialise the firetorch
         if (torch == null)
         {
-            torch = FindObjectOfType<fireTorch>();
-            torch.gameObject.SetActive(true);
+            torch = FindObjectOfType<fireTorch>();           
         }
+
+        torch.gameObject.SetActive(true);
 
         gameController.StartLevel(player);
 
         // Display the first instruction
         Game.GetHUDController().ShowInstructions(initialInstructions);
 
+        //play audio
+        SoundManager.PlaySound(SoundType.LEVELAMBIENCE, audioSource,0.2f);
         isStarted = true;
     }
 

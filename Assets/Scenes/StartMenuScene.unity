@@ -218,7 +218,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c104c677c93ee024b985f96950075ba7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  am: {fileID: 514737852}
   SceneName: 3
   audioSource: {fileID: 101587797}
 --- !u!82 &101587797
@@ -3637,9 +3636,25 @@ PrefabInstance:
       value: start Button
       objectReference: {fileID: 0}
     - target: {fileID: 6515397662799601239, guid: 43b792ffba73cae47b87053c7a2b9077, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6515397662799601239, guid: 43b792ffba73cae47b87053c7a2b9077, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6515397662799601239, guid: 43b792ffba73cae47b87053c7a2b9077, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 101587796}
+    - target: {fileID: 6515397662799601239, guid: 43b792ffba73cae47b87053c7a2b9077, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6515397662799601239, guid: 43b792ffba73cae47b87053c7a2b9077, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: StartMenuScript, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 6718351632622981261, guid: 43b792ffba73cae47b87053c7a2b9077, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5

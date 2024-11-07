@@ -6,6 +6,12 @@ public class InputHandler : MonoBehaviour
 {
     private IInputReceiver activeReceiver;
     private Vector2 moveDir;
+    private AudioSource audioSource;
+
+    private void Awake()
+    {
+        audioSource = GetComponent<AudioSource>();
+    }
     public void SetInputReceiver(IInputReceiver inputReceiver)
     {
         //set current input receiver (to control 1 thing at a time)
@@ -29,10 +35,13 @@ public class InputHandler : MonoBehaviour
 
         if (Input.GetButtonDown("Submit"))
         {
-            activeReceiver.DoSubmitAction();
+            //TODO: play click btn sound
+            SoundManager.PlaySound(SoundType.SUBMIT, null, 0.6f);
+            activeReceiver.DoSubmitAction();           
         }
         if (Input.GetButtonDown("Cancel"))
         {
+            SoundManager.PlaySound(SoundType.CANCEL, null, 0.6f);
             activeReceiver.DoCancelAction();
         }
         if (Input.GetKeyDown(KeyCode.LeftShift))

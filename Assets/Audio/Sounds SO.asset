@@ -46,7 +46,7 @@ MonoBehaviour:
     sounds:
     - {fileID: 8300000, guid: 73fccf07aeba0c543872c41951ad2a95, type: 3}
   - name: LEVELAMBIENCE
-    volume: 0.4
+    volume: 0.5
     mixer: {fileID: -6086782127767143103, guid: 088f86acdf57719488210e783e23eef6, type: 2}
     sounds:
     - {fileID: 8300000, guid: 010a11bc66a3cef48b21428931aa1047, type: 3}
