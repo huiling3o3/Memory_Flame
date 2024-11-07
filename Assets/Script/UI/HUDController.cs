@@ -18,12 +18,9 @@ public class HUDController : MonoBehaviour
     [SerializeField] private Image fillImg;
     [SerializeField] private TextMeshProUGUI ammoTxt;
 
-    [Header("Fire Timebar")]
-    public Slider TimerBar;
-
-    [Header("[Gradient to adjust color val]")]
-    public Gradient gradient;
-    [SerializeField] Image fill;
+    [Header("Game Over Screen")]
+    [SerializeField] private TextMeshProUGUI titeTxt;
+    [SerializeField] private GameObject gameoverScreen;
 
     [Header("Player Healthbar")]
     public Slider HealthBar;
@@ -57,9 +54,9 @@ public class HUDController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        fill.color = gradient.Evaluate(1f);
         fillHealth.color = gradientHealth.Evaluate(1f);
         fillCold.color = gradientCold.Evaluate(0f); // Start with no cold
+        gameoverScreen.SetActive(false);
     }
 
     // Update is called once per frame
@@ -239,11 +236,7 @@ public class HUDController : MonoBehaviour
         //Debug.Log(currentAmmo);
         ammoTxt.text = ((int)currentAmmo).ToString() + "%";
     }
-    public void UpdateFireBar(float val)
-    {
-        TimerBar.value = val / 100;
-        fill.color = gradient.Evaluate(TimerBar.normalizedValue);
-    }
+
     public void UpdateHealthBar(float currentHealth, float maxHealth)
     {
         HealthBar.value = currentHealth / maxHealth;
@@ -254,6 +247,17 @@ public class HUDController : MonoBehaviour
     {
         ColdBar.value = currentCold / maxCold;
         fillCold.color = gradientCold.Evaluate(ColdBar.normalizedValue);
+    }
+
+    public void DisplayGameOver(string txt)
+    {
+        titeTxt.text = txt;
+        gameoverScreen.SetActive(true);
+    }
+
+    public void HideGameOver()
+    {
+        gameoverScreen.SetActive(false);
     }
 
     public void DisplayFireTorch(bool val)

@@ -365,6 +365,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2053901258}
     - target: {fileID: 5352455511172810725, guid: c490d7a2cf66a0347848b46e4ecd0044, type: 3}
+      propertyPath: titeTxt
+      value: 
+      objectReference: {fileID: 9108127290868417745}
+    - target: {fileID: 5352455511172810725, guid: c490d7a2cf66a0347848b46e4ecd0044, type: 3}
       propertyPath: HEADBAND
       value: 
       objectReference: {fileID: 1631945207}
@@ -420,6 +424,10 @@ PrefabInstance:
       propertyPath: stopDuration
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 5352455511172810725, guid: c490d7a2cf66a0347848b46e4ecd0044, type: 3}
+      propertyPath: gameoverScreen
+      value: 
+      objectReference: {fileID: 1060938079}
     - target: {fileID: 5352455511172810725, guid: c490d7a2cf66a0347848b46e4ecd0044, type: 3}
       propertyPath: cutsceneAnimator
       value: 
@@ -1259,6 +1267,17 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1374468876}
   m_SourcePrefab: {fileID: 100100000, guid: d33494c915e694542ac64c2004ba62c3, type: 3}
+--- !u!114 &9108127290868417745 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6234209089810396702, guid: d33494c915e694542ac64c2004ba62c3, type: 3}
+  m_PrefabInstance: {fileID: 9108127290868417744}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

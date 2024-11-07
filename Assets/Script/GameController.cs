@@ -12,6 +12,7 @@ public class GameController : MonoBehaviour
     [SerializeField] Animator transitionAnimtor;    
     [SerializeField] GameObject PauseMenu;
     [SerializeField] GameObject GameOverMenu;
+
     InputHandler inputHandler;
     InteractHandler interactHandler;
     Scene_Manager currentSceneManager;
@@ -26,7 +27,7 @@ public class GameController : MonoBehaviour
 
     public bool isPaused = false;
     public bool isGameOver = false;
-    public bool isWin = false;
+    public bool reachedEnd = false;
 
     [Header("Database")]
     [SerializeField] private List<string> fileNameList;
@@ -62,7 +63,7 @@ public class GameController : MonoBehaviour
 
         isPaused = false;
         isGameOver = false;
-        isWin = false;
+        reachedEnd = false;
 
         memoryFragmentsCollected = 0;
         branchCollected = 0;
@@ -96,18 +97,19 @@ public class GameController : MonoBehaviour
     public void GameOver()
     {
         isGameOver = true;
-        if (CheckFragmentCollectedAll())
+        if (CheckFragmentCollectedAll() && reachedEnd)
         {
-            isWin = false;
-            Debug.Log("Game lose");
+            hudCtrler.DisplayGameOver("Game Complete");
+            Debug.Log("Level Completed");        
         }
         else
         {
-            Debug.Log("Level Completed");
+            hudCtrler.DisplayGameOver("Game Lose");
+            Debug.Log("Game lose");
         }
 
         //Display game over screen
-        OpenGameOverMenu();
+        //OpenGameOverMenu();
     }
 
     public bool CheckGameOver()
@@ -131,7 +133,8 @@ public class GameController : MonoBehaviour
 
         //set game ongoing
         SetPause(false, false);
-        GameOverMenu.SetActive(false);
+        hudCtrler.HideGameOver();
+        //GameOverMenu.SetActive(false);
     }
 
     public void SetPause(bool aPause, bool showMenu)
@@ -191,10 +194,6 @@ public class GameController : MonoBehaviour
 
     public void AddMemoryFragment(MemoryFragType mf)
     {
-        //check if all the list have been collected
-        if (CheckFragmentCollectedAll())
-        { return; }
-
         if (memoryFragmentsList.ContainsKey(mf))
         {
             //set the memory fragment to be found
@@ -211,22 +210,22 @@ public class GameController : MonoBehaviour
 
     public bool CheckFragmentCollectedAll()
     {
-        bool collectedAll = false;
+        //bool collectedAll = false;
+        return memoryFragmentsCollected == memoryFragmentsList.Count;
+        //foreach (KeyValuePair<MemoryFragType, bool> kvp in memoryFragmentsList)
+        //{
+        //    Console.WriteLine("Key: {0}, Value: {1}", kvp.Key, kvp.Value);
+        //    if (kvp.Value == false)
+        //    {
+        //        collectedAll = false;
+        //    }
+        //    else
+        //    {
+        //        collectedAll = true;
+        //    }
+        //}
 
-        foreach (KeyValuePair<MemoryFragType, bool> kvp in memoryFragmentsList)
-        {
-            Console.WriteLine("Key: {0}, Value: {1}", kvp.Key, kvp.Value);
-            if (kvp.Value == false)
-            {
-                collectedAll = false;
-            }
-            else
-            {
-                collectedAll = true;
-            }
-        }
-
-        return collectedAll;
+        //return collectedAll;
     }
     #endregion 
 

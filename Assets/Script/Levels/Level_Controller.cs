@@ -2,12 +2,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using UnityEngine;
 
 public class Level_Controller : Scene_Manager
 {    
     [SerializeField] private bool isStarted;
-    [SerializeField] string[] instructionArray;
     [SerializeField] CampFireController tutorialCampfire;
     string initialInstructions;
     public Transform startPosition;
@@ -16,6 +16,7 @@ public class Level_Controller : Scene_Manager
     private List<CampFireController> campFireList;
     private List<CutTree> treeList;
     private fireTorch torch;
+    private EndPoint endPoint;
     private TaskManager taskManager;
     private AudioSource audioSource;
     private void Awake()
@@ -88,6 +89,13 @@ public class Level_Controller : Scene_Manager
 
         torch.gameObject.SetActive(true);
 
+        //initialise the end point
+        if (endPoint == null)
+        {
+            endPoint = FindObjectOfType<EndPoint>();
+        }
+        endPoint.gameObject.SetActive(false);
+
         gameController.StartLevel(player);
 
         // Display the first instruction
@@ -95,6 +103,7 @@ public class Level_Controller : Scene_Manager
 
         //play audio
         SoundManager.PlaySound(SoundType.LEVELAMBIENCE, audioSource,0.2f);
+
         isStarted = true;
     }
 
@@ -138,6 +147,11 @@ public class Level_Controller : Scene_Manager
             {
                 taskManager.SetTaskCompleted(TaskType.FIRE_REFUELLED_AGAIN);
             }
+        }
+
+        if (Game.GetGameController().CheckFragmentCollectedAll())
+        {
+            endPoint.gameObject.SetActive(true);
         }
     }
 }
