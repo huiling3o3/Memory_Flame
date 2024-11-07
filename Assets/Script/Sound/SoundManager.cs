@@ -62,9 +62,13 @@ public enum SoundType
 {
     HURT,
     FOOTSTEP,
+    DASH,
     SHOOT,
     CUTTREE,
+    FIRECRACKLING,
+    LEVELAMBIENCE,
     CLAW_ATTACK,
+    ENEMY_SHOOT,
     MAIN_MENU,
     LEVEL1,
     HOVER,

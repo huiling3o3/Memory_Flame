@@ -15,7 +15,7 @@ MonoBehaviour:
   sounds:
   - name: HURT
     volume: 1
-    mixer: {fileID: -4903254787991985976, guid: 088f86acdf57719488210e783e23eef6, type: 2}
+    mixer: {fileID: 0}
     sounds:
     - {fileID: 8300000, guid: b910342d66535fc46812108334871f79, type: 3}
   - name: FOOTSTEP
@@ -26,6 +26,11 @@ MonoBehaviour:
     - {fileID: 8300000, guid: c96e3c1d238f59940b4253c2f8d1b9da, type: 3}
     - {fileID: 8300000, guid: d24b4099fe0777a42a13285de9fc2569, type: 3}
     - {fileID: 8300000, guid: e07d0d5f0d456ca43a80299ca06dd26c, type: 3}
+  - name: DASH
+    volume: 1
+    mixer: {fileID: -4903254787991985976, guid: 088f86acdf57719488210e783e23eef6, type: 2}
+    sounds:
+    - {fileID: 8300000, guid: 94bb2530a91abbe4382faf660f292419, type: 3}
   - name: SHOOT
     volume: 1
     mixer: {fileID: 0}
@@ -35,11 +40,26 @@ MonoBehaviour:
     mixer: {fileID: -4903254787991985976, guid: 088f86acdf57719488210e783e23eef6, type: 2}
     sounds:
     - {fileID: 8300000, guid: 09adc567712ce02459f61962520edd4b, type: 3}
+  - name: FIRECRACKLING
+    volume: 1
+    mixer: {fileID: -4903254787991985976, guid: 088f86acdf57719488210e783e23eef6, type: 2}
+    sounds:
+    - {fileID: 8300000, guid: 73fccf07aeba0c543872c41951ad2a95, type: 3}
+  - name: LEVELAMBIENCE
+    volume: 0.4
+    mixer: {fileID: -6086782127767143103, guid: 088f86acdf57719488210e783e23eef6, type: 2}
+    sounds:
+    - {fileID: 8300000, guid: 010a11bc66a3cef48b21428931aa1047, type: 3}
   - name: CLAW_ATTACK
     volume: 1
     mixer: {fileID: -4903254787991985976, guid: 088f86acdf57719488210e783e23eef6, type: 2}
     sounds:
-    - {fileID: 8300000, guid: b910342d66535fc46812108334871f79, type: 3}
+    - {fileID: 8300000, guid: 72fe0e398f355b843ba3357ec92f8f75, type: 3}
+  - name: ENEMY_SHOOT
+    volume: 1
+    mixer: {fileID: -4903254787991985976, guid: 088f86acdf57719488210e783e23eef6, type: 2}
+    sounds:
+    - {fileID: 8300000, guid: 22f627dbc467a7e45aa5927e51306a97, type: 3}
   - name: MAIN_MENU
     volume: 1
     mixer: {fileID: -1134275722379470470, guid: 088f86acdf57719488210e783e23eef6, type: 2}
@@ -64,4 +84,4 @@ MonoBehaviour:
     volume: 1
     mixer: {fileID: -4903254787991985976, guid: 088f86acdf57719488210e783e23eef6, type: 2}
     sounds:
-    - {fileID: 8300000, guid: 8329f79585bdb74458a768edc4e8d0c7, type: 3}
+    - {fileID: 8300000, guid: f717b203c28558847bd5f98569c4923f, type: 3}
