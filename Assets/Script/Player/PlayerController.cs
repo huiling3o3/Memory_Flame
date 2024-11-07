@@ -76,14 +76,18 @@ public class PlayerController : MonoBehaviour
             //Check player movement
             if (pm.moveDir.x != 0 || pm.moveDir.y != 0 || pm.isDashing)
             {
-                am.SetBool("Move", true);               
+                am.SetBool("Move", true);
             }
             else
-            {               
+            {
                 am.SetBool("Move", false);
             }
 
-        }     
+        }
+        else if (Game.GetGameController().isPaused)
+        {
+            am.SetBool("Move", false);
+        }
     }
 
     //Rest function

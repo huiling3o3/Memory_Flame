@@ -36,6 +36,11 @@ public class PlayerMovement : MonoBehaviour, IInputReceiver
         moveDir = Vector2.zero;
     }
 
+    void Update()
+    {
+
+    }
+
     public void ChangeMovementSpeed(float newMoveSpeed)
     {
         if (moveSpeed != 0)
@@ -103,7 +108,6 @@ public class PlayerMovement : MonoBehaviour, IInputReceiver
 
     public void DoMoveDir(Vector2 aDir)
     {
-
         if (Game.GetGameController().isGameOver || Game.GetGameController().isPaused)
         {
             return;

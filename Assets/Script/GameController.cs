@@ -15,6 +15,7 @@ public class GameController : MonoBehaviour
     InputHandler inputHandler;
     InteractHandler interactHandler;
     Scene_Manager currentSceneManager;
+    HUDController hudCtrler;
 
     [Header("Game Stats")]
     private static Dictionary<MemoryFragType, bool> memoryFragmentsList = new Dictionary<MemoryFragType, bool>(); //track sequences for achievements
@@ -41,6 +42,7 @@ public class GameController : MonoBehaviour
         Game.SetGameController(this);
         inputHandler = GetComponent<InputHandler>();
         interactHandler = GetComponent<InteractHandler>();
+        hudCtrler = GetComponent<HUDController>();
         //load csv data from listed files
         DataManager.LoadCSVData(fileNameList);
 
@@ -128,11 +130,11 @@ public class GameController : MonoBehaviour
         InitializeGame();
 
         //set game ongoing
-        SetPause(false);
+        SetPause(false, false);
         GameOverMenu.SetActive(false);
     }
 
-    public void SetPause(bool aPause)
+    public void SetPause(bool aPause, bool showMenu)
     {
         //set pause state
         isPaused = aPause;
@@ -149,8 +151,8 @@ public class GameController : MonoBehaviour
         // Fire the OnGamePaused event
         OnGamePaused?.Invoke(isPaused);
 
-        //show game over screen if game over
-        PauseMenu.SetActive(isPaused);
+        //show pause screen
+        PauseMenu.SetActive(showMenu);
     } 
 
     #endregion
@@ -199,22 +201,8 @@ public class GameController : MonoBehaviour
             memoryFragmentsList[mf] = true;
             //Update the HUD to collect the memFrag
             memFragmentsCollected.Invoke(mf);
-
-            //switch the scene when the fragment is completed
-            switch (mf) 
-            {
-                case MemoryFragType.HEADBAND:
-                    //StartCoroutine(LvlTransit(sceneType.LEVEL_2));
-                    //go to level 2
-                    //LoadScene(sceneType.LEVEL_2);
-                    //RemoveScene(currentSceneManager.SceneName);
-                    break;
-                case MemoryFragType.BROKENSWORD:
-                    break;
-                case MemoryFragType.NECKLACE:
-                    break;
-            }
-            
+            //display the cut scene animation
+            hudCtrler.ShowCutScene(mf);
         }
 
         memoryFragmentsCollected++;
@@ -314,7 +302,7 @@ public class GameController : MonoBehaviour
 
     public void TogglePause()
     {
-        SetPause(!isPaused);
+        SetPause(!isPaused, !isPaused);
     }
 
     public void OpenStartMenu()

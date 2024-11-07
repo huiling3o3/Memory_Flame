@@ -45,6 +45,10 @@ public class HUDController : MonoBehaviour
     [SerializeField] private float animDuration, stopDuration;
     [SerializeField] public bool IsInstructionVisible;
 
+    [Header("Cutscene")]
+    [SerializeField] private Animator cutsceneAnimator;
+    [SerializeField] private GameObject cutsceneObj;
+    [SerializeField] private TextMeshProUGUI cutsceneTxt;
     public void Awake()
     {
         Game.SetHUDController(this);
@@ -110,6 +114,33 @@ public class HUDController : MonoBehaviour
             StartCoroutine(CloseInstructions());
         }
     }
+
+    public void ShowCutScene(MemoryFragType fragType)
+    {
+        cutsceneObj.SetActive(true);
+        //Pause the player
+        Game.GetGameController().SetPause(true, false);
+
+        switch (fragType)
+        {
+            case MemoryFragType.HEADBAND:
+                //Change the text info
+                cutsceneTxt.text = "This bandana ....\r\n \r\nit....\r\n\r\n belonged to our party’s scout who always watched our back";
+                //play the head band animation
+                cutsceneAnimator.Play("bandana");
+                break;
+            case MemoryFragType.BROKENSWORD:
+                cutsceneTxt.text = "Our captain’s sword.......\r\n \r\nhis....\r\n\r\n the one who led us through thick and thin";
+                //play the head band animation
+                cutsceneAnimator.Play("brokenSword");
+                break;
+            case MemoryFragType.NECKLACE:
+                cutsceneTxt.text = "Our healer’s necklace.......\r\n \r\nShe....\r\n\r\n She always knew how to fix us back up.";
+                //play the head band animation
+                cutsceneAnimator.Play("necklace");
+                break;
+        }
+    }  
 
     private IEnumerator CloseInstructions()
     {

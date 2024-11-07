@@ -27,9 +27,9 @@ public class EnemyController : DropBranchHandler
     [SerializeField] private float distanceBtwPlayer;
     [SerializeField] private Vector2 initialPosition;
     private bool isFacingRight = true;
-    private bool haveTarget = false;
+    [SerializeField] private bool haveTarget = false;
     //Variables for attacks  
-    private bool canAttack = true;
+    [SerializeField] private bool canAttack = true;
 
     // Variables for color change effect
     [Header("Hit Settings")]    
@@ -98,11 +98,10 @@ public class EnemyController : DropBranchHandler
     }
     private void FixedUpdate()
     {
-        if (target == null || Game.GetGameController().isGameOver || isDead)
+        if (target == null || Game.GetGameController().isGameOver || isDead || Game.GetGameController().isPaused)
         {
             //stop enemy from moving
             stopMoving();
-            canAttack = false;
             return;
         }
 
@@ -142,6 +141,7 @@ public class EnemyController : DropBranchHandler
         {
             //Debug.Log($"{gameObject.name} received resume notification");
             agent.isStopped = false;
+            canAttack = true;
         }
     }
 
@@ -232,7 +232,7 @@ public class EnemyController : DropBranchHandler
     void stopMoving()
     {
         agent.isStopped = true;
-
+        canAttack = false;
         //set animation to walk
         am.SetBool("isWalking", false);
     }
@@ -294,6 +294,7 @@ public class EnemyController : DropBranchHandler
     IEnumerator OnDead()
     {
         isDead = true;
+        canAttack = false;
         am.Play("Dead");
         //Timer to add in pauses 
         yield return new WaitForSeconds(2);
