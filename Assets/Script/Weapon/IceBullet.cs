@@ -27,8 +27,8 @@ public class IceBullet : BulletBehaviour
         if ((whatDestoryBullet.value & (1 << collision.gameObject.layer)) > 0)
         {
             //spawn particles
-            //GameObject Impact = Instantiate(impactEffect, transform.position, Quaternion.identity);
-            //Destroy(Impact, 0.3f);
+            GameObject Impact = Instantiate(impactEffect, transform.position, Quaternion.identity);
+            Destroy(Impact, 0.3f);
 
             //play sound FX
 

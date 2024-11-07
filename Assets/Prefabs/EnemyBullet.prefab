@@ -178,7 +178,7 @@ MonoBehaviour:
   whatDestoryBullet:
     serializedVersion: 2
     m_Bits: 832
-  impactEffect: {fileID: 7340213698015431943, guid: 89eeade8664ad0340b2bb8d964dfba9b, type: 3}
+  impactEffect: {fileID: 8550861914079743975, guid: 89eeade8664ad0340b2bb8d964dfba9b, type: 3}
 --- !u!1 &3222517048784634501
 GameObject:
   m_ObjectHideFlags: 0
