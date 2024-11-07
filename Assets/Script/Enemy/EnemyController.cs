@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
@@ -21,7 +22,7 @@ public class EnemyController : DropBranchHandler
     [SerializeField] private int atkCooldown;
     [SerializeField] private float attackDistanceThreshold = 0.8f;
     [SerializeField] private float chaseDistanceThreshold = 3f;
-
+    private bool isDead;
     //Variables for movement
     [SerializeField] private float distanceBtwPlayer;
     [SerializeField] private Vector2 initialPosition;
@@ -65,11 +66,14 @@ public class EnemyController : DropBranchHandler
         //reset original posiion
         transform.position = initialPosition;
 
+        //reset the animation
+        am.Play("Idle");
+
         //reset enemies stats
         canAttack = true;
         isFacingRight = true;
         haveTarget = false; //Set have target to false, so it will only attack the player when it is near.
-
+        isDead = false;
         sr.color = originalColor; // reset the sprite color
 
         //set currentHp to max hp
@@ -94,7 +98,7 @@ public class EnemyController : DropBranchHandler
     }
     private void FixedUpdate()
     {
-        if (target == null || Game.GetGameController().isGameOver)
+        if (target == null || Game.GetGameController().isGameOver || isDead)
         {
             //stop enemy from moving
             stopMoving();
@@ -246,7 +250,12 @@ public class EnemyController : DropBranchHandler
     }
 
     public void TakeDamage(float damage)
-    {        
+    {
+        if (isDead)
+        {
+            return;
+        }
+
         currentHp -= damage;
 
         // Start the color change effect
@@ -255,10 +264,8 @@ public class EnemyController : DropBranchHandler
         Debug.Log($"Enemy took {damage} damage");
 
         if (currentHp <= 0)
-        {            
-            //destroy game object
-            gameObject.SetActive(false);
-            DropBranches();
+        {
+            StartCoroutine(OnDead());
         }
 
         //update the UI
@@ -282,5 +289,16 @@ public class EnemyController : DropBranchHandler
 
         // Revert the sprite color back to the original color
         sr.color = originalColor;
+    }
+
+    IEnumerator OnDead()
+    {
+        isDead = true;
+        am.Play("Dead");
+        //Timer to add in pauses 
+        yield return new WaitForSeconds(2);
+        //destroy game object
+        gameObject.SetActive(false);
+        DropBranches();
     }
 }

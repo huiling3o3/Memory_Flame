@@ -361,7 +361,7 @@ MonoBehaviour:
   atk: 5
   atkCooldown: 1
   attackDistanceThreshold: 1.2
-  chaseDistanceThreshold: 5
+  chaseDistanceThreshold: 7
   distanceBtwPlayer: 2
   initialPosition: {x: 0, y: 0}
   hitColor: {r: 1, g: 0, b: 0, a: 1}
