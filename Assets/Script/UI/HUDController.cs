@@ -2,6 +2,7 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class HUDController : MonoBehaviour
 {
@@ -70,6 +71,23 @@ public class HUDController : MonoBehaviour
         {
             DisplayFireTorch(false);
         }
+    }
+
+    public void Reset()
+    {
+        // Ensure the alpha value is between 0 (fully transparent) and 1 (fully opaque)
+        float alphaValue = 0.5f;
+
+        //Adjust the frag ui back to opaque
+        Color currentColor = HEADBAND.color;
+
+        // Set the alpha value while keeping the other color values unchanged
+        currentColor.a = alphaValue;
+
+        // Apply the updated color back to the image
+        HEADBAND.color = currentColor;
+        NECKLACE.color = currentColor;
+        BROKENSWORD.color = currentColor;
     }
 
     void OnEnable()

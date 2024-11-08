@@ -12,8 +12,10 @@ public class Level_Controller : Scene_Manager
     string initialInstructions;
     public Transform startPosition;
     private PlayerController player;
+    private List<Collectible> collectiblesList;
     private List<EnemyController> enemyList;
     private List<CampFireController> campFireList;
+    private List<MemoryFragment> fragmentsList;
     private List<CutTree> treeList;
     private fireTorch torch;
     private EndPoint endPoint;
@@ -76,9 +78,9 @@ public class Level_Controller : Scene_Manager
         }
 
         foreach (EnemyController enemy in enemyList)
-        {
+        {            
+            //enemy.gameObject.SetActive(true);
             enemy.Init(player.gameObject);
-            enemy.gameObject.SetActive(true);           
         }
 
         //initialise the firetorch
@@ -96,6 +98,33 @@ public class Level_Controller : Scene_Manager
         }
         endPoint.gameObject.SetActive(false);
 
+        //initialise the collectables
+        if (collectiblesList == null)
+        {
+            collectiblesList = new List<Collectible>();
+            collectiblesList.AddRange(FindObjectsOfType<Collectible>());
+        }
+
+        foreach (Collectible col in collectiblesList)
+        {
+            col.Init();
+            col.gameObject.SetActive(true);
+        }
+
+        //initialise the memory frag 
+        if (fragmentsList == null)
+        {
+            fragmentsList = new List<MemoryFragment>();
+            fragmentsList.AddRange(FindObjectsOfType<MemoryFragment>());
+        }
+
+        foreach (MemoryFragment mf in fragmentsList)
+        {
+            mf.Init();
+            mf.gameObject.SetActive(true);
+        }
+
+        //initialise game variables
         gameController.StartLevel(player);
 
         // Display the first instruction

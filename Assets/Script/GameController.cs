@@ -47,19 +47,18 @@ public class GameController : MonoBehaviour
         //load csv data from listed files
         DataManager.LoadCSVData(fileNameList);
 
-        //set up initial state
-        InitializeGame();
+        //initialise the memory fragment list first
+        memoryFragmentsList.Add(MemoryFragType.HEADBAND, false);
+        memoryFragmentsList.Add(MemoryFragType.BROKENSWORD, false);
+        memoryFragmentsList.Add(MemoryFragType.NECKLACE, false);
     }
 
     private void InitializeGame()
     {
         //reset
-        memoryFragmentsList.Clear();
-
-        //initialise the memory fragment list first
-        memoryFragmentsList.Add(MemoryFragType.HEADBAND, false);
-        memoryFragmentsList.Add(MemoryFragType.BROKENSWORD, false);
-        memoryFragmentsList.Add(MemoryFragType.NECKLACE, false);
+        memoryFragmentsList[MemoryFragType.HEADBAND] = false;
+        memoryFragmentsList[MemoryFragType.BROKENSWORD] = false;
+        memoryFragmentsList[MemoryFragType.NECKLACE] = false;
 
         isPaused = false;
         isGameOver = false;
@@ -68,7 +67,10 @@ public class GameController : MonoBehaviour
         memoryFragmentsCollected = 0;
         branchCollected = 0;
         firetorchCollected = false;
+
+        hudCtrler.Reset();
     }
+
 
     // Start is called before the first frame update
     void Start()

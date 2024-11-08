@@ -66,6 +66,8 @@ public class EnemyController : DropBranchHandler
         //reset original posiion
         transform.position = initialPosition;
 
+        gameObject.SetActive(true);
+        
         //reset the animation
         am.Play("Idle");
 
@@ -82,6 +84,12 @@ public class EnemyController : DropBranchHandler
 
         //reset the player target
         target = Target;
+
+        if (gameObject.activeSelf)
+        {
+            stopMoving();
+        }
+        
     }
     private void OnEnable()
     {

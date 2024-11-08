@@ -5,6 +5,20 @@ using UnityEngine;
 public class MemoryFragment : MonoBehaviour
 {
     [SerializeField] MemoryFragType mf;
+    [SerializeField] protected Vector2 initialPosition;
+
+    void Awake()
+    {
+        //store their original position
+        initialPosition = transform.position;
+    }
+
+    public void Init()
+    {
+        //reset original posiion
+        transform.position = initialPosition;
+    }
+
     public void Collect()
     {
         GameController controller = Game.GetGameController();
