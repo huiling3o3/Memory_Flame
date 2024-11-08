@@ -84,7 +84,7 @@ public class PlayerController : MonoBehaviour
             }
 
         }
-        else if (Game.GetGameController().isPaused)
+        else if (Game.GetGameController().isPaused || Game.GetGameController().isGameOver)
         {
             am.SetBool("Move", false);
         }
