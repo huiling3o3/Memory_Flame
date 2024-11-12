@@ -129,6 +129,8 @@ public class GameController : MonoBehaviour
 
         //do not allow the player to have weapon at the start
         interactHandler.SetInteractReceiver(null);
+        //firetorchCollected = true;
+        //SetPlayerShootInteractReciever();
 
         //reset game variables
         InitializeGame();
@@ -143,15 +145,6 @@ public class GameController : MonoBehaviour
     {
         //set pause state
         isPaused = aPause;
-
-        if (isPaused)
-        {
-            Debug.Log("Game Paused");
-        }
-        else
-        {
-            Debug.Log("Game Resume");
-        }
 
         // Fire the OnGamePaused event
         OnGamePaused?.Invoke(isPaused);

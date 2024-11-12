@@ -54,7 +54,6 @@ public class BulletBehaviour : MonoBehaviour
             //Damage Enemy
             if (collision.CompareTag("Enemy"))
             {
-                Debug.Log("Hit enemy");
                 EnemyController enemy = collision.GetComponent<EnemyController>();
                 enemy.TakeDamage(damagePower);
             }

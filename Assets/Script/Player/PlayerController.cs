@@ -29,7 +29,7 @@ public class PlayerController : MonoBehaviour
     public PlayerMovement pm;
     public PlayerShoot ps;
     Animator am;
-    private SpriteRenderer sr;
+    public SpriteRenderer sr;
     private Level_Controller levelController;
     
     void Awake()
