@@ -49,6 +49,7 @@ public static class Game
     public static void SetEnemyList(List<Enemy> eList)
     {
         enemyList = eList;
+        Debug.Log("Setting enemy list");
     }
     #endregion
 

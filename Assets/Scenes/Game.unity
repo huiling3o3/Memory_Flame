@@ -296,10 +296,6 @@ PrefabInstance:
       propertyPath: transitionAnimtor
       value: 
       objectReference: {fileID: 822014748}
-    - target: {fileID: 1680918761857088189, guid: c490d7a2cf66a0347848b46e4ecd0044, type: 3}
-      propertyPath: firetorchCollected
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 3060716346901350794, guid: c490d7a2cf66a0347848b46e4ecd0044, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

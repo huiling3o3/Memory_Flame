@@ -126,14 +126,14 @@ public class PlayerMovement : MonoBehaviour, IInputReceiver
         }
 
         // Flip the sprite based on horizontal movement
-        //if (aDir.x > 0)
-        //{
-        //    FlipRight(true); // face right
-        //}
-        //else if (aDir.x < 0)
-        //{
-        //    FlipRight(false); // face left
-        //}
+        if (aDir.x > 0)
+        {
+            FlipRight(true); // face right
+        }
+        else if (aDir.x < 0)
+        {
+            FlipRight(false); // face left
+        }
 
         // Normalize and apply movement
         moveDir = aDir.normalized;
