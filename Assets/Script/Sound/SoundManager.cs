@@ -15,11 +15,6 @@ public class SoundManager : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
     }
 
-    public AudioSource GetAudioSource()
-    { 
-        return audioSource;
-    }
-
     public static void PlaySound(SoundType sound, AudioSource source = null, float volume = 1)
     {
         SoundList soundList = Game.GetSoundManager().SO.sounds[(int)sound];

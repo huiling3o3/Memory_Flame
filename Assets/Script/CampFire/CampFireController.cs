@@ -24,6 +24,7 @@ public class CampFireController : MonoBehaviour
     [SerializeField] GameObject instructions;
     [SerializeField] TextMeshProUGUI branchTxt;
     [SerializeField] private Slider fireHealthBar;
+
     //A int to check if the campfire have been refueled since its initial stage
     public int refilledCount = 0;
     private bool playerInRange = false;

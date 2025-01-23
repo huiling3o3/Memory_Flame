@@ -4,6 +4,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+
+//controls the game flow and key variables to make and break the game
 public class GameController : MonoBehaviour
 {
     [Header("To be Assigned")]
@@ -16,21 +18,17 @@ public class GameController : MonoBehaviour
     InputHandler inputHandler;
     InteractHandler interactHandler;
     Scene_Manager currentSceneManager;
-    HUDController hudCtrler;
+    HUDController hudController;
 
     [Header("Game Stats")]
     private static Dictionary<MemoryFragType, bool> memoryFragmentsList = new Dictionary<MemoryFragType, bool>(); //track sequences for achievements
     [SerializeField] int memoryFragmentsCollected = 0;
     [SerializeField] int branchCollected = 0;
     [SerializeField] bool firetorchCollected = false;
-    private float gameTimer;
 
     public bool isPaused = false;
     public bool isGameOver = false;
     public bool reachedEnd = false;
-
-    [Header("Database")]
-    [SerializeField] private List<string> fileNameList;
 
     // Event that notifies subscribers when the current ammo changes
     public static event Action<int> branchCollectedChanged;
@@ -41,11 +39,9 @@ public class GameController : MonoBehaviour
     {
         //Set the reference to Game
         Game.SetGameController(this);
-        inputHandler = GetComponent<InputHandler>();
-        interactHandler = GetComponent<InteractHandler>();
-        hudCtrler = GetComponent<HUDController>();
-        //load csv data from listed files
-        DataManager.LoadCSVData(fileNameList);
+        //inputHandler = GetComponent<InputHandler>();
+        //interactHandler = GetComponent<InteractHandler>();
+        hudController = GetComponent<HUDController>();
 
         //initialise the memory fragment list first
         memoryFragmentsList.Add(MemoryFragType.HEADBAND, false);
@@ -68,31 +64,30 @@ public class GameController : MonoBehaviour
         branchCollected = 0;
         firetorchCollected = false;
 
-        hudCtrler.Reset();
+        hudController.Reset();
     }
 
 
     // Start is called before the first frame update
     void Start()
     {
-        Game.SetPlayer(player);
         //show start menu
-        OpenStartMenu();       
+        //OpenStartMenu();       
     }   
 
     // Update is called once per frame
     void Update()
     {
-        if (isPaused) return;
-        //proceed game timers
-        gameTimer += Time.deltaTime;
-
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (Input.GetKeyDown(KeyCode.Q)) //Cheat Code
         {
             branchCollected += 10;
+            branchCollectedChanged?.Invoke(branchCollected);
         }
-        branchCollectedChanged?.Invoke(branchCollected);
-
+        
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            TogglePause();
+        }
     }
 
     #region Game Settings
@@ -101,12 +96,12 @@ public class GameController : MonoBehaviour
         isGameOver = true;
         if (CheckFragmentCollectedAll() && reachedEnd)
         {
-            hudCtrler.DisplayGameOver("Game Complete");
+            hudController.DisplayGameOver("Game Complete");
             Debug.Log("Level Completed");        
         }
         else
         {
-            hudCtrler.DisplayGameOver("Game Lose");
+            hudController.DisplayGameOver("Game Lose");
             Debug.Log("Game lose");
         }
 
@@ -125,20 +120,20 @@ public class GameController : MonoBehaviour
         player = playerScript;
 
         ///!!important must set player to reeceive the input for it to move
-        SetPlayerInputReciever();
+        //SetPlayerInputReciever();
 
         //do not allow the player to have weapon at the start
         interactHandler.SetInteractReceiver(null);
-        //firetorchCollected = true;
-        //SetPlayerShootInteractReciever();
+        firetorchCollected = true;
+        SetPlayerShootInteractReciever();
 
         //reset game variables
         InitializeGame();
 
         //set game ongoing
         SetPause(false, false);
-        hudCtrler.HideGameOver();
-        //GameOverMenu.SetActive(false);
+        hudController.HideGameOver();
+        GameOverMenu.SetActive(false);
     }
 
     public void SetPause(bool aPause, bool showMenu)
@@ -196,7 +191,7 @@ public class GameController : MonoBehaviour
             //Update the HUD to collect the memFrag
             memFragmentsCollected.Invoke(mf);
             //display the cut scene animation
-            hudCtrler.ShowCutScene(mf);
+            hudController.ShowCutScene(mf);
         }
 
         memoryFragmentsCollected++;
@@ -205,22 +200,7 @@ public class GameController : MonoBehaviour
 
     public bool CheckFragmentCollectedAll()
     {
-        //bool collectedAll = false;
         return memoryFragmentsCollected == memoryFragmentsList.Count;
-        //foreach (KeyValuePair<MemoryFragType, bool> kvp in memoryFragmentsList)
-        //{
-        //    Console.WriteLine("Key: {0}, Value: {1}", kvp.Key, kvp.Value);
-        //    if (kvp.Value == false)
-        //    {
-        //        collectedAll = false;
-        //    }
-        //    else
-        //    {
-        //        collectedAll = true;
-        //    }
-        //}
-
-        //return collectedAll;
     }
     #endregion 
 
@@ -229,7 +209,7 @@ public class GameController : MonoBehaviour
     public void SetPlayerInputReciever()
     {
         //set input handler to movement script
-        inputHandler.SetInputReceiver(player.GetComponent<PlayerMovement>()); ;
+        //inputHandler.SetInputReceiver(player.GetComponent<PlayerMovement>());
     }
 
     public void SetTreeInteractReciever(CutTree tr)

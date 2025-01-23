@@ -50,7 +50,7 @@ public class hoverHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     //public method for the unity editor to ply callback method
     public void PlayHoverSound()
     {
-        SoundManager.PlaySound(SoundType.HOVER,null,0.6f);
+        //SoundManager.PlaySound(SoundType.HOVER,null,0.6f);
     }
 
 }

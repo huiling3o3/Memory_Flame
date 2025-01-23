@@ -41,6 +41,8 @@ public class PlayerController : MonoBehaviour
         pm = GetComponent<PlayerMovement>();
         ps = GetComponent<PlayerShoot>();
         originalColor = sr.color; // Save the original color of the enemy sprite
+        //Set the reference to Game
+        Game.SetPlayer(this);
     }
 
     //called by the game controller when the game starts
@@ -74,7 +76,7 @@ public class PlayerController : MonoBehaviour
             Game.GetHUDController().UpdateColdBar(currentColdLvl, maxColdLvl);
 
             //Check player movement
-            if (pm.moveDir.x != 0 || pm.moveDir.y != 0 || pm.isDashing)
+            if (pm.moveDir.x != 0 || pm.moveDir.y != 0)
             {
                 am.SetBool("Move", true);
             }
@@ -104,7 +106,6 @@ public class PlayerController : MonoBehaviour
     public float GetMovementSpeed() => pm.moveSpeed;
     public float GetMaxHp() => MaxHP;
     public float GetCurrentHp() => currentHp;
-    public Vector2 GetLastMovedVector() => pm.lastMovedVector;
     public Vector2 GetMoveDir() => pm.moveDir;
     public void IncreaseHealth(float newHp) //newHp is in percentage
     {
@@ -129,7 +130,7 @@ public class PlayerController : MonoBehaviour
             StartCoroutine(OnHit(false));
             currentHp -= damage;
             currentHp = Mathf.Clamp(currentHp, 0, MaxHP); // Ensure health doesn't go below 0
-            Debug.Log($"player took {damage} damage");
+            //Debug.Log($"player took {damage} damage");
         }
     }
 

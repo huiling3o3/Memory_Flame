@@ -87,7 +87,7 @@ public class PlayerShoot : MonoBehaviour, IInteractReciever
         mousePos.z = Camera.main.nearClipPlane;
 
         //Calculate direction from player to mouse
-        Vector3 aimDir = (mousePos - transform.position).normalized;
+        Vector2 aimDir = (mousePos - transform.position).normalized;
 
         pc.sr.flipX = Input.mousePosition.x < Screen.width/2;
 
@@ -99,13 +99,13 @@ public class PlayerShoot : MonoBehaviour, IInteractReciever
         //    fireTorch.transform.localScale = new Vector3(1, 1, 1);
         //}
         //else
-        //{            
+        //{
         //    fireTorch.transform.right = new Vector3(Mathf.Clamp(aimDir.x, -0.45f, -0.8f), aimDir.y, 0);
         //    // When facing left, flip the torch by adjusting the local scale on the X-axis
         //    fireTorch.transform.localScale = new Vector3(-1, 1, 1);
         //}
 
-        //Debug.Log(aimDir + ": " + fireTorch.transform.right);
+        Debug.Log(aimDir + ": " + pc.sr.flipX);
     }
 
     private void DepleteAmmo()
