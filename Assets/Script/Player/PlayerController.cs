@@ -12,25 +12,26 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private bool playerDead; //bool to check player dead to stop the coldlvl from increasing
 
     [Header("Hypothermia System")]
-    [SerializeField] float currentColdLvl;
-    [SerializeField] float maxColdLvl = 100f;// Maximum cold bar
-    [SerializeField] float coldRate = 10f; // Coldness increases per second when out of warm zone, decrease it to make it slower
-    [SerializeField] float regainWarmthRate = 10f;
-    [SerializeField] float coldDamagePower = 10f; // The amount of damage to decrease the health if hit the max lvl
+    float currentColdLvl;
+    float maxColdLvl = 100f;// Maximum cold bar
+    float coldRate = 2f; // Coldness increases per second when out of warm zone, decrease it to make it slower
+    float regainWarmthRate = 10f;
+    float coldDamagePower = 10f; // The amount of damage to decrease the health if hit the max lvl
 
     // Variables for color change effect
     [Header("Hit Settings")]
     [SerializeField] private Color hitColor = Color.red; // Color when hit by enemies
     [SerializeField] private Color hitFreezeColor = Color.blue; // Color when hit by enemies
-    [SerializeField] private float colorChangeDuration = 0.1f; // Duration for the color change
+    private float colorChangeDuration = 0.1f; // Duration for the color change
     private Color originalColor; // Store the original color of the enemy
-    private AudioSource audioSource;
+
+
     //references
+    private AudioSource audioSource;
+    private Animator am;
     public PlayerMovement pm;
-    public PlayerShoot ps;
-    Animator am;
+    public PlayerShoot ps;  
     public SpriteRenderer sr;
-    private Level_Controller levelController;
     
     void Awake()
     {
@@ -46,19 +47,11 @@ public class PlayerController : MonoBehaviour
     }
 
     //called by the game controller when the game starts
-    public void Init(Level_Controller aController)
+    public void Start()
     {
-        levelController = aController;
-
-        //set player initial position
-        this.transform.position = aController.startPosition.transform.position;
-
         //reset all the variables
         Reset();
         sr.color = originalColor; // reset the sprite color       
-
-        //set the player initial cold rate to be 50%
-        currentColdLvl = maxColdLvl / 2;
     }
 
     private void Update()
@@ -67,9 +60,6 @@ public class PlayerController : MonoBehaviour
         {
             // increase coldness over time
             IncreaseColdness();
-
-            //if player is in safe zone decrease coldness over time
-            //RegenerateWarmth();
 
             // Update the player's health and cold UI
             Game.GetHUDController().UpdateHealthBar(currentHp, MaxHP);
@@ -101,16 +91,6 @@ public class PlayerController : MonoBehaviour
         playerDead = false;
         ps.Reset();
         am.Play("Idle");
-    }
-
-    public float GetMovementSpeed() => pm.moveSpeed;
-    public float GetMaxHp() => MaxHP;
-    public float GetCurrentHp() => currentHp;
-    public Vector2 GetMoveDir() => pm.moveDir;
-    public void IncreaseHealth(float newHp) //newHp is in percentage
-    {
-        currentHp += currentHp * newHp;
-        currentHp = Mathf.Clamp(currentHp, 0, MaxHP); // Ensure health doesn't go above 0
     }
 
     public void TakeDamage(float damage)
@@ -173,8 +153,9 @@ public class PlayerController : MonoBehaviour
 
     public void PlayFootstepSound()
     {
-        SoundManager.PlaySound(SoundType.FOOTSTEP, audioSource);
+        //SoundManager.PlaySound(SoundType.FOOTSTEP, audioSource);
     }
+
     public void ExitSafeZone() { inSafeZone = false; }
     public void EnterSafeZone()
     {
@@ -201,7 +182,7 @@ public class PlayerController : MonoBehaviour
         else
             sr.color = hitColor;
         // TODO: Play the hurt sound
-        SoundManager.PlaySound(SoundType.HURT, audioSource, 0.5f);
+        //SoundManager.PlaySound(SoundType.HURT, audioSource, 0.5f);
         // Wait for the duration of the color change
         yield return new WaitForSeconds(colorChangeDuration);
 

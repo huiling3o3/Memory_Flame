@@ -10,7 +10,7 @@ public class PlayerShoot : MonoBehaviour, IInteractReciever
     //reference to the fire torch object to manipulate 
     [Header("Fire Torch Settings")]
     [SerializeField] private GameObject fireTorch;
-    [SerializeField] private Sprite burnOutTorch, burningTorch;
+    [SerializeField] private Sprite burnOutTorch, burningTorch; //to switch the torch state when the ammo is depleted
     private SpriteRenderer torchSprite;
     //reference to the bullet objects to spawn the bullets
     [SerializeField] private Transform bulletSpawnPoint;
@@ -29,6 +29,7 @@ public class PlayerShoot : MonoBehaviour, IInteractReciever
     // Event that notifies subscribers when the current ammo changes
     public static event Action<float> currentAmmoChanged;
     bool haveAmmo;
+
     void Awake()
     {
         pm = GetComponent<PlayerMovement>();
@@ -58,7 +59,6 @@ public class PlayerShoot : MonoBehaviour, IInteractReciever
         {
             HandleAim();
             DepleteAmmo();
-            //RegenerateAmmo();
             UpdateApperance();
         }
         else
@@ -89,21 +89,10 @@ public class PlayerShoot : MonoBehaviour, IInteractReciever
         //Calculate direction from player to mouse
         Vector2 aimDir = (mousePos - transform.position).normalized;
 
+        //flip player sprite based on the the input mouse position
         pc.sr.flipX = Input.mousePosition.x < Screen.width/2;
 
         fireTorch.transform.right = aimDir;
-
-        //if (pm.isPlayerFacingRight())
-        //{
-        //    fireTorch.transform.right = new Vector3(Mathf.Clamp(aimDir.x, 0.45f, 0.8f), aimDir.y, 0);
-        //    fireTorch.transform.localScale = new Vector3(1, 1, 1);
-        //}
-        //else
-        //{
-        //    fireTorch.transform.right = new Vector3(Mathf.Clamp(aimDir.x, -0.45f, -0.8f), aimDir.y, 0);
-        //    // When facing left, flip the torch by adjusting the local scale on the X-axis
-        //    fireTorch.transform.localScale = new Vector3(-1, 1, 1);
-        //}
 
         Debug.Log(aimDir + ": " + pc.sr.flipX);
     }
@@ -166,7 +155,7 @@ public class PlayerShoot : MonoBehaviour, IInteractReciever
                 shootDirection = -SpawnBullet.transform.right;
             }
 
-            SpawnBullet.GetComponent<BulletBehaviour>().InIt(shootDirection);
+            SpawnBullet.GetComponent<BulletBehaviour>().Init(shootDirection);
         }
     }
 

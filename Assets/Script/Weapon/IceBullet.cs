@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class IceBullet : BulletBehaviour
 {
-    public override void InIt(Vector2 shootDirection)
+    public override void Init(Vector2 shootDirection)
     {
         //rb = GetComponent<Rigidbody2D>(); // Make sure this line exists
         if (rb == null)
@@ -13,7 +13,7 @@ public class IceBullet : BulletBehaviour
             return;
         }
         //play audio when bullet is spawned
-        SoundManager.PlaySound(SoundType.ENEMY_SHOOT);
+        //SoundManager.PlaySound(SoundType.ENEMY_SHOOT);
         //set the bullet to move in a straight velocity
         rb.velocity = shootDirection * bulletSpeed;
         //destroy the bullet after a certain timing

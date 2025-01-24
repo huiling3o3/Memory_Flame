@@ -36,14 +36,14 @@ public class EnemySpawner : MonoBehaviour
     { 
         GameObject spawn = null;
 
-        Enemy enemy = Game.GetEnemyByRefID(enemyID);
+        //Enemy enemy = Game.GetEnemyByRefID(enemyID);
         spawn = Instantiate(enemyPrefab);
         //Set the spawn position
         spawn.transform.position = spawnLocation.position;
         spawn.transform.parent = spawnLocation;
         //initialise the enemy stats and start its function
         //spawn.GetComponent<EnemyController>().Init();
-        spawn.GetComponent<EnemyController>().SetStats(enemy.enemyHp, enemy.enemyAtk, enemy.enemyMoveSpeed, enemy.enemyAtkCooldown);
+        //spawn.GetComponent<EnemyController>().SetStats(enemy.enemyHp, enemy.enemyAtk, enemy.enemyMoveSpeed, enemy.enemyAtkCooldown);
         spawnedEnemies.Add(spawn); //Adds to the list of enemies 
     }
 }

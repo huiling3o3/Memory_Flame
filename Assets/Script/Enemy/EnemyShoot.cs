@@ -40,7 +40,7 @@ public class EnemyShoot : MonoBehaviour
             float rot = Mathf.Atan2(shootDirection.y, shootDirection.x) * Mathf.Rad2Deg;
             SpawnBullet.transform.rotation = Quaternion.Euler(0, 0, rot);
             // Set the bullet to fly
-            SpawnBullet.GetComponent<IceBullet>().InIt(shootDirection);
+            SpawnBullet.GetComponent<IceBullet>().Init(shootDirection);
         }
     }
 

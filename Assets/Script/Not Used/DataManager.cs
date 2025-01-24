@@ -15,13 +15,13 @@ public static class DataManager
                 case "Enemy":
                     {
                         //Game.SetAchievementList(SetData<Achievement>(fileName));
-                        Game.SetEnemyList(SetData<Enemy>(fileName));
+                        //Game.SetEnemyList(SetData<Enemy>(fileName));
                     }
                     break;
                 case "Wave":
                     {
                         //GameData.SetGameButtonList(SetData<GameButton>(fileName));
-                        Game.SetWaveDataList(SetData<WaveData>(fileName));
+                        //Game.SetWaveDataList(SetData<WaveData>(fileName));
                     }
                     break;
             }

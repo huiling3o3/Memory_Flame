@@ -9,15 +9,11 @@ using UnityEngine.SceneManagement;
 public class GameController : MonoBehaviour
 {
     [Header("To be Assigned")]
-    //references to assigned
-    [SerializeField] PlayerController player;
+    //references to assigned    
     [SerializeField] Animator transitionAnimtor;    
     [SerializeField] GameObject PauseMenu;
-    [SerializeField] GameObject GameOverMenu;
 
-    InputHandler inputHandler;
     InteractHandler interactHandler;
-    Scene_Manager currentSceneManager;
     HUDController hudController;
 
     [Header("Game Stats")]
@@ -39,8 +35,7 @@ public class GameController : MonoBehaviour
     {
         //Set the reference to Game
         Game.SetGameController(this);
-        //inputHandler = GetComponent<InputHandler>();
-        //interactHandler = GetComponent<InteractHandler>();
+        interactHandler = GetComponent<InteractHandler>();
         hudController = GetComponent<HUDController>();
 
         //initialise the memory fragment list first
@@ -71,8 +66,7 @@ public class GameController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //show start menu
-        //OpenStartMenu();       
+        StartLevel();
     }   
 
     // Update is called once per frame
@@ -97,16 +91,13 @@ public class GameController : MonoBehaviour
         if (CheckFragmentCollectedAll() && reachedEnd)
         {
             hudController.DisplayGameOver("Game Complete");
-            Debug.Log("Level Completed");        
+            Debug.Log("Game Completed");        
         }
         else
         {
             hudController.DisplayGameOver("Game Lose");
             Debug.Log("Game lose");
         }
-
-        //Display game over screen
-        //OpenGameOverMenu();
     }
 
     public bool CheckGameOver()
@@ -115,17 +106,12 @@ public class GameController : MonoBehaviour
         return isGameOver;
     }
 
-    public void StartLevel(PlayerController playerScript)
+    public void StartLevel()
     {
-        player = playerScript;
-
-        ///!!important must set player to reeceive the input for it to move
-        //SetPlayerInputReciever();
 
         //do not allow the player to have weapon at the start
         interactHandler.SetInteractReceiver(null);
-        firetorchCollected = true;
-        SetPlayerShootInteractReciever();
+        firetorchCollected = false;
 
         //reset game variables
         InitializeGame();
@@ -133,7 +119,6 @@ public class GameController : MonoBehaviour
         //set game ongoing
         SetPause(false, false);
         hudController.HideGameOver();
-        GameOverMenu.SetActive(false);
     }
 
     public void SetPause(bool aPause, bool showMenu)
@@ -204,14 +189,6 @@ public class GameController : MonoBehaviour
     }
     #endregion 
 
-    #region input
-
-    public void SetPlayerInputReciever()
-    {
-        //set input handler to movement script
-        //inputHandler.SetInputReceiver(player.GetComponent<PlayerMovement>());
-    }
-
     public void SetTreeInteractReciever(CutTree tr)
     { 
         //set the input handler to the tree interacting with the player
@@ -222,6 +199,7 @@ public class GameController : MonoBehaviour
     {
         if (HaveFireTorch())
         {
+            PlayerController player = Game.GetPlayer();
             //set the input handler to the player weapon 
             interactHandler.SetInteractReceiver(player.GetComponent<PlayerShoot>());
         }
@@ -230,48 +208,10 @@ public class GameController : MonoBehaviour
             interactHandler.SetInteractReceiver(null);
         }
     }
-    #endregion
-
-    #region Scene Manager
-
-    public IEnumerator LvlTransit(sceneType aScene)
-    {
-        transitionAnimtor.SetTrigger("End");
-        yield return new WaitForSeconds(1);
-        LoadScene(aScene);
-        RemoveScene(currentSceneManager.SceneName);
-        transitionAnimtor.SetTrigger("Start");
-    }
-
-    public void LoadScene(sceneType aScene)
-    {
-        AsyncOperation loadSceneOp = SceneManager.LoadSceneAsync(aScene.ToString(), LoadSceneMode.Additive);
-        loadSceneOp.completed += (result) =>
-        {
-            Scene scene = SceneManager.GetSceneByName(aScene.ToString());
-            GameObject[] rootGameObjects = scene.GetRootGameObjects();
-            foreach (GameObject rootObject in rootGameObjects)
-            {
-                currentSceneManager = rootObject.GetComponentInChildren<Scene_Manager>();                
-                if (currentSceneManager != null)
-                {
-                    // Initialize the scene controller
-                    currentSceneManager.Initialize(this, inputHandler);
-                    break;
-                }                            
-            }            
-        };
-    }
-
-    public void RemoveScene(sceneType aScene)
-    {
-        Scene scene = SceneManager.GetSceneByName(aScene.ToString());
-        SceneManager.UnloadSceneAsync(scene);
-    }
 
     public void RestartLevel()
     {
-        if (currentSceneManager != null) currentSceneManager.Initialize(this, inputHandler);
+        SceneManager.LoadScene(1);
     }
 
     public void TogglePause()
@@ -281,19 +221,7 @@ public class GameController : MonoBehaviour
 
     public void OpenStartMenu()
     {
-        if (currentSceneManager != null) RemoveScene(currentSceneManager.SceneName);
-        LoadScene(sceneType.StartMenuScene);
+        SceneManager.LoadScene(0);
     }
 
-    public void OpenGameOverMenu()
-    {
-        GameOverMenu.SetActive(true);
-    }
-    public void OpenGameCompleteMenu()
-    {
-        if (currentSceneManager != null) RemoveScene(currentSceneManager.SceneName);
-        LoadScene(sceneType.GameWinScene);
-    }
-
-    #endregion
 }

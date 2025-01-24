@@ -2,7 +2,8 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using static UnityEditor.Experimental.GraphView.GraphView;
+
+//This script controls all the UI references and function to maniplate the numbers or value
 
 public class HUDController : MonoBehaviour
 {

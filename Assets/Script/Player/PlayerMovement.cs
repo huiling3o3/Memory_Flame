@@ -67,10 +67,12 @@ public class PlayerMovement : MonoBehaviour
         if (aDir.x > 0)
         {
             pc.sr.flipX = false;
+            isFacingRight = true;
         }
         else if (aDir.x < 0)
         {
             pc.sr.flipX = true;
+            isFacingRight = false;
         }
 
         // Normalize and apply movement

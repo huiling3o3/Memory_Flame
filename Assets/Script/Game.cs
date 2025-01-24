@@ -36,20 +36,20 @@ public static class Game
     #endregion
 
     #region enemy
-    public static List<Enemy> enemyList;
-    // Enemy Set and Get
-    public static Enemy GetEnemyByRefID(string id)
-    {
-        return enemyList.Find(x => x.enemyId == id);
-    }
-    public static List<Enemy> GetEnemyList()
-    {
-        return enemyList;
-    }
-    public static void SetEnemyList(List<Enemy> eList)
-    {
-        enemyList = eList;
-    }
+    //public static List<Enemy> enemyList;
+    //// Enemy Set and Get
+    //public static Enemy GetEnemyByRefID(string id)
+    //{
+    //    return enemyList.Find(x => x.enemyId == id);
+    //}
+    //public static List<Enemy> GetEnemyList()
+    //{
+    //    return enemyList;
+    //}
+    //public static void SetEnemyList(List<Enemy> eList)
+    //{
+    //    enemyList = eList;
+    //}
     #endregion
 
     #region enemyWave

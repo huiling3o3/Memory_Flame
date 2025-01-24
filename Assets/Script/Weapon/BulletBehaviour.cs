@@ -18,10 +18,10 @@ public class BulletBehaviour : MonoBehaviour
         //set up the rigidbody
         rb = GetComponent<Rigidbody2D>();
         //play audio when bullet is spawned
-        SoundManager.PlaySound(SoundType.ENEMY_SHOOT);
+        //SoundManager.PlaySound(SoundType.ENEMY_SHOOT);
     }
 
-    public virtual void InIt(Vector2 shootDirection)
+    public virtual void Init(Vector2 shootDirection)
     {
         
         //set the bullet to move in a straight velocity

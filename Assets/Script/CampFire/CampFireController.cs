@@ -7,99 +7,96 @@ using TMPro;
 
 public class CampFireController : MonoBehaviour
 {
-    // Fire System
     [Header("Fire System")]
-    [SerializeField] private float maxHealth = 100f; 
-    [SerializeField] private float currentHealth;
-    [SerializeField] private float healthDepletionRate = 0.5f;
-    [SerializeField] private int branchHealAmount = 2;
-    [SerializeField] private int currentBranches = 0;
-    [SerializeField] private int amountToReviveFire = 10;
-    [SerializeField] private FireState InitialState;
+    public float maxHealth = 50f;
+    public float currentHealth;
+    public float healthDepletionRate = 2f;
+    public int branchHealAmount = 2;
+    public int currentBranches = 0;
+    public int amountToReviveFire = 5;
+    public float interactionDistance = 2f;
 
-    // List of fire sprites for different health levels
-    [Header("To Assign")]
-    [SerializeField] private List<Sprite> fireSprites; // List of fire sprites
-    [SerializeField] SpriteRenderer fireSpriteRenderer;
+    [Header("To Assign")] //- switching from engine probably need to find
+    [SerializeField] private List<Sprite> fireSprites;
+    SpriteRenderer fireSpriteRenderer;
     [SerializeField] GameObject instructions;
     [SerializeField] TextMeshProUGUI branchTxt;
-    [SerializeField] private Slider fireHealthBar;
-
-    //A int to check if the campfire have been refueled since its initial stage
-    public int refilledCount = 0;
-    private bool playerInRange = false;
-    private Level_Controller lvlController;
+    
+    private FireState currentFireState;
+    private Transform playerTransform;
     private PlayerController pc;
     private AudioSource audioSource;
 
-    private enum FireState
+    public enum FireState
     {
         Burning, 
         Extinguished
     }
 
-    [SerializeField]
-    private FireState currentFireState = FireState.Burning;
-
     void Awake()
     {
         audioSource = GetComponent<AudioSource>();
+        fireSpriteRenderer = GetComponent<SpriteRenderer>();
+
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        //Initialize();
+        // Dynamically find components
+        //fireSpriteRenderer = transform.Find("FireSpriteRenderer").GetComponent<SpriteRenderer>();
+        //instructions = transform.Find("Instructions").gameObject;
+        //branchTxt = transform.Find("InstructionsTxt").GetComponent<TextMeshProUGUI>();
+
         pc = Game.GetPlayer();
+        playerTransform = pc.transform;
+        
+        Initialize();
     }
 
-    public void Initialize(Level_Controller level_Controller)
-    {       
-        //Add the lvl controller ref
-        lvlController = level_Controller;
-        // Initialize health
-        switch (InitialState)
-        {
-            case FireState.Burning:
-                currentHealth = maxHealth;
-                currentBranches = 0;
-                currentFireState = FireState.Burning;
-                //play fire crackling sound
-                SoundManager.PlaySound(SoundType.FIRECRACKLING, audioSource, 1f);
-                break;
-            case FireState.Extinguished:
-                currentHealth = 0;
-                currentBranches = 0;
-                currentFireState = FireState.Extinguished;
-                break;
-        }
-        // Set initial fire appearance
+    public void Initialize()
+    {
+        currentHealth = 0;
+        currentBranches = 0;
+        currentFireState = FireState.Extinguished;
         UpdateFireAppearance();
-        //set the interaction apperance to false
         instructions.SetActive(false);
-        //set tutorial stats
-        refilledCount = 0;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (lvlController == null || Game.GetGameController().isPaused || Game.GetGameController().isGameOver)
+        if (Game.GetGameController().isPaused || Game.GetGameController().isGameOver)
         {
             return;
         }
 
+        // Distance check for player interaction
+        float distanceToPlayer = Vector2.Distance(transform.position, playerTransform.position);
+        bool playerInRange = distanceToPlayer <= interactionDistance;
+
+        if (playerInRange)
+        {
+            instructions.SetActive(true);
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                AddBranchesToFire(); 
+            }
+
+            if (currentFireState == FireState.Burning)
+            {
+                pc.RegenerateWarmth();
+                pc.ps.RegenerateAmmo();//regenrate the player shooting ammo
+            }
+        }
+        else
+        {
+            instructions.SetActive(false);
+        }
+
         BurnFire(); // Deplete fire health over time
         UpdateFireAppearance(); // Update fire sprite based on current health
-        if (Input.GetKeyDown(KeyCode.E) && playerInRange)
-        {
-            AddBranchesToFire(); // F key to add the branches to the campfire
-        }
-        if (playerInRange && currentFireState == FireState.Burning)
-        {
-            pc.RegenerateWarmth();
-            pc.ps.RegenerateAmmo(); //regenrate the player shooting ammo
-        }
+       
     }
 
     private void BurnFire()
@@ -124,6 +121,7 @@ public class CampFireController : MonoBehaviour
         }
        
     }
+
     private void BorrowFire(int amount)
     {
         //only borrow fire if the player have firetorch
@@ -137,7 +135,7 @@ public class CampFireController : MonoBehaviour
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth); // Clamp health between 0 and max
 
         // If the fire health reaches 0, trigger game over
-        if (!lvlController.CheckGameOver() && currentHealth <= 0)
+        if (!Game.GetGameController().CheckGameOver() && currentHealth <= 0)
         {
             KillFire();            
         }
@@ -150,7 +148,7 @@ public class CampFireController : MonoBehaviour
         // Calculate the current fire health percentage
         float healthPercentage = currentHealth / maxHealth;
 
-        fireHealthBar.value = healthPercentage;
+        //fireHealthBar.value = healthPercentage;
 
         // Adjust volume based on health percentage
         audioSource.volume = healthPercentage;  // Sets the volume to match the health percentage (1.0 when full health, 0.0 when empty)
@@ -160,7 +158,7 @@ public class CampFireController : MonoBehaviour
         {
             case FireState.Burning:               
                 //diplay the heath bar
-                fireHealthBar.gameObject.SetActive(true);
+                //fireHealthBar.gameObject.SetActive(true);
 
                 //hide the branch txt to revive
                 branchTxt.gameObject.SetActive(false);               
@@ -168,7 +166,7 @@ public class CampFireController : MonoBehaviour
 
             case FireState.Extinguished:
                 //hide the heath bar
-                fireHealthBar.gameObject.SetActive(false);
+                //fireHealthBar.gameObject.SetActive(false);
 
                 //show the branch txt to revive
                 branchTxt.gameObject.SetActive(true);
@@ -179,7 +177,7 @@ public class CampFireController : MonoBehaviour
 
         }
 
-        // Update the apperance of the fire
+        ///// Update the apperance of the fire
 
         // Determine which sprite to display based on the health percentage
         int spriteIndex = Mathf.FloorToInt(healthPercentage * (fireSprites.Count - 1));
@@ -204,7 +202,6 @@ public class CampFireController : MonoBehaviour
         Game.GetGameController().RemoveStick(branchAmount);
     }
 
-
     void AddBranchesToFire()
     {
         //Check in the game controller whether the player have enough branch
@@ -226,7 +223,7 @@ public class CampFireController : MonoBehaviour
                         AddBranches(sticks);
                     }
                     //tutorial
-                    ++refilledCount;
+                    //++refilledCount;
                     Debug.Log(name + "got healed");
                 }
                 else
@@ -254,7 +251,7 @@ public class CampFireController : MonoBehaviour
                         //revive the fire
                         currentFireState = FireState.Burning;
                         //play fire crackling sound
-                        SoundManager.PlaySound(SoundType.FIRECRACKLING, audioSource, 1f);
+                        //SoundManager.PlaySound(SoundType.FIRECRACKLING, audioSource, 1f);
                         //set the current heath to max
                         currentHealth = maxHealth;
                         //update fire UI
@@ -262,30 +259,12 @@ public class CampFireController : MonoBehaviour
                         //reset the current branches to revive
                         currentBranches = 0;
                         //tutorial
-                        ++refilledCount;
+                        //++refilledCount;
                     }
                 }               
 
                 break;
         }
-    }
-
-    public bool IsRefilledOnce()
-    {
-        if (refilledCount == 1)
-        {
-            return true;
-        }
-        return false;
-    }
-
-    public bool IsRefilledAgain()
-    {
-        if (refilledCount > 1)
-        {
-            return true;
-        }
-        return false;
     }
 
     private void KillFire()
@@ -296,40 +275,58 @@ public class CampFireController : MonoBehaviour
         //Debug.Log("Fire Burned Out!!!");
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.tag == "Player")
-        {
-            //PlayerController pc = collision.GetComponent<PlayerController>();
-            if (currentFireState == FireState.Burning)
-            {
-                pc.EnterSafeZone();
-            }
-            else
-            {
-                pc.ExitSafeZone();
-            }
+    //public bool IsRefilledOnce()
+    //{
+    //    if (refilledCount == 1)
+    //    {
+    //        return true;
+    //    }
+    //    return false;
+    //}
 
-            playerInRange = true;
+    //public bool IsRefilledAgain()
+    //{
+    //    if (refilledCount > 1)
+    //    {
+    //        return true;
+    //    }
+    //    return false;
+    //}
 
-            instructions.SetActive(true);
-        }
-    }
+    //private void OnTriggerEnter2D(Collider2D collision)
+    //{
+    //    if (collision.tag == "Player")
+    //    {
+    //        //PlayerController pc = collision.GetComponent<PlayerController>();
+    //        if (currentFireState == FireState.Burning)
+    //        {
+    //            pc.EnterSafeZone();
+    //        }
+    //        else
+    //        {
+    //            pc.ExitSafeZone();
+    //        }
 
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.tag == "Player")
-        {
-            playerInRange = false;
-            //PlayerController pc = collision.GetComponent<PlayerController>();
-            if (currentFireState == FireState.Burning)
-            {
-                //Everytime the fire torch is regenerated, 2% of the fire is taken away
-                BorrowFire(2);               
-                pc.ExitSafeZone();               
-            }
-            instructions.SetActive(false);
-        }
-    }
+    //        playerInRange = true;
+
+    //        instructions.SetActive(true);
+    //    }
+    //}
+
+    //private void OnTriggerExit2D(Collider2D collision)
+    //{
+    //    if (collision.tag == "Player")
+    //    {
+    //        playerInRange = false;
+    //        //PlayerController pc = collision.GetComponent<PlayerController>();
+    //        if (currentFireState == FireState.Burning)
+    //        {
+    //            //Everytime the fire torch is regenerated, 2% of the fire is taken away
+    //            BorrowFire(2);               
+    //            pc.ExitSafeZone();               
+    //        }
+    //        instructions.SetActive(false);
+    //    }
+    //}
 
 }

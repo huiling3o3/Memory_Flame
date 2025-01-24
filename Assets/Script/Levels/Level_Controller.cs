@@ -43,7 +43,7 @@ public class Level_Controller : Scene_Manager
 
         //initialize player 
         player = Game.GetPlayer();
-        player.Init(this);
+        //player.Init(this);
 
         //initialise the campfire
         if (campFireList == null)
@@ -54,7 +54,7 @@ public class Level_Controller : Scene_Manager
 
         foreach (CampFireController campfire in campFireList)
         {
-            campfire.Initialize(this);
+            //campfire.Initialize(this);
         }
 
         //initialise the interactable tree
@@ -125,7 +125,7 @@ public class Level_Controller : Scene_Manager
         }
 
         //initialise game variables
-        gameController.StartLevel(player);
+        //gameController.StartLevel(player);
 
         // Display the first instruction
         Game.GetHUDController().ShowInstructions(initialInstructions);
@@ -161,22 +161,22 @@ public class Level_Controller : Scene_Manager
 
         }
 
-        if (!taskManager.AreAllTasksCompleted())
-        {
-            //Check all the task
-            if (player.IsWarmed())
-            {
-                taskManager.SetTaskCompleted(TaskType.PLAYER_WARMED);
-            }
-            else if (tutorialCampfire.IsRefilledOnce())
-            {
-                taskManager.SetTaskCompleted(TaskType.FIRE_REFUELLED_ONCE);
-            }
-            else if (tutorialCampfire.IsRefilledAgain())
-            {
-                taskManager.SetTaskCompleted(TaskType.FIRE_REFUELLED_AGAIN);
-            }
-        }
+        //if (!taskManager.AreAllTasksCompleted())
+        //{
+        //    //Check all the task
+        //    if (player.IsWarmed())
+        //    {
+        //        taskManager.SetTaskCompleted(TaskType.PLAYER_WARMED);
+        //    }
+        //    else if (tutorialCampfire.IsRefilledOnce())
+        //    {
+        //        taskManager.SetTaskCompleted(TaskType.FIRE_REFUELLED_ONCE);
+        //    }
+        //    else if (tutorialCampfire.IsRefilledAgain())
+        //    {
+        //        taskManager.SetTaskCompleted(TaskType.FIRE_REFUELLED_AGAIN);
+        //    }
+        //}
 
         if (Game.GetGameController().CheckFragmentCollectedAll())
         {
